@@ -27,8 +27,6 @@ int contarLineas(const char *nombreArchivo) {
     return totalEmbalses;
 }
 
-// Función para mostrar cuencas y embalses
-void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses);
 // Menu principal
 void mostrarMenu() {
     printf("\n----------- ANALISIS DE CAUDALES EN ESPANA ----------\n");
@@ -52,6 +50,53 @@ int main() {
         return 1;
     }
 
+
+//Impresión de cuencas y sus embalses
+    printf("Listado de cuencas y sus embalses:\n");
+
+    for (int j = 0; j < totalEmbalses; j++) {
+        int cuencaYaImpresa = 0;
+    
+        // Verifica si la cuenca ya fue impresa antes
+        for (int k = 0; k < j; k++) {
+            if (strcmp(embalses[j].cuenca, embalses[k].cuenca) == 0) {
+                cuencaYaImpresa = 1;
+                break;
+            }
+        }
+    
+        // Si no fue impresa, la imprimimos y listamos sus embalses únicos
+        if (!cuencaYaImpresa) {
+            printf("\nCuenca: %s\n", embalses[j].cuenca);
+            printf("  Embalses:\n");
+    
+            // Ahora imprimimos solo embalses únicos por nombre y cuenca
+            for (int k = 0; k < totalEmbalses; k++) {
+                if (strcmp(embalses[k].cuenca, embalses[j].cuenca) == 0) {
+                    int embalseYaImpreso = 0;
+    
+                    // Verificamos si este embalse ya fue impreso antes (mismo nombre y cuenca)
+                    for (int l = 0; l < k; l++) {
+                        if (
+                            strcmp(embalses[k].cuenca, embalses[l].cuenca) == 0 &&
+                            strcmp(embalses[k].embalseNombre, embalses[l].embalseNombre) == 0
+                        ) {
+                            embalseYaImpreso = 1;
+                            break;
+                        }
+                    }
+    
+                    // Si no ha sido impreso, lo mostramos
+                    if (!embalseYaImpreso) {
+                        printf("    - %s\n", embalses[k].embalseNombre);
+                    }
+                }
+            }
+        }
+    }
+    
+
+//switch de opciones.
     int opcion;
     do {
         mostrarMenu();
