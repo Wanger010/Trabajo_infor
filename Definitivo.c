@@ -289,9 +289,48 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 		
 		case 'G':
 			
-			
-			
-			
+			char grano[0];
+			printf("¿Que tipo quieres comparar: avena(A) o cebada(C)?\n");
+			printf("El grano elegido es:\t");
+			scanf("%c", &grano);
+
+			switch(grano[0])
+			{
+				case 'A':
+					char opc[0]; 	
+					printf("Ahora tienes que decidirte si quieres saber la avena producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
+					printf("Deseas saber: \t");
+					scanf("%s", &opc);
+	
+					switch(opc[0])
+					{
+						case 'M':
+		
+						char mes[10];
+						printf("Bien, ahora necesito que me digas el mes: \t");
+						scanf("%s", &mes);
+
+						case 'Y':
+					}
+				
+				case 'C':
+					
+					char opci[0]; 	
+					printf("Ahora tienes que decidirte si quieres saber la avena producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
+					printf("Deseas saber: \t");
+					scanf("%s", &opc);
+	
+					switch(opci[0])
+					{
+						case 'M':
+	
+						char mes[10];
+						printf("Bien, ahora necesito que me digas el mes: \t");
+						scanf("%s", &mes);
+
+						case 'Y':
+					}
+			}	
 			
 			break:
 		 
