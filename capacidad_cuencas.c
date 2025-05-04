@@ -126,13 +126,13 @@ Embalse *leerDatos(const char *dataset, int totalEmbalses) {
 
 // Menu principal
 void mostrarMenu() {
-    printf("\n----------- ANALISIS DE CAUDALES EN ESPANA ----------\n");
+    printf("\n----------- ANALISIS DE EMBALSES EN ESPANA ----------\n");
     printf("\n----- ANIOS 2012-2021. TODOS LOS MESES INCLUIDOS-----\n");
     printf("\n Hay que introducir el nombre tal cual viene dado :D \n");
     printf("\n1. Calcular medias anuales por cuenca y mes\n");
     printf("2. Ver evolucion de una cuenca\n");
     printf("3. Comparar dos cuencas en un anio\n");
-    printf("4. Ver relacion caudal-produccion agricola\n");
+    printf("4. Ver relacion capacidad-produccion agricola\n");
     printf("5. Salir\n");
     printf("------------------------------------------\n");
     printf("Ingrese su opcion: ");
@@ -148,8 +148,7 @@ int main() {
     }
 	
 	// Leer los datos de los embalses
-	//En este trozo se declara el archivo csv que se quiere abrir
-	//despues se usa el puntero *nombreArchivo para acortar
+	//En este trozo se declara el archivo csv que se quiere abrir 
     Embalse *embalses = leerDatos("dataset.csv", totalEmbalses);
 
     if (embalses == NULL) {
@@ -205,22 +204,24 @@ int main() {
 
     //switch de opciones.
     int opcion;
+    float media;  
     do {
         mostrarMenu();
         scanf("%d", &opcion);
 
         switch (opcion) {
             case 1:
-                printf("Funcion en desarrollo: media anual caudal de cuenca.\n");
+                printf("Media anual capacidad de cuenca.\n"); 
+                media = calcularMediaAnualPorCuenca(embalses, totalEmbalses); 
                 break;
             case 2:
-                printf("Funcion en desarrollo: evolucion de cuenca.\n");
+                printf("Evolucion de cuenca.\n");
                 break;
             case 3:
-                printf("Funcion en desarrollo: comparacion de cuencas.\n");
+                printf("Comparacion de cuencas.\n");
                 break;
             case 4:
-                printf("Funcion en desarrollo: caudal vs agricultura.\n");
+                printf("Relación capacidad-agricultura.\n");
                 break;
             case 5:
                 printf("Saliendo del programa...\n");
@@ -233,4 +234,46 @@ int main() {
                            //repita hasta que el usuario elija salir
     free(embalses);
     return 0;
+}
+
+
+
+
+// Función 1: Calcular la media anual de capacidad para una cuenca específica
+void calcularMediaAnualPorCuenca(Embalse *embalses, int totalEmbalses) {
+    int i, j, k;
+    float mediaMensual = 0.0, mediaAnual = 0.0; 
+    char nom_cuenca[100];
+    int totalEmbalses = contarLineas("dataset.csv");
+    printf("Introduzca el nombre de la cuenca: ");
+    scanf("%s", nom_cuenca);  
+    for (i = 0; i < totalEmbalses; i++) {
+        // Comparamos la cuenca introducida por el usuario con la cuenca del embalse actual
+        if (strcmp(embalses[i].cuenca, nom_cuenca) == 0) { 
+            printf("El embalse elegido ha sido: %s\n", embalses[i].embalseNombre);  
+            for(j = 0; j < NUM_MESES; j++) {
+                // Calculamos la media anual de capacidad para el embalse actual 
+                mediaMensual += embalses[i].datos.caudales[j]; 
+            }  
+        }
+        mediaMensual /= NUM_ANIOS;
+        mediaAnual += mediaMensual; 
+    }
+    mediaAnual /= NUM_MESES;
+    printf("Media anual de %s es de: %.2f Hm³\n", embalses[i].embalseNombre, mediaAnual);
+}
+
+// Función 2: Mostrar la evolución del caudal de la cuenca entre un rango de años
+void evolucionCuenca(Embalse* embalses, int totalEmbalses) {
+
+    }
+
+// Función 3: Comparar el caudal de dos cuencas en un año específico
+void compararCuencas(Embalse* embalses, int totalEmbalses) {
+
+}
+
+// Función 4: Comparar el caudal con la producción agrícola (pendiente de implementación)
+void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) {
+
 }
