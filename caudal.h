@@ -27,6 +27,7 @@ typedef struct {
     // Mes al que corresponde la medición (ej: "enero", "febrero")
     char mes[NUM_MESES];
     // Estructura que contiene los datos anuales de caudal para este embalse y mes
+    // A su vez, dentro de esta estructura su nombre va a ser datos.
     DatosEmbalse datos;
 } Embalse;
 
