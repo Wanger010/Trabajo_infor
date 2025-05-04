@@ -132,8 +132,9 @@ void mostrarMenu() {
     printf("\n1. Calcular medias anuales por cuenca y mes\n");
     printf("2. Ver evolucion de una cuenca\n");
     printf("3. Comparar dos cuencas en un anio\n");
-    printf("4. Ver relacion caudal-produccion agricola\n");
-    printf("5. Salir\n");
+    printf("4. Comparar dos embalses en un anio\n");
+    printf("5. Ver relacion caudal-produccion agricola\n");
+    printf("6. Salir\n");
     printf("------------------------------------------\n");
     printf("Ingrese su opcion: ");
 }
@@ -219,9 +220,13 @@ for (int j = 0; j < totalEmbalses; j++) {
                 compararCuencas(embalses, totalEmbalses);
                 break;
             case 4:
-                printf("Funcion en desarrollo: caudal vs agricultura.\n");
+                printf("Comparacion de embalses.\n");
+                compararEmbalses(embalses, totalEmbalses);
                 break;
             case 5:
+                printf("Funcion en desarrollo: caudal vs agricultura.\n");
+                break;
+            case 6:
                 printf("Saliendo del programa...\n");
                 break;
             default:
