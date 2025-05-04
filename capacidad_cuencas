@@ -51,7 +51,7 @@ Embalse *leerDatos(const char *nombreArchivo, int totalEmbalses) {
     
     // Verificamos si el archivo se abrió correctamente. Si no, liberamos la memoria reservada y retornamos NULL
     if (archivo == NULL) {
-        printf("Error al abrir el archivo.\n");
+        printf("\nError al abrir el archivo.\n");
         free(embalses);  // Liberamos la memoria previamente reservada
         return NULL;  // Terminamos la función porque no pudimos abrir el archivo
     }
@@ -127,7 +127,8 @@ Embalse *leerDatos(const char *nombreArchivo, int totalEmbalses) {
 void mostrarMenu() {
     printf("\n----------- ANALISIS DE CAUDALES EN ESPANA ----------\n");
     printf("\n----- ANIOS 2012-2021. TODOS LOS MESES INCLUIDOS-----\n");
-	printf("\n1. Calcular medias anuales por cuenca y mes\n");
+    printf("\n Hay que introducir el nombre tal cual viene dado :D \n");
+    printf("\n1. Calcular medias anuales por cuenca y mes\n");
     printf("2. Ver evolucion de una cuenca\n");
     printf("3. Comparar dos cuencas en un anio\n");
     printf("4. Ver relacion caudal-produccion agricola\n");
@@ -137,9 +138,18 @@ void mostrarMenu() {
 }
 
 int main() {
+	int totalEmbalses = contarLineas("dataset.csv");
+
+    // Verificar si se obtuvo un número válido de embalses
+    if (totalEmbalses <= 0) {
+        printf("No se pudo obtener la cantidad de embalses.\n");
+        return 1;
+    }
+	
+	// Leer los datos de los embalses
 	//En este trozo se declara el archivo csv que se quiere abrir
 	//despues se usa el puntero *nombreArchivo para acortar
-    Embalse *embalses = leerDatos("dataset.csv", &totalEmbalses);
+    Embalse *embalses = leerDatos("dataset.csv", totalEmbalses);
 
     if (embalses == NULL) {
         printf("No se pudieron cargar los datos.\n");
@@ -148,7 +158,7 @@ int main() {
 
 // Imprimir en pantalla la lista de cuencas
 // y sus embalses (sin repetir)
-printf("Listado de cuencas y sus embalses:\n");
+printf("\nListado de cuencas y sus embalses:\n");
 
 // Bucle principal que recorre todos los embalses leídos
 for (int j = 0; j < totalEmbalses; j++) {
@@ -220,7 +230,6 @@ for (int j = 0; j < totalEmbalses; j++) {
         }
     } while (opcion != 5); //estructura do while para que el menú se 
                            //repita hasta que el usuario elija salir
-    free(embalses)
-    fclose(archivo);
+    free(embalses);
     return 0;
 }
