@@ -200,8 +200,6 @@ for (int j = 0; j < totalEmbalses; j++) {
     }
 }
 
-    
-
 //switch de opciones.
     int opcion;
     do {
@@ -216,7 +214,8 @@ for (int j = 0; j < totalEmbalses; j++) {
                 printf("Funcion en desarrollo: evolucion de cuenca.\n");
                 break;
             case 3:
-                printf("Funcion en desarrollo: comparacion de cuencas.\n");
+                printf("Comparacion de cuencas.\n");
+                compararCuencas(embalses, totalEmbalses);
                 break;
             case 4:
                 printf("Funcion en desarrollo: caudal vs agricultura.\n");
