@@ -238,3 +238,63 @@ for (int j = 0; j < totalEmbalses; j++) {
     free(embalses);
     return 0;
 }
+
+
+//funcion 5: caudal vs agricultura
+void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) 
+{
+    char nombre_cuenca[500];
+    int totalEmbalses = contarLineas("dataset.csv");
+    printf("Introduzca el nombre de la cuenca que desea comparar: ");
+    scanf("%s", nombre_cuenca);  
+    for (i = 0; i < totalEmbalses; i++)
+    {
+    	if (strcmp(embalses[i].cuenca, nom_cuenca) == 0)
+    	{
+    		printf("El embalse elegido para comparar ha sido: %s\n", embalses[i].embalseNombre);
+		}
+	}
+
+    char opcion_elegida;
+	printf("Dime ahora con que tipo de producto agricultor deseas comparar el embalse: ")
+	printf("Con Hortalizas(H), con los Industriales(I) o con los de Grano(G)");
+	printf("La opcion elegida es: \t")
+	scanf("c",&opcion_elegida);
+	
+	
+	switch(opcion_elegida)
+	{
+		case 'H':
+			
+			
+			
+			
+			
+			
+			break:
+		
+		
+		case 'I':
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			break:
+		
+		
+		case 'G':
+			
+			
+			
+			
+			
+			break:
+		 
+	}
+
+}
