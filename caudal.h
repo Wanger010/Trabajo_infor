@@ -35,6 +35,7 @@ typedef struct {
 void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses);
 void calcularMediaAnualPorCuenca(Embalse *embalses, int totalEmbalses);
 void evolucionCuenca(Embalse *embalses, int totalEmbalses);
+void evolucionEmbalse(Embalse *embalses, int totalEmbalses);
 void compararCuencas(Embalse *embalses, int totalEmbalses);
 void compararCaudalAgricola(Embalse *embalses, int totalEmbalses);
 

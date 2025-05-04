@@ -68,7 +68,14 @@ void compararCuencas(Embalse *embalses, int totalEmbalses) {
     }
 }
 
-// Función 4: Comparar el caudal con la producción agrícola (pendiente de implementación)
+
+// Función 4: Comparar el caudal de dos cuencas en un año específico
+void compararCuencas(Embalse *embalses, int totalEmbalses) {
+    
+}
+
+
+// Función 5: Comparar el caudal con la producción agrícola (pendiente de implementación)
 void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) {
 
 }
