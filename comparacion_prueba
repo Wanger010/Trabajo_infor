@@ -1,0 +1,31 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Definimos una estructura para almacenar los datos de cada embalse
+typedef struct {
+    char nombre[50];      // Nombre del embalse
+    float caudal;         // Caudal del embalse
+    float produccion;     // Producción agrícola asociada
+} Embalse;
+
+// Función que compara el caudal con la producción agrícola de cada embalse
+void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) {
+    printf("Comparación de caudal y producción agrícola:\n");
+
+    // Recorremos todos los embalses
+    for (int i = 0; i < totalEmbalses; i++) {
+        printf("Embalse: %s\n", embalses[i].nombre);
+        printf("  Caudal: %.2f\n", embalses[i].caudal);
+        printf("  Producción agrícola: %.2f\n", embalses[i].produccion);
+
+        // Comparamos el caudal con la producción agrícola
+        if (embalses[i].caudal > embalses[i].produccion) {
+            printf("  El caudal es mayor que la producción agrícola.\n");
+        } else if (embalses[i].caudal < embalses[i].produccion) {
+            printf("  La producción agrícola es mayor que el caudal.\n");
+        } else {
+            printf("  El caudal y la producción agrícola son iguales.\n");
+        }
+    }
+}
