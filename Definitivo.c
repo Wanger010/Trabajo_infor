@@ -234,7 +234,4 @@ for (int j = 0; j < totalEmbalses; j++) {
                            //repita hasta que el usuario elija salir
     free(embalses);
     return 0;
-}
-
-
- 
+} 

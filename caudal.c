@@ -3,6 +3,57 @@
 #include <math.h>
 #include "caudal.h"
 
+
+//funcion para calcular el coeficiente de correlacion entre la capacidad y la produccion agricola
+//utilizado solo dentro de este mismo archivo, no se incluye en la libreria
+void calculoCoefcorrelacion(float *produccion, char *mediaAnual, float mediaTotal) {
+    float media2_capacidad = 0.0, var2_capacidad = 0.0, covar = 0.0; 
+    float media_prod = 0.0, media2_prod = 0.0, var2_prod = 0.0;
+    float var_prod = 0.0 , var_capacidad = 0.0, coef_correlacion = 0.0; 
+
+    for(int i=0; i<10; i++){ 
+        media_prod += produccion[i];  
+    }
+    media_prod /= 10; //media de la produccion
+
+    for(int i=0; i<10; i++){
+        media2_prod += produccion[i] * produccion[i];  
+    }
+    media2_prod /= 10; //media de la produccion al cuadrado
+                
+    var2_prod = media2_prod - (media_prod * media_prod); //var de la produccion al cuadrado
+    var_prod = sqrt(var2_prod); //var de la produccion
+
+    for(int j=0; j<10; j++){
+        media2_capacidad += mediaAnual[j] * mediaAnual[j];  
+    }
+    media2_capacidad /= 10; //media de la capacidad al cuadrado 
+
+    var2_capacidad = media2_capacidad - (mediaTotal * mediaTotal); //var de la capacidad al cuadrado
+    var_capacidad = sqrt(var2_capacidad); //var de la capacidad 
+
+    for (int k=0; k<10; k++){
+        covar += produccion[k] * mediaAnual[k];  
+    }
+    covar /= 10;  
+    covar = covar - (media_prod * mediaTotal); //covar de la capacidad y la produccion
+    coef_correlacion = covar / (var_prod * var_capacidad); //coef de correlacion 
+    if (coef_correlacion > 0 && coef_correlacion < 1){
+        printf("La correlacion entre la capacidad y la produccion es positiva, y es:%2.f \n", coef_correlacion);
+    } else if (coef_correlacion < 0 && coef_correlacion > -1){
+        printf("La correlacion entre la capacidad y la produccion es negativa, y es: %2.f\n", coef_correlacion);
+    } else if (coef_correlacion == 1){
+        printf("La correlacion entre la capacidad y la produccion es perfecta");
+    } else if (coef_correlacion == -1){
+        printf("La correlacion entre la capacidad y la produccion es perfecta");
+    } else if (coef_correlacion == 0){
+        printf("No hay correlacion entre la capacidad y la produccion\n");
+    } else {
+        printf("No hay correlacion entre la capacidad y la produccion\n");
+    }
+}
+
+
 //Función para mostrar cuencas y embalses (principal)
 //Actualmente en el main, se podría incluir en libreria,
 //no implementado
@@ -14,10 +65,9 @@ void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
 void calcularMediaAnualPorCuenca(Embalse *embalses, int totalEmbalses) {
     int i = 0, j = 0;
     float mediaMensual = 0.0, mediaAnual = 0.0; 
-    char nom_cuenca[100];
-    int totalEmbalses = contarLineas("dataset.csv");
+    char nom_cuenca[100]; 
     printf("Introduzca el nombre de la cuenca: ");
-    scanf("%[^\n]", nom_cuenca); 
+    scanf("%s", nom_cuenca); 
     printf("El embalse elegido ha sido: %s\n", nom_cuenca); 
     for (j=0; j<NUM_ANIOS; j++){ 
         for (i = 0; i < totalEmbalses; i++) {
@@ -37,6 +87,7 @@ void calcularMediaAnualPorCuenca(Embalse *embalses, int totalEmbalses) {
 void evolucionCuenca(Embalse *embalses, int totalEmbalses) {
 
     }
+
 
 // Función 3: Comparar el caudal de dos cuencas en un año específico
 void compararCuencas(Embalse *embalses, int totalEmbalses) {
@@ -86,17 +137,11 @@ void compararCuencas(Embalse *embalses, int totalEmbalses) {
         printf("Posible error en la escritura del caudal!!!\n");
     }
 }
+ 
 
 
-// Función 4: Comparar el caudal de dos cuencas en un año específico
-void compararCuencas(Embalse *embalses, int totalEmbalses) {
-    
-}
-
-
-// Función 5: Comparar el caudal con la producción agrícola (pendiente de implementación)
-void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) { 
-    int totalEmbalses = contarLineas("dataset.csv"); 
+// Función 4: Comparar el caudal con la producción agrícola (pendiente de implementación)
+void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) {  
     float mediaTotal=0;
     char mediaAnual[NUM_ANIOS];
     for(int j=0; j<NUM_ANIOS; j++){
@@ -120,8 +165,10 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) {
     // han sido obtenidos a traves de tablas de datos presentes en tablas y pdfs  
     // encontrados en la web oficial del ministerio de agricultura, pesca y alimentacion
     // del gobierno de España.
-	switch(opcion_elegida)
-	{
+    int anios[] = {2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021};
+    switch(opcion_elegida) { 
+        
+        case 'h':
 		case 'H':
 			
 			
@@ -131,59 +178,30 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) {
 			
 			break;
 		
-		
+		case 'i':
 		case 'I':
 			
-            char indus[0];
+            char indus[2];
             printf("¿Que tipo de cultivo industrial quieres comparar: Girasol(G) o Soja(S)?\n");
             printf("El cultivo industrial elegido es: \n");
-            scanf("%c", indus); 
+            scanf(" %s", indus); 
 
-            switch(indus[0]){ 
-                case 'G': 
-                int anios[] = {2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021};
-                float produccion[] = {642.0, 1038.1, 953.0, 769.2, 772.2, 814.7, 950.3, 773.8, 883.1, 771,0};
-                //calculo del coeficiente de correlacion
-                float media2_capacidad = 0.0, var2_capacidad = 0.0, covar = 0.0; 
-                float media_prod = 0.0, media2_prod = 0.0, var2_prod = 0.0;
-                float var_prod = 0.0 , var_capacidad = 0.0, coef_correlacion = 0.0; 
+            switch(indus[2]){ 
+                case 'g':
+                case 'G':
+                float produccion_gira[] = {642.0, 1038.1, 953.0, 769.2, 772.2, 814.7, 950.3, 773.8, 883.1, 771.0};
+                calculoCoefcorrelacion(produccion_gira, mediaAnual, mediaTotal); 
+                break; 
 
-                for(int i=0; i<10; i++){ 
-                    media_prod += produccion[i];  
-                }
-                media_prod /= 10; //media de la produccion
-
-                for(int i=0; i<10; i++){
-                    media2_prod += produccion[i] * produccion[i];  
-                }
-                media2_prod /= 10; //media de la produccion al cuadrado
-                
-                var2_prod = media2_prod - (media_prod * media_prod); //var de la produccion al cuadrado
-                var_prod = sqrt(var2_prod); //var de la produccion
-
-                for(int j=0; j<10; j++){
-                    media2_capacidad += mediaAnual[j] * mediaAnual[j];  
-                }
-                media2_capacidad /= 10; //media de la capacidad al cuadrado 
-
-                var2_capacidad = media2_capacidad - (mediaTotal * mediaTotal); //var de la capacidad al cuadrado
-                var_capacidad = sqrt(var2_capacidad); //var de la capacidad 
-
-                for (int k=0; k<10; k++){
-                    covar += produccion[k] * mediaAnual[k];  
-                }
-                covar /= 10;  
-                covar = covar - (media_prod * mediaTotal); //covar de la capacidad y la produccion
-                coef_correlacion = covar / (var_prod * var_capacidad); //coef de correlacion
-                printf("El coeficiente de correlacion entre la capacidad y la produccion es: %.2f\n", coef_correlacion);
-
+                case 's':
                 case 'S':
-                int anios[] = {2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021};
-                int produccion[] = {1333, 1390, 2650, 4106, 2869, 4599, 4249, 5053, 4515, 4769};  
+                float produccion_soja[] = {1333, 1390, 2650, 4106, 2869, 4599, 4249, 5053, 4515, 4769};  
+                calculoCoefcorrelacion(produccion_soja, mediaAnual, mediaTotal);
+                break;
             }
 			break;
 		
-		
+		case 'g':
 		case 'G':
 			
 			char grano[0];
@@ -203,9 +221,9 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) {
 					{
 						case 'M':
 		
-						char mes[10];
-						printf("Bien, ahora necesito que me digas el mes: \t");
-						scanf("%s", &mes);
+						int mes;
+						printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2), etc:  \t");
+						scanf("%i", &mes);
 
 						case 'Y':
 					}
@@ -213,7 +231,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) {
 				case 'C':
 					
 					char opci[0]; 	
-					printf("Ahora tienes que decidirte si quieres saber la avena producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
+					printf("Ahora tienes que decidirte si quieres saber la cebada producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
 					printf("Deseas saber: \t");
 					scanf("%s", &opc);
 	
@@ -221,17 +239,21 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) {
 					{
 						case 'M':
 	
-						char mes[10];
-						printf("Bien, ahora necesito que me digas el mes: \t");
-						scanf("%s", &mes);
+						int meses[12]={1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, mes;
+						printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2), etc:  \t");
+						scanf("%i", &mes);
+
+						
+
 
 						case 'Y':
+
+						int anio
 					}
 			}	
-			
 			break;
 		 
 	}
 
 
-}
+} 
