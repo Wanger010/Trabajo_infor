@@ -3,6 +3,17 @@
 #include <math.h>
 #include "caudal.h"
 
+//función para limpiar pantalla
+//la pongo por si se usa
+
+void limpiarPantalla() {
+    #ifdef _WIN32
+        system("cls");  // Windows
+    #else
+        system("clear");  // Unix/Linux/macOS
+    #endif
+    }
+
 // Cuenta cuantas lineas tiene el archivo
 // sin contar el encabezado
 int contarLineas(const char *nombreArchivo) {

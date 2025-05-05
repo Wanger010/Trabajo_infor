@@ -21,7 +21,10 @@ void mostrarMenu() {
 }
 
 int main() {
-	int totalEmbalses = contarLineas("dataset.csv");
+	
+    limpiarPantalla();
+    
+    int totalEmbalses = contarLineas("dataset.csv");
 
     // Verificar si se obtuvo un número válido de embalses
     if (totalEmbalses <= 0) {
