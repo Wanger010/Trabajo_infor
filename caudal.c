@@ -3,7 +3,18 @@
 #include <math.h>
 #include "caudal.h"
 
+void mostrarTablaDeDatos(int ano_inicial, int ano_final, int produccion_avena)
+{
+	printf("+------------------------------+\n");
+	printf("| Año | Avena | Media caudales |\n");
+	printf("+------------------------------+\n");
 
+	for(int i = anio_inicial; i <= anio_final, i++)
+	{
+		printf("| %i |  %.2f | %.2f |\n", i, avena[i], embalses[i].datos.cuenca);
+	}
+	printf("+------------------------------+\n");
+}
 //funcion para calcular el coeficiente de correlacion entre la capacidad y la produccion agricola
 //utilizado solo dentro de este mismo archivo, no se incluye en la libreria
 void calculoCoefcorrelacion(float *produccion, char *mediaAnual, float mediaTotal) {
@@ -226,7 +237,22 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) {
 						scanf("%i", &mes);
 
 						case 'Y':
+
+						int anio_inicial, anio_final;
+						printf("Bien, necesito que me digas el anio inicial:\t");
+						scanf("%d", &anio_inicial);
+						printf("Ahora dime el anio final:\t");
+						scanf("%d", &anio_final);
+
+						FILE *archivo= fopen("dataset.csv","r");
+
+						if(archivo == NULL)
+						{
+							printf("Error al abrir el archivo");
+							return 1;
+						{
 					}
+						
 				
 				case 'C':
 					
