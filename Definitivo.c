@@ -11,9 +11,11 @@ void mostrarMenu() {
     printf("\n              Caudales medidos en hm^3!              \n");
     printf("\n1. Calcular medias anuales por cuenca \n");
     printf("2. Ver evolucion de una cuenca en un rango de anios\n");
-    printf("3. Comparar dos cuencas en un anio\n"); 
-    printf("4. Ver relacion capacidad-produccion agricola\n");
-    printf("5. Salir\n");
+    printf("3. Comparar dos cuencas en un anio\n");
+    printf("4. Comparar dos embalses en un anio\n");
+    printf("5. Ver meses del caudal de un embalse de un año concreto\n");
+    printf("6. Ver relacion caudal-produccion agricola\n");
+    printf("7. Salir\n");
     printf("------------------------------------------\n");
     printf("Ingrese su opcion: ");
 }
@@ -37,49 +39,7 @@ int main() {
         return 1;
     }
 
-// Imprimir en pantalla la lista de cuencas
-// y sus embalses (sin repetir)
-printf("\nListado de cuencas y sus embalses:\n");
-
-// Bucle principal que recorre todos los embalses leídos
-for (int j = 0; j < totalEmbalses; j++) {
-
-    int cuencaYaImpresa = 0; // Contador usado como bandera: 0 = cuenca nueva, !0 = ya fue impresa
-
-    // Verifica si la cuenca actual (embalses[j].cuenca) ya fue impresa antes
-    for (int k = 0; k < j; k++) {
-        // Comparamos la cuenca actual con las anteriores
-        cuencaYaImpresa += strcmp(embalses[j].cuenca, embalses[k].cuenca) == 0;
-    }
-
-    // Si la cuenca no ha sido impresa aún (cuencaYaImpresa == 0), procedemos a mostrarla
-    if (cuencaYaImpresa == 0) {
-        printf("\nCuenca: %s\n", embalses[j].cuenca);
-        printf("  Embalses:\n");
-
-        // Segundo bucle: busca e imprime todos los embalses únicos dentro de esta cuenca
-        for (int k = 0; k < totalEmbalses; k++) {
-            // Solo consideramos los embalses que pertenecen a la cuenca actual
-            if (strcmp(embalses[k].cuenca, embalses[j].cuenca) == 0) {
-
-                int embalseYaImpreso = 0; // Contador/bandera para saber si este embalse ya fue mostrado
-
-                // Verifica si este embalse ya fue impreso antes dentro de la misma cuenca
-                for (int l = 0; l < k; l++) {
-                    embalseYaImpreso += (
-                        strcmp(embalses[k].cuenca, embalses[l].cuenca) == 0 && // misma cuenca
-                        strcmp(embalses[k].embalseNombre, embalses[l].embalseNombre) == 0 // mismo embalse
-                    );
-                }
-
-                // Si no se encontró antes (embalseYaImpreso == 0), lo imprimimos
-                if (embalseYaImpreso == 0) {
-                    printf("  - %s\n", embalses[k].embalseNombre); // Mostramos el nombre del embalse
-                }
-            }
-        }
-    }
-}
+    mostrarCuencasYEmbalses(Embalse *embalses, totalEmbalses);
 
 //switch de opciones.
     int opcion;
@@ -98,11 +58,19 @@ for (int j = 0; j < totalEmbalses; j++) {
             case 3:
                 printf("Comparacion de cuencas.\n");
                 compararCuencas(embalses, totalEmbalses);
-                break; 
+                break;
             case 4:
-                printf("Comparacion capacidad vs agricultura.\n");
+                printf("Comparacion de embalses.\n");
+                compararEmbalses(embalses, totalEmbalses);
                 break;
             case 5:
+                printf("Datos concretos de un embalse.\n");
+                datosConcretos(embalses, totalEmbalses);
+                break;
+            case 6:
+                printf("Comparacion capacidad vs agricultura.\n");
+                break;
+            case 7:
                 printf("Saliendo del programa...\n");
                 break;
             default:
