@@ -240,7 +240,7 @@ int main() {
 
 
 // Función 1: Calcular la media anual de capacidad para una cuenca específica
-void calcularMediaAnualPorCuenca(Embalse *embalses, int totalEmbalses) {
+float calcularMediaAnualPorCuenca(Embalse *embalses, int totalEmbalses) {
     int i, j, k;
     float mediaMensual = 0.0, mediaAnual = 0.0; 
     char nom_cuenca[100];
