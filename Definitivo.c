@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "caudal.h"
 
 // Cuenta cuantas lineas tiene el archivo
@@ -127,14 +128,13 @@ Embalse *leerDatos(const char *nombreArchivo, int totalEmbalses) {
 void mostrarMenu() {
     printf("\n----------- ANALISIS DE CAUDALES EN ESPANA ----------\n");
     printf("\n----- ANIOS 2012-2021. TODOS LOS MESES INCLUIDOS-----\n");
-    printf("\n Hay que introducir el nombre tal cual viene dado :D \n");
+    printf("\n Hay que introducir el nombre ¡TAL CUAL! viene dado :D \n");
     printf("\n              Caudales medidos en hm^3!              \n");
-    printf("\n1. Calcular medias anuales por cuenca y mes\n");
-    printf("2. Ver evolucion de una cuenca\n");
-    printf("3. Comparar dos cuencas en un anio\n");
-    printf("4. Comparar dos embalses en un anio\n");
-    printf("5. Ver relacion caudal-produccion agricola\n");
-    printf("6. Salir\n");
+    printf("\n1. Calcular medias anuales por cuenca \n");
+    printf("2. Ver evolucion de una cuenca en un rango de anios\n");
+    printf("3. Comparar dos cuencas en un anio\n"); 
+    printf("4. Ver relacion capacidad-produccion agricola\n");
+    printf("5. Salir\n");
     printf("------------------------------------------\n");
     printf("Ingrese su opcion: ");
 }
@@ -210,23 +210,20 @@ for (int j = 0; j < totalEmbalses; j++) {
 
         switch (opcion) {
             case 1:
-                printf("Funcion en desarrollo: media anual caudal de cuenca.\n");
+                printf("Media anual de la capacidad de la cuenca.\n");
+                calcularMediaAnualPorCuenca(embalses, totalEmbalses);
                 break;
             case 2:
-                printf("Funcion en desarrollo: evolucion de cuenca.\n");
+                printf("Evolucion de la cuenca.\n");
                 break;
             case 3:
                 printf("Comparacion de cuencas.\n");
                 compararCuencas(embalses, totalEmbalses);
-                break;
+                break; 
             case 4:
-                printf("Comparacion de embalses.\n");
-                compararEmbalses(embalses, totalEmbalses);
+                printf("Comparacion capacidad vs agricultura.\n");
                 break;
             case 5:
-                printf("Funcion en desarrollo: caudal vs agricultura.\n");
-                break;
-            case 6:
                 printf("Saliendo del programa...\n");
                 break;
             default:
@@ -240,100 +237,4 @@ for (int j = 0; j < totalEmbalses; j++) {
 }
 
 
-//funcion 5: caudal vs agricultura
-void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) 
-{
-    char nombre_cuenca[500];
-    int totalEmbalses = contarLineas("dataset.csv");
-    printf("Introduzca el nombre de la cuenca que desea comparar: ");
-    scanf("%s", nombre_cuenca);  
-    for (i = 0; i < totalEmbalses; i++)
-    {
-    	if (strcmp(embalses[i].cuenca, nom_cuenca) == 0)
-    	{
-    		printf("El embalse elegido para comparar ha sido: %s\n", embalses[i].embalseNombre);
-		}
-	}
-
-    char opcion_elegida;
-	printf("Dime ahora con que tipo de producto agricultor deseas comparar el embalse: ")
-	printf("Con Hortalizas(H), con los Industriales(I) o con los de Grano(G)");
-	printf("La opcion elegida es: \t")
-	scanf("c",&opcion_elegida);
-	
-	
-	switch(opcion_elegida)
-	{
-		case 'H':
-			
-			
-			
-			
-			
-			
-			break:
-		
-		
-		case 'I':
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			break:
-		
-		
-		case 'G':
-			
-			char grano[0];
-			printf("¿Que tipo quieres comparar: avena(A) o cebada(C)?\n");
-			printf("El grano elegido es:\t");
-			scanf("%c", &grano);
-
-			switch(grano[0])
-			{
-				case 'A':
-					char opc[0]; 	
-					printf("Ahora tienes que decidirte si quieres saber la avena producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
-					printf("Deseas saber: \t");
-					scanf("%s", &opc);
-	
-					switch(opc[0])
-					{
-						case 'M':
-		
-						char mes[10];
-						printf("Bien, ahora necesito que me digas el mes: \t");
-						scanf("%s", &mes);
-
-						case 'Y':
-					}
-				
-				case 'C':
-					
-					char opci[0]; 	
-					printf("Ahora tienes que decidirte si quieres saber la avena producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
-					printf("Deseas saber: \t");
-					scanf("%s", &opc);
-	
-					switch(opci[0])
-					{
-						case 'M':
-	
-						char mes[10];
-						printf("Bien, ahora necesito que me digas el mes: \t");
-						scanf("%s", &mes);
-
-						case 'Y':
-					}
-			}	
-			
-			break:
-		 
-	}
-
-}
+ 
