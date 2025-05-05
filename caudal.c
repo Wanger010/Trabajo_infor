@@ -3,6 +3,126 @@
 #include <math.h>
 #include "caudal.h"
 
+// Cuenta cuantas lineas tiene el archivo
+// sin contar el encabezado
+int contarLineas(const char *nombreArchivo) {
+    FILE *archivo = fopen(nombreArchivo, "r");
+    //Comprobación de apertura, NULL=puntero vacío
+	if (archivo == NULL) {
+        printf("Error al abrir el archivo.\n");
+        return -1;
+    }
+
+    int totalEmbalses = 0;
+    char linea[1030];
+
+    // Saltar la primera linea (cabecera)
+    fgets(linea, sizeof(linea), archivo);
+
+    // Contar el resto de lineas
+    while (fgets(linea, sizeof(linea), archivo)) {
+        totalEmbalses++;
+    }
+    printf("Numero de lineas del csv: %d",totalEmbalses);
+    fclose(archivo);
+    return totalEmbalses;
+}
+
+// Función que lee el archivo CSV y carga los datos de embalses en memoria dinámica
+Embalse *leerDatos(const char *nombreArchivo, int totalEmbalses) {
+
+    // Primero, verificamos si el número total de embalses es válido
+    // Si totalEmbalses es menor o igual a cero, no hay nada que hacer, así que retornamos NULL
+    if (totalEmbalses <= 0) {
+        printf("No hay datos que leer (totalEmbalses <= 0).\n");
+        return NULL;  // Termina la función retornando NULL porque no hay datos
+    }
+
+    // Reservamos memoria suficiente para almacenar los embalses en un array dinámico
+    Embalse *embalses = (Embalse*) malloc(sizeof(Embalse) * totalEmbalses);
+    
+    // Comprobamos si la reserva de memoria fue exitosa. Si no, mostramos un mensaje de error
+    if (embalses == NULL) {
+        printf("No se pudo asignar memoria.\n");
+        return NULL;  // Terminamos la función y devolvemos NULL si no se pudo reservar memoria
+    }
+
+    // Ahora, intentamos abrir el archivo CSV para leer los datos
+    FILE *archivo = fopen(nombreArchivo, "r");
+    
+    // Verificamos si el archivo se abrió correctamente. Si no, liberamos la memoria reservada y retornamos NULL
+    if (archivo == NULL) {
+        printf("\nError al abrir el archivo.\n");
+        free(embalses);  // Liberamos la memoria previamente reservada
+        return NULL;  // Terminamos la función porque no pudimos abrir el archivo
+    }
+
+    // Declaramos un buffer para leer cada línea del archivo
+    char linea[1030];
+
+    // Leemos la primera línea del archivo (la cabecera), pero no la procesamos, solo la saltamos
+    // fgets acaba en \n o cuando el buffer se llena -> muy interesante para leer lineas
+    fgets(linea, sizeof(linea), archivo);
+
+    // Inicializamos un índice para empezar a llenar el array de embalses
+    int i = 0;
+
+    // Ahora, leemos cada línea del archivo hasta llegar al límite de embalses 
+    // o hasta que se acaben las líneas, fgets ya es una función lógica en si
+    // misma pues devuelve un NULL=False o un valor=True
+    while (fgets(linea, sizeof(linea), archivo) && i < totalEmbalses) {
+        
+        // Usamos strtok para dividir la línea en campos separados por comas
+        // El primer campo es el nombre de la cuenca
+        char *temp = strtok(linea, ",");
+
+        // Campo 1: Guardamos el nombre de la cuenca en la estructura Embalse
+        strcpy(embalses[i].cuenca, temp);
+
+        // Campo 2: El siguiente campo es el nombre del embalse
+        // Al poner NULL pasa a la sigueinte parte tras la coma
+        // Esto se debe a que esta función cambia la ',' por '\0'=NULL.
+        temp = strtok(NULL, ",");
+        if (temp != NULL) {
+            strcpy(embalses[i].embalseNombre, temp);  // Guardamos el nombre del embalse
+        } else {
+            embalses[i].embalseNombre[0] = '\0';  // Si no hay nombre, asignamos una cadena vacía
+        }
+
+        // Campo 3: El siguiente campo es el mes (leemos si está presente)
+        temp = strtok(NULL, ",");
+        if (temp != NULL) {
+            strcpy(embalses[i].mes, temp);  // Guardamos el mes
+        } else {
+            embalses[i].mes[0] = '\0';  // Si no hay mes, asignamos una cadena vacía
+        }
+
+        // A continuación, leemos los caudales para los años de 2012 a 2021
+        // Si algún campo no contiene un valor válido, asignamos el valor 0 por defecto
+        for (int j = 0; j < NUM_ANIOS; j++) {
+            temp = strtok(NULL, ",");  // Obtenemos el siguiente campo que debería ser el caudal
+
+            if (temp != NULL) {
+                embalses[i].datos.caudales[j] = atof(temp);  // Convertimos el caudal (cadena) a un float
+            } else {
+                embalses[i].datos.caudales[j] = 0;  // Si no hay valor, asignamos 0
+            }
+
+            // Asignamos el año correspondiente a este caudal
+            embalses[i].datos.anios[j] = 2012 + j;
+        }
+
+        // Aumentamos el índice para procesar el siguiente embalse
+        i++;
+    }
+
+    // Cerramos el archivo después de haber leído todos los datos
+    fclose(archivo);
+
+    // Finalmente, volvemos el puntero a la memoria reservada que contiene todos los datos de los embalses
+    return embalses;
+}
+
 void mostrarTablaDeDatos(int ano_inicial, int ano_final, int produccion_avena)
 {
 	printf("+------------------------------+\n");
