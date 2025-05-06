@@ -31,12 +31,36 @@ typedef struct {
     DatosEmbalse datos;
 } Embalse;
 
-// Declaraciones de funciones relacionadas con el análisis de caudales
+// Declaración de otras funciones
+
+void limpiarPantalla();
+void reemplazarGuionBajoPorEspacio(char *cadena);
+int contarLineas(const char *nombreArchivo);
+void leerDatos(const char *nombreArchivo, int totalEmbalses)
 void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses);
+void guardarCuencasYEmbalses(Embalse *embalses, int totalEmbalses);
+
+//FUNCION PARA CONOCER MEDIA MESUAL DESDE 2012-2021
+void mostrarMediaMensualCaudales(Embalse *embalses, int totalEmbalses);
+
+//FUNCION TABLA DATOS MENSUAL
+void mostrarTablaDeDatosMes(int anio, float mediacaudales);
+
+//FUNCION AGRICULTURA
+void mostrarTablaDeDatosAnio(int anio, float avenaocebada, float mediacaudales);
+
+//void calculoCoefcorrelacion(float *produccion, char *mediaAnual, float mediaTotal)
+
+
+
+
+// Declaracion de funciones del switch
+
 void calcularMediaAnualPorCuenca(Embalse *embalses, int totalEmbalses);
 void evolucionCuenca(Embalse *embalses, int totalEmbalses);
 void evolucionEmbalse(Embalse *embalses, int totalEmbalses);
 void compararCuencas(Embalse *embalses, int totalEmbalses);
+void compararEmbalses(Embalse *embalses, int totalEmbalses);
 void compararCaudalAgricola(Embalse *embalses, int totalEmbalses);
 void mostrarMediaMensualCaudales(Embalse *embalses, int totalEmbalses);
 
