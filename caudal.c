@@ -195,7 +195,7 @@ void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
 
 
 //FUNCION PARA CONOCER MEDIA MESUAL DESDE 2012-2021
-void mostrarMediaMensualCaudales(Embalse *embales, int totalEmbalses)
+void mostrarMediaMensualCaudales(Embalse *embalses, int totalEmbalses)
 {
 	int meses[13]={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, mes_usuario;
 	printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2) y asi seguidamente:  \t");
