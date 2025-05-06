@@ -9,7 +9,9 @@ void mostrarMenu() {
     printf("\n\033[34m      ANIOS 2012-2021. TODOS LOS MESES INCLUIDOS     \033[0m\n");
     printf("\n\033[33m Hay que introducir el nombre tal cual viene dado :D \033[0m\n");
     printf("\n\033[33m              Caudales medidos en hm^3!              \033[0m\n");
-    printf("\n1. Calcular medias anuales por cuenca y mes\n");
+    printf("\n0. Archivo cuencas y respectivos embalses (.txt) \n");
+    printf("i. Se imprime por pantalla cuencas y respectivos embalses \n");
+    printf("1. Calcular medias anuales por cuenca y mes\n");
     printf("2. Ver evolucion de una cuenca\n");
     printf("3. Comparar dos cuencas en un anio\n");
     printf("4. Comparar dos embalses en un anio\n");
@@ -46,6 +48,10 @@ int main() {
             case 0:
                 printf("Imprimiendo lista...");
                 guardarCuencasYEmbalses(embalses, totalEmbalses);
+                break;
+            case 'i':
+                printf("Imprimiendo lista...");
+                mostrarCuencasYEmbalses(embalses, totalEmbalses);
                 break;
             case 1:
                 printf("media anual caudal de cuenca.\n");
