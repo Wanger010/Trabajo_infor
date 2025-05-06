@@ -194,13 +194,91 @@ void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
 }
 
 
+//FUNCION PARA CONOCER MEDIA MESUAL DESDE 2012-2021
+void mostrarMediaMensualCaudales(Embalse *embales, int totalEmbalses)
+{
+	int meses[13]={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, mes_usuario;
+	printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2) y asi seguidamente:  \t");
+	scanf("%i", &mes_usuario);
+	
+	
+	FILE *archivo = fopen("dataset.csv", "r");
+	if(archivo == NULL)
+	{
+		printf("Error al abrir el archivo\n");
+	}
+	
+	
+	int columna = 0, columna_objetivo;
+	int mes2 = 0;
+	char linea[1030];
+	fgets(linea, sizeof(linea), archivo);
+	char *tok = strtok(linea, ",");
+	while(tok != NULL)
+	{
+		if(strcmp(tok, "mes") == 0)
+		{
+			columna_objetivo = columna;
+			break;
+		}
+	tok = strtok(NULL, ",");
+	columna++;	
+	}
+	
+	
+	float suma_caudales = 0.0, valorcaudal = 0.0;
+	int columnas;
+	while(fgets(linea, sizeof(linea), archivo))
+	{
+		columnas = 1;
+		tok = strtok(linea, ",");
+		while(tok != NULL)
+		{
+			if(mes_usuario == atoi(tok))
+			{
+				while(columnas > columna_objetivo && columnas < 14)
+				{
+					tok = strtok(NULL, ",");
+					float valorcaudal = atof(tok);
+					suma_caudales += valorcaudal;
+					columnas++;
+					if(columnas == 13)
+					{
+						columnas = 0;
+						break;
+					}
+				}
+			}
+			tok = strtok(NULL, ",");
+			columnas++;
+		}
+	}
+	fclose(archivo);
+	
+	float media_caudales = suma_caudales / (totalEmbalses / 12);
+	mostrarTablaDeDatosMes(mes_usuario, media_caudales);
+}
+
+
+//FUNCION TABLA DATOS MENSUAL
+void mostrarTablaDeDatosMes(int anio, float mediacaudales)
+{
+	printf("+--------------------------------+\n");
+	printf("| Mes | Media caudales 2012-2021 |\n");
+	printf("+--------------------------------+\n");
+	printf("|  %i  |       %.2f        |\n", anio, mediacaudales);
+	printf("+--------------------------------+\n");
+}
+
+
 //FUNCION AGRICULTURA
-void mostrarTablaDeDatosAnio(int anio, floa  avena, float mediacaudales)
+void mostrarTablaDeDatosAnio(int anio, floa  avenaocebada, float mediacaudales)
 {
 	printf("+------------------------------+\n");
 	printf("| Anio | Avena | Media caudales |\n");
 	printf("+------------------------------+\n");
-	printf("| %i | %.2f |      %.2f     |\");
+	printf("| %i | %.2f |      %.2f     |\n", anio, avenaocebada, mediacaudales);
+	printf("+------------------------------+\n");
 }		
 
 
@@ -668,179 +746,130 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 				{	
 
 					float avena_producida[10]={933.2, 957.7, 649.2, 872.2, 1161.0, 1131.0, 1486.9, 808.3, 1323.8, 1048.7};
-					char opc[0]; 	
-					printf("Ahora tienes que decidirte si quieres saber la avena producida y el caudal de un embalse en un mes entre 2012 y 2021 (M) o en un anio (Y)\n");
-					printf("Deseas saber: \t");
-					scanf("%s", &opc);
+					int anio;
+					printf("Bien, necesito que me digas el anio que quieres saber:\t");
+					scanf("%d", &anio);
 	
-					switch(opc[0])
+					if (anio < 2012 || anio > 2021)
 					{
-						case 'M':
-						{	
-							int mes;
-							printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2), etc:  \t");
-							scanf("%i", &mes);
-							break;
-						}
-
-						case 'Y':
-						{	
-							int anio;
-							printf("Bien, necesito que me digas el anio que quieres saber:\t");
-							scanf("%d", &anio);
+						printf("El anio que introduciste es invalido. Debes introducir un anio entre 2012 y 2021. \n");
+						return 1;
+					}	
 	
-							if (anio < 2012 || anio > 2021)
-							{
-								printf("El anio que introduciste es invalido. Debes introducir un anio entre 2012 y 2021. \n");
-								return 1;
-							}	
-	
-							FILE *archivo= fopen("dataset.csv","r");
-								if(archivo == NULL)
-								{
-									printf("Error al abrir el archivo");
-									return 1;
-								}
-									
-							 char linea[1030];
-							 int columna = 0, columna_objetivo;
-									
-							 fgets(linea, sizeof(linea), archivo);
-							 char *tok = strtok(linea, ",");	
-							 while(tok != NULL)
-								{
-									if(atoi(tok) == anio) 
-									{
-										columna_objetivo = columna;
-										break;
-									}
-									tok = strtok(NULL, ",");
-									columna++;
-								}
-								
-							 float sumacaudales = 0;
-							 while(fgets(linea,sizeof(linea),archivo))
-							 {	
-							 int columna2 = 0;
-							 float valorcaudal;		
-							 tok = strtok(linea, ",");
-							 while(tok != NULL)
-								{
-									if(columna2 == columna_objetivo)
-									{
-										valorcaudal = atof(tok);
-										sumacaudales += valorcaudal;
-										break;
-									}
-									tok = strtok(NULL, ",");
-									columna2++;
-								}
-							 }
-							fclose(archivo);
-	
-							float media_caudales = sumacaudales / totalEmbalses;
-							int i = anio - 2012;
-							mostrarTablaDeDatos( anio, avena_producida[i], media_caudales); 
-							break;
-						}
+					FILE *archivo= fopen("dataset.csv","r");
+					if(archivo == NULL)
+					{
+						printf("Error al abrir el archivo");
+						return 1;
 					}
-					
+								
+					 char linea[1030];
+					 int columna = 0, columna_objetivo;
+									
+					 fgets(linea, sizeof(linea), archivo);
+					 char *tok = strtok(linea, ",");	
+					 while(tok != NULL)
+					{
+						if(atoi(tok) == anio) 
+						{
+							columna_objetivo = columna;
+							break;
+						}
+						tok = strtok(NULL, ",");
+						columna++;
+					}
+								
+					float sumacaudales = 0;
+					 while(fgets(linea,sizeof(linea),archivo))
+					 {	
+						 int columna2 = 0;
+						 float valorcaudal;		
+						 tok = strtok(linea, ",");
+						 while(tok != NULL)
+						{
+							if(columna2 == columna_objetivo)
+							{
+								valorcaudal = atof(tok);
+								sumacaudales += valorcaudal;
+								break;
+							}
+							tok = strtok(NULL, ",");
+							columna2++;
+						}
+					 }
+					fclose(archivo);
+	
+					float media_caudales = sumacaudales / totalEmbalses;
+					int i = anio - 2012;
+					mostrarTablaDeDatos( anio, avena_producida[i], media_caudales); 
 					break;
 				}
 				
+				
 				case 'C':		
 				{
-					float cebada_producida[10]={5956.3, 7515.4, 6983.3, 6176.6, 6312.2, 5785.9, 6974.6, 7400.0, 10955.8, 10477.8};
-					char opci[0]; 	
-					printf("Ahora tienes que decidirte si quieres saber la cebada producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
-					printf("Deseas saber: \t");
-					scanf("%s", &opci);
-
-					switch(opci[0])
+					float cebada_producida[10]={5956.3, 7515.4, 6983.3, 6176.6, 6312.2, 5785.9, 6974.6, 7400.0, 10955.8, 10477.8};	
+					int anio;
+					printf("Bien, necesito que me digas el anio que quieres saber:\t");
+					scanf("%d", &anio);
+	
+					if (anio < 2012 || anio > 2021)
 					{
-						case 'M':
-						{	
-							int meses[12]={1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, mes;
-							printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2), etc:  \t");
-							scanf("%i", &mes);
-							break;
-							
-						}
-							
-	
-						case 'Y':
-						{	
-							int anio;
-							printf("Bien, necesito que me digas el anio que quieres saber:\t");
-							scanf("%d", &anio);
-	
-							if (anio < 2012 || anio > 2021)
-							{
-								printf("El anio que introduciste es invalido. Debes introducir un anio entre 2012 y 2021. \n");
-								return 1;
-							}	
-		
-							FILE *archivo= fopen("dataset.csv","r");
-								if(archivo == NULL)
-								{
-									printf("Error al abrir el archivo");
-									return 1;
-								}
-										
-							char linea[1030];
-							int columna = 0, columna_objetivo;
-									
-							fgets(linea, sizeof(linea), archivo);
-							char *tok = strtok(linea, ",");	
-							while(tok != NULL)
-							{
-								if(atoi(tok) == anio) 
-								{
-									columna_objetivo = columna;
-									break;
-								}
-								tok = strtok(NULL, ",");
-								columna++;
-							}
-									
-							float sumacaudales = 0;
-							while(fgets(linea,sizeof(linea),archivo))
-							{	
-								int columna2 = 0;
-								float valorcaudal;		
-							 	tok = strtok(linea, ",");
-							 	while(tok != NULL)
-								{
-									if(columna2 == columna_objetivo)
-									{
-										valorcaudal = atof(tok);
-										sumacaudales += valorcaudal;
-										break;
-									}
-									tok = strtok(NULL, ",");
-									columna2++;	
-								}
-							}
-							fclose(archivo);
-		
-							float media_caudales = sumacaudales / totalEmbalses;
-							int i = anio - 2012;
-							mostrarTablaDeDatos( anio, cebada_producida[i], media_caudales); 
-							
-							break;
-						}
+						printf("El anio que introduciste es invalido. Debes introducir un anio entre 2012 y 2021. \n");
+						return 1;
 					}	
-					break;
-					
+		
+					FILE *archivo= fopen("dataset.csv","r");
+					if(archivo == NULL)
+					{
+						printf("Error al abrir el archivo");
+						return 1;
+					}
+										
+					char linea[1030];
+					int columna = 0, columna_objetivo;
+									
+					fgets(linea, sizeof(linea), archivo);
+					char *tok = strtok(linea, ",");	
+					while(tok != NULL)
+					{
+						if(atoi(tok) == anio) 
+						{
+							columna_objetivo = columna;
+							break;
+						}
+						tok = strtok(NULL, ",");
+						columna++;
+					}
+									
+					float sumacaudales = 0;
+					while(fgets(linea,sizeof(linea),archivo))
+					{	
+						int columna2 = 0;
+						float valorcaudal;		
+						tok = strtok(linea, ",");
+						while(tok != NULL)
+						{
+							if(columna2 == columna_objetivo)
+							{
+								valorcaudal = atof(tok);
+								sumacaudales += valorcaudal;
+								break;
+							}
+							tok = strtok(NULL, ",");
+							columna2++;	
+						}
+					}
+					fclose(archivo);
+		
+					float media_caudales = sumacaudales / totalEmbalses;
+					int i = anio - 2012;
+					mostrarTablaDeDatos( anio, cebada_producida[i], media_caudales); 	
+					break;		
 				}
 			}
-
-						
-                }
-
-
-        
-            }
+		}
+        }
 
 						
 }			
