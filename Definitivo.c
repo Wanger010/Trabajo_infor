@@ -68,19 +68,19 @@ int main() {
                 break;
             case 6:
                 printf("Media mensual 2012-2021\n");
-		mostrarMediaMensualCaudales(Embalse *embalses, totalEmbalses);
+		        mostrarMediaMensualCaudales(Embalse *embalses, totalEmbalses);
                 break;
             case 7:
                 printf("Relacion caudal-produccion agricola\n");
                 break;
-	    case 8:
-		printf("Salir\n");
-		break;
+	        case 8:
+		        printf("Salir\n");
+		        break;
             default:
                 printf("Opcion no valida. Intente de nuevo.\n");
                 break;
         }
-    } while (opcion != 7); //estructura do while para que el menú se 
+    } while (opcion != 8); //estructura do while para que el menú se 
                            //repita hasta que el usuario elija salir
     free(embalses);
     return 0;
