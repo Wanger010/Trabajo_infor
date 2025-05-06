@@ -132,9 +132,10 @@ void mostrarMenu() {
     printf("\n              Caudales medidos en hm^3!              \n");
     printf("\n1. Calcular medias anuales por cuenca \n");
     printf("2. Ver evolucion de una cuenca en un rango de anios\n");
-    printf("3. Comparar dos cuencas en un anio\n"); 
-    printf("4. Ver relacion capacidad-produccion agricola\n");
-    printf("5. Salir\n");
+    printf("4. Comparar dos embalses en un anio\n");
+    printf("5. Ver meses del caudal de un embalse de un anio concreto\n");
+    printf("6. Ver relacion caudal-produccion agricola\n");
+    printf("7. Salir\n");
     printf("------------------------------------------\n");
     printf("Ingrese su opcion: ");
 }
@@ -210,20 +211,28 @@ for (int j = 0; j < totalEmbalses; j++) {
 
         switch (opcion) {
             case 1:
-                printf("Media anual de la capacidad de la cuenca.\n");
+                printf("media anual caudal de cuenca.\n");
                 calcularMediaAnualPorCuenca(embalses, totalEmbalses);
                 break;
             case 2:
-                printf("Evolucion de la cuenca.\n");
+                printf("Funcion en desarrollo: evolucion de cuenca.\n");
                 break;
             case 3:
                 printf("Comparacion de cuencas.\n");
                 compararCuencas(embalses, totalEmbalses);
-                break; 
+                break;
             case 4:
-                printf("Comparacion capacidad vs agricultura.\n");
+                printf("Comparacion de embalses.\n");
+                compararEmbalses(embalses, totalEmbalses);
                 break;
             case 5:
+                printf("Datos concretos de un embalse.\n");
+                datosConcretos(embalses, totalEmbalses);
+                break;
+            case 6:
+                printf("Funcion en desarrollo: caudal vs agricultura.\n");
+                break;
+            case 7:
                 printf("Saliendo del programa...\n");
                 break;
             default:
