@@ -141,7 +141,8 @@ void compararCuencas(Embalse *embalses, int totalEmbalses) {
 
 
 // Función 4: Comparar el caudal con la producción agrícola (pendiente de implementación)
-void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) {  
+void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) 
+{  
     float mediaTotal=0;
     char mediaAnual[NUM_ANIOS];
     for(int j=0; j<NUM_ANIOS; j++){
@@ -152,6 +153,18 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) {
         mediaTotal += mediaAnual[j] ; //media total de los caudales
     } 
     mediaTotal /= NUM_ANIOS; //media total de los caudales
+
+    char nombre_cuenca[500];
+    int totalEmbalses = contarLineas("dataset.csv");
+    printf("Introduzca el nombre de la cuenca que desea comparar: ");
+    scanf("%s", nombre_cuenca);  
+    for (i = 0; i < totalEmbalses; i++)
+    {
+    	if (strcmp(embalses[i].cuenca, nom_cuenca) == 0)
+    	{
+    		printf("El embalse elegido para comparar ha sido: %s\n", embalses[i].embalseNombre);
+		}
+	}
     char opcion_elegida;
     printf("En este apartado se va a estudiar la relacion de la capacidad de los embalses con la produccion agricola del cultivo deseado.\n");
     printf("Para un mejor entendimiento mostraremos tablas grafícas y unos pocos datos \n");
@@ -166,16 +179,67 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) {
     // encontrados en la web oficial del ministerio de agricultura, pesca y alimentacion
     // del gobierno de España.
     int anios[] = {2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021};
-    switch(opcion_elegida) { 
+    switch(opcion_elegida) 
+    { 
         
         case 'h':
 		case 'H':
+        int mes_elegido;
+        printf("¿Del embalse %s que mes quieres comparar a lo largo de los años?\n",embalses[i].embalseNombre);//preguntamos el mes para asi comparar por ejemplo el mes de enero del 2012 al 2021 en ese embalse y asociarlo a la produccion
+        scanf("%i",&mes_elegido);
+        if (mes_elegido < 1 || mes_elegido > 12)
+        {
+            printf("Mes no valido. Debe ser entre 1 y 12.\n");
+            return;
+        }
+        
+        for (int i=0; i < totalEmbalses; i++)
+        {
+            if( strcmp(embalses[i].mes, mes_elegido) == 0)
+            {
+                printf("El mes elegido para comparar ha sido: %s\n", embalses[i].mes);
+            }
+        }
+        // Datos
+    
+        float valores[] = {13.148, 12.973, 13.283, 14.626, 14.772,
+                    15.367, 15.545, 14.992, 15.880, 15.180};//datos de produccion de hortalizas en el mes elegido durantes los años establecidos
+
+        // Calcular valor máximo
+        float max_valor = valores[0];
+        for (int i = 1; i < 10; i++) 
+        {
+            if (valores[i] > max_valor)
+            {
+                max_valor = valores[i];
+            }
+            
+        }
+
+        // Encabezado
+        printf(" Grafica de Barras :\n");
+        for (int i = 0; i < 10; i++) 
+        {
+            // Escalar a 90 caracteres
+            float longitud_barra = ((valores[i] / max_valor) * 90);
+
+            // Mostrar años
+            printf("%d | ", anios[i]);
+
+            // Dibujar la barra con '#'
+            for (int j = 0; j < longitud_barra; j++)
+            {
+                putchar('#');
+            }
+
+            // Mostrar el valor exacto
+            printf(" %.3f\n", valores[i]);
+        }   
+        
+            
+        printf("El caudal medio de la cuenca %s en el mes %s es: %.2f\n", embalses[i].cuenca, embalses[i].mes, embalses[i].datos.caudales[mes_elegido-1]);
 			
-			
-			
-			
-			
-			
+		
 			break;
 		
 		case 'i':
@@ -186,74 +250,139 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) {
             printf("El cultivo industrial elegido es: \n");
             scanf(" %s", indus); 
 
-            switch(indus[2]){ 
+            switch(indus[2])
+            { 
                 case 'g':
                 case 'G':
                 float produccion_gira[] = {642.0, 1038.1, 953.0, 769.2, 772.2, 814.7, 950.3, 773.8, 883.1, 771.0};
-                calculoCoefcorrelacion(produccion_gira, mediaAnual, mediaTotal); 
+                calculoCoefcorrelacion(produccion_gira, mediaAnual, mediaTotal);
+                //se procede a hacer la grafica de barras con los datos de produccion de girasol
+                // Calcular valor máximo
+                float max_valor = produccion_gira[0];
+                for (int i = 1; i < 10; i++) 
+                {
+                    if (produccion_gira[i] > max_valor)
+                    {
+                        max_valor = produccion_gira[i];
+                    }   
+                }
+
+                // Encabezado
+                printf("\nGrafica de Barras :\n\n");
+
+                for (int i = 0; i < 10; i++) 
+	            {
+                    // Escalar a 90 caracteres
+                    float longitud_barra = ((produccion_gira[i] / max_valor) * 100);
+
+                    // Mostrar años
+                    printf("%d | ", anios[i]);
+
+                    // Dibujar la barra con '#'
+                    for (int j = 0; j < longitud_barra; j++)
+		            {
+                        putchar('#');
+                    }
+
+                    // Mostrar el valor exacto
+                    printf(" %.3f\n", produccion_gira[i]);
+                }
+
+       
                 break; 
 
                 case 's':
                 case 'S':
                 float produccion_soja[] = {1333, 1390, 2650, 4106, 2869, 4599, 4249, 5053, 4515, 4769};  
                 calculoCoefcorrelacion(produccion_soja, mediaAnual, mediaTotal);
+                //se procede a hacer la grafica de barras con los datos de produccion de soja
+                // Calcular valor máximo
+                float max_valor = produccion_soja[0];
+                for (int i = 1; i < 10; i++)
+                {
+                    if (produccion_soja[i] > max_valor)
+                    {
+                        max_valor = produccion_soja[i];
+                    }   
+                }
+                // Encabezado
+                printf("\nGrafica de Barras :\n\n");
+                for (int i = 0; i < 10; i++) 
+	            {
+                    // Escalar a 90 caracteres
+                    float longitud_barra = ((produccion_soja[i] / max_valor) * 100);
+
+                    // Mostrar años
+                    printf("%d | ", anios[i]);
+
+                    // Dibujar la barra con '#'
+                    for (int j = 0; j < longitud_barra; j++)
+		            {
+                        putchar('#');
+                    }
+                    // Mostrar el valor exacto
+                    printf(" %.3f\n", produccion_soja[i]);
+                }
                 break;
             }
 			break;
-		
-		case 'g':
-		case 'G':
-			
-			char grano[0];
-			printf("¿Que tipo quieres comparar: avena(A) o cebada(C)?\n");
-			printf("El grano elegido es:\t");
-			scanf("%c", grano);
-
-			switch(grano[0])
-			{
-				case 'A':
-					char opc[0]; 	
-					printf("Ahora tienes que decidirte si quieres saber la avena producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
-					printf("Deseas saber: \t");
-					scanf("%s", &opc);
-	
-					switch(opc[0])
-					{
-						case 'M':
-		
-						int mes;
-						printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2), etc:  \t");
-						scanf("%i", &mes);
-
-						case 'Y':
-					}
-				
-				case 'C':
-					
-					char opci[0]; 	
-					printf("Ahora tienes que decidirte si quieres saber la cebada producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
-					printf("Deseas saber: \t");
-					scanf("%s", &opc);
-	
-					switch(opci[0])
-					{
-						case 'M':
-	
-						int meses[12]={1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, mes;
-						printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2), etc:  \t");
-						scanf("%i", &mes);
-
-						
-
-
-						case 'Y':
-
-						int anio
-					}
-			}	
-			break;
-		 
-	}
+            
+        case 'g':
+        case 'G':
+                
+            char grano[0];
+            printf("¿Que tipo quieres comparar: avena(A) o cebada(C)?\n");
+            printf("El grano elegido es:\t");
+            scanf("%c", grano);
+    
+            switch(grano[0])
+            {
+                case 'A':
+                    char opc[0]; 	
+                    printf("Ahora tienes que decidirte si quieres saber la avena producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
+                    printf("Deseas saber: \t");
+                    scanf("%s", &opc);
+        
+                    switch(opc[0])
+                    {
+                        case 'M':
+            
+                            int mes;
+                            printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2), etc:  \t");
+                            scanf("%i", &mes);
+    
+                        case 'Y':
+                    }
+                    
+                case 'C':
+                        
+                    char opci[0]; 	
+                    printf("Ahora tienes que decidirte si quieres saber la cebada producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
+                    printf("Deseas saber: \t");
+                    scanf("%s", &opc);
+        
+                    switch(opci[0])
+                    {
+                        case 'M':
+        
+                            int meses[12]={1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, mes;
+                            printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2), etc:  \t");
+                            scanf("%i", &mes);
+    
+                            
+    
+    
+                        case 'Y':
+    
+                            int anio
+                    }
+            }	
+            break;    
 
 
-} 
+    }
+
+        
+}
+
+    
