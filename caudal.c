@@ -149,48 +149,46 @@ Embalse *leerDatos(const char *nombreArchivo, int totalEmbalses) {
     return embalses;
 }
 
-// Función para guardar cuencas y embalses en un archivo de texto
-void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
-    FILE *pf = fopen("Listado_Cuencas.txt", "w");
-    if (pf == NULL) {
-        printf("Error al crear el archivo Listado_Cuencas.txt\n");
-        return;
+printf("\nListado de cuencas y sus embalses:\n");
+
+// Bucle principal que recorre todos los embalses leídos
+for (int j = 0; j < totalEmbalses; j++) {
+
+    int cuencaYaImpresa = 0; // Contador usado como bandera: 0 = cuenca nueva, !0 = ya fue impresa
+
+    // Verifica si la cuenca actual (embalses[j].cuenca) ya fue impresa antes
+    for (int k = 0; k < j; k++) {
+        // Comparamos la cuenca actual con las anteriores
+        cuencaYaImpresa += strcmp(embalses[j].cuenca, embalses[k].cuenca) == 0;
     }
 
-    fprintf(pf, "Listado de cuencas y sus embalses:\n");
+    // Si la cuenca no ha sido impresa aún (cuencaYaImpresa == 0), procedemos a mostrarla
+    if (cuencaYaImpresa == 0) {
+        printf("\nCuenca: %s\n", embalses[j].cuenca);
+        printf("  Embalses:\n");
 
-    for (int j = 0; j < totalEmbalses; j++) {
-        int cuencaYaImpresa = 0;
+        // Segundo bucle: busca e imprime todos los embalses únicos dentro de esta cuenca
+        for (int k = 0; k < totalEmbalses; k++) {
+            // Solo consideramos los embalses que pertenecen a la cuenca actual
+            if (strcmp(embalses[k].cuenca, embalses[j].cuenca) == 0) {
 
-        for (int k = 0; k < j; k++) {
-            cuencaYaImpresa += strcmp(embalses[j].cuenca, embalses[k].cuenca) == 0;
-        }
+                int embalseYaImpreso = 0; // Contador/bandera para saber si este embalse ya fue mostrado
 
-        if (cuencaYaImpresa == 0) {
-            fprintf(pf, "\nCuenca: %s\n", embalses[j].cuenca);
-            fprintf(pf, "  Embalses:\n");
+                // Verifica si este embalse ya fue impreso antes dentro de la misma cuenca
+                for (int l = 0; l < k; l++) {
+                    embalseYaImpreso += (
+                        strcmp(embalses[k].cuenca, embalses[l].cuenca) == 0 && // misma cuenca
+                        strcmp(embalses[k].embalseNombre, embalses[l].embalseNombre) == 0 // mismo embalse
+                    );
+                }
 
-            for (int k = 0; k < totalEmbalses; k++) {
-                if (strcmp(embalses[k].cuenca, embalses[j].cuenca) == 0) {
-                    int embalseYaImpreso = 0;
-
-                    for (int l = 0; l < k; l++) {
-                        embalseYaImpreso += (
-                            strcmp(embalses[k].cuenca, embalses[l].cuenca) == 0 &&
-                            strcmp(embalses[k].embalseNombre, embalses[l].embalseNombre) == 0
-                        );
-                    }
-
-                    if (embalseYaImpreso == 0) {
-                        fprintf(pf, "  - %s\n", embalses[k].embalseNombre);
-                    }
+                // Si no se encontró antes (embalseYaImpreso == 0), lo imprimimos
+                if (embalseYaImpreso == 0) {
+                    printf("  - %s\n", embalses[k].embalseNombre); // Mostramos el nombre del embalse
                 }
             }
         }
     }
-
-    fclose(pf);
-    printf("\nSe ha generado el archivo Listado_Cuencas.txt correctamente.\n");
 }
 
 
