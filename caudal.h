@@ -31,6 +31,11 @@ typedef struct {
     DatosEmbalse datos;
 } Embalse;
 
+//Declaración de otras funciones
+
+void limpiarPantalla();
+void reemplazarGuionBajoPorEspacio(char *cadena);
+
 // Declaraciones de funciones relacionadas con el análisis de caudales
 void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses);
 void calcularMediaAnualPorCuenca(Embalse *embalses, int totalEmbalses);

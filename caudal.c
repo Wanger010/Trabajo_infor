@@ -14,6 +14,15 @@ void limpiarPantalla() {
     #endif
     }
 
+//Función para cambiar "_" por " "
+void reemplazarGuionBajoPorEspacio(char *cadena) {
+    for (int i = 0; cadena[i] != '\0'; i++) {
+        if (cadena[i] == '_') {
+            cadena[i] = ' ';
+        }
+    }
+}
+
 // Cuenta cuantas lineas tiene el archivo
 // sin contar el encabezado
 int contarLineas(const char *nombreArchivo) {
@@ -90,12 +99,18 @@ Embalse *leerDatos(const char *nombreArchivo, int totalEmbalses) {
         // Campo 1: Guardamos el nombre de la cuenca en la estructura Embalse
         strcpy(embalses[i].cuenca, temp);
 
+        //cambio de "_" a un " "
+        reemplazarGuionBajoPorEspacio(embalses[i].cuenca);
+
         // Campo 2: El siguiente campo es el nombre del embalse
         // Al poner NULL pasa a la sigueinte parte tras la coma
         // Esto se debe a que esta función cambia la ',' por '\0'=NULL.
         temp = strtok(NULL, ",");
         if (temp != NULL) {
             strcpy(embalses[i].embalseNombre, temp);  // Guardamos el nombre del embalse
+            //cambio de "_" a un " "
+            reemplazarGuionBajoPorEspacio(embalses[i].embalseNombre);
+
         } else {
             embalses[i].embalseNombre[0] = '\0';  // Si no hay nombre, asignamos una cadena vacía
         }
