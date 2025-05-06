@@ -149,48 +149,49 @@ Embalse *leerDatos(const char *nombreArchivo, int totalEmbalses) {
     return embalses;
 }
 
-printf("\nListado de cuencas y sus embalses:\n");
+void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses){
+    printf("\nListado de cuencas y sus embalses:\n");
 
-// Bucle principal que recorre todos los embalses leídos
-for (int j = 0; j < totalEmbalses; j++) {
+    // Bucle principal que recorre todos los embalses leídos
+    for (int j = 0; j < totalEmbalses; j++) {
 
-    int cuencaYaImpresa = 0; // Contador usado como bandera: 0 = cuenca nueva, !0 = ya fue impresa
+        int cuencaYaImpresa = 0; // Contador usado como bandera: 0 = cuenca nueva, !0 = ya fue impresa
 
-    // Verifica si la cuenca actual (embalses[j].cuenca) ya fue impresa antes
-    for (int k = 0; k < j; k++) {
-        // Comparamos la cuenca actual con las anteriores
-        cuencaYaImpresa += strcmp(embalses[j].cuenca, embalses[k].cuenca) == 0;
-    }
+        // Verifica si la cuenca actual (embalses[j].cuenca) ya fue impresa antes
+        for (int k = 0; k < j; k++) {
+            // Comparamos la cuenca actual con las anteriores
+            cuencaYaImpresa += strcmp(embalses[j].cuenca, embalses[k].cuenca) == 0;
+        }
 
-    // Si la cuenca no ha sido impresa aún (cuencaYaImpresa == 0), procedemos a mostrarla
-    if (cuencaYaImpresa == 0) {
-        printf("\nCuenca: %s\n", embalses[j].cuenca);
-        printf("  Embalses:\n");
+        // Si la cuenca no ha sido impresa aún (cuencaYaImpresa == 0), procedemos a mostrarla
+        if (cuencaYaImpresa == 0) {
+            printf("\nCuenca: %s\n", embalses[j].cuenca);
+            printf("  Embalses:\n");
 
-        // Segundo bucle: busca e imprime todos los embalses únicos dentro de esta cuenca
-        for (int k = 0; k < totalEmbalses; k++) {
-            // Solo consideramos los embalses que pertenecen a la cuenca actual
-            if (strcmp(embalses[k].cuenca, embalses[j].cuenca) == 0) {
+            // Segundo bucle: busca e imprime todos los embalses únicos dentro de esta cuenca
+            for (int k = 0; k < totalEmbalses; k++) {
+                // Solo consideramos los embalses que pertenecen a la cuenca actual
+                if (strcmp(embalses[k].cuenca, embalses[j].cuenca) == 0) {
 
-                int embalseYaImpreso = 0; // Contador/bandera para saber si este embalse ya fue mostrado
+                    int embalseYaImpreso = 0; // Contador/bandera para saber si este embalse ya fue mostrado
 
-                // Verifica si este embalse ya fue impreso antes dentro de la misma cuenca
-                for (int l = 0; l < k; l++) {
-                    embalseYaImpreso += (
-                        strcmp(embalses[k].cuenca, embalses[l].cuenca) == 0 && // misma cuenca
-                        strcmp(embalses[k].embalseNombre, embalses[l].embalseNombre) == 0 // mismo embalse
-                    );
-                }
+                    // Verifica si este embalse ya fue impreso antes dentro de la misma cuenca
+                    for (int l = 0; l < k; l++) {
+                        embalseYaImpreso += (
+                            strcmp(embalses[k].cuenca, embalses[l].cuenca) == 0 && // misma cuenca
+                            strcmp(embalses[k].embalseNombre, embalses[l].embalseNombre) == 0 // mismo embalse
+                        );
+                    }
 
-                // Si no se encontró antes (embalseYaImpreso == 0), lo imprimimos
-                if (embalseYaImpreso == 0) {
-                    printf("  - %s\n", embalses[k].embalseNombre); // Mostramos el nombre del embalse
+                    // Si no se encontró antes (embalseYaImpreso == 0), lo imprimimos
+                    if (embalseYaImpreso == 0) {
+                        printf("  - %s\n", embalses[k].embalseNombre); // Mostramos el nombre del embalse
+                    }
                 }
             }
         }
     }
 }
-
 
 //FUNCION PARA CONOCER MEDIA MESUAL DESDE 2012-2021
 void mostrarMediaMensualCaudales(Embalse *embalses, int totalEmbalses)
@@ -270,7 +271,7 @@ void mostrarTablaDeDatosMes(int anio, float mediacaudales)
 
 
 //FUNCION AGRICULTURA
-void mostrarTablaDeDatosAnio(int anio, floa  avenaocebada, float mediacaudales)
+void mostrarTablaDeDatosAnio(int anio, float avenaocebada, float mediacaudales)
 {
 	printf("+------------------------------+\n");
 	printf("| Anio | Avena | Media caudales |\n");
