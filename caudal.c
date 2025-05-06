@@ -181,12 +181,12 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) {
 		case 'i':
 		case 'I':
 			
-            char indus[2];
+            char indus[0];
             printf("¿Que tipo de cultivo industrial quieres comparar: Girasol(G) o Soja(S)?\n");
             printf("El cultivo industrial elegido es: \n");
             scanf(" %s", indus); 
 
-            switch(indus[2]){ 
+            switch(indus[0]){ 
                 case 'g':
                 case 'G':
                 float produccion_gira[] = {642.0, 1038.1, 953.0, 769.2, 772.2, 814.7, 950.3, 773.8, 883.1, 771.0};
