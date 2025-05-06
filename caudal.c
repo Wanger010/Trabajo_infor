@@ -199,10 +199,10 @@ void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
 
 
 //FUNCION AGRICULTURA
-void mostrarTablaDeDatos(int anio, floa  avena, float mediacaudales)
+void mostrarTablaDeDatosAnio(int anio, floa  avena, float mediacaudales)
 {
 	printf("+------------------------------+\n");
-	printf("| Año | Avena | Media caudales |\n");
+	printf("| Anio | Avena | Media caudales |\n");
 	printf("+------------------------------+\n");
 	printf("| %i | %.2f |      %.2f     |\");
 }		
