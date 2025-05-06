@@ -85,8 +85,33 @@ void calcularMediaAnualPorCuenca(Embalse *embalses, int totalEmbalses) {
 
 // Función 2: Mostrar la evolución del caudal de la cuenca entre un rango de años
 void evolucionCuenca(Embalse *embalses, int totalEmbalses) {
+    int anioInicio, anioFin;
+    char cuenca[100];
+    printf("\nIngrese el nombre de la cuenca: ");   
+    scanf(" %[^\n]", cuenca);  // Lee el nombre de la cuenca
+    printf("Ingrese el año de inicio (2012-2021): ");
+    scanf("%i", &anioInicio);  // Lee el año de inicio
+    printf("Ingrese el año de fin (2012-2021): ");
+    scanf("%i", &anioFin);  // Lee el año de fin
+    
+    // Verifica si los años están dentro del rango permitido
+    if(anioInicio < 2012 || anioFin > 2021 || anioInicio > anioFin) {
+        printf("Introduzca una opcion valida.\n");
+        return; 
+    } 
 
+    //Inicializamos un bucle para recorrer los embalses
+    for(int i = 0; i < totalEmbalses; i++) {
+        // Comparamos la cuenca introducida por el usuario con la cuenca del embalse actual
+        if (strcmp(embalses[i].cuenca, cuenca) == 0) { 
+            printf("\nEvolucion de %s entre los anios %d y %d:\n", embalses[i].embalseNombre, anioInicio, anioFin);
+            for (int j = anioInicio - 2012; j <= anioFin - 2012; j++) {
+                printf("Anio %d: %.2f Hm³\n", embalses[i].datos.anios[j], embalses[i].datos.caudales[j]);
+            }
+        }
     }
+
+}
 
 
 // Función 3: Comparar el caudal de dos cuencas en un año específico
