@@ -3,6 +3,167 @@
 #include <math.h>
 #include "caudal.h"
 
+//función para limpiar pantalla
+//la pongo por si se usa
+
+void limpiarPantalla() {
+    #ifdef _WIN32
+        system("cls");  // Windows
+    #else
+        system("clear");  // Unix/Linux/macOS
+    #endif
+    }
+
+//Función para cambiar "_" por " "
+void reemplazarGuionBajoPorEspacio(char *cadena) {
+    for (int i = 0; cadena[i] != '\0'; i++) {
+        if (cadena[i] == '_') {
+            cadena[i] = ' ';
+        }
+    }
+}
+
+// Cuenta cuantas lineas tiene el archivo
+// sin contar el encabezado
+int contarLineas(const char *nombreArchivo) {
+    FILE *archivo = fopen(nombreArchivo, "r");
+    //Comprobación de apertura, NULL=puntero vacío
+	if (archivo == NULL) {
+        printf("Error al abrir el archivo.\n");
+        return -1;
+    }
+
+    int totalEmbalses = 0;
+    char linea[1030];
+
+    // Saltar la primera linea (cabecera)
+    fgets(linea, sizeof(linea), archivo);
+
+    // Contar el resto de lineas
+    while (fgets(linea, sizeof(linea), archivo)) {
+        totalEmbalses++;
+    }
+    printf("Numero de lineas del csv: %d",totalEmbalses);
+    fclose(archivo);
+    return totalEmbalses;
+}
+
+// Función que lee el archivo CSV y carga los datos de embalses en memoria dinámica
+Embalse *leerDatos(const char *nombreArchivo, int totalEmbalses) {
+
+    // Primero, verificamos si el número total de embalses es válido
+    // Si totalEmbalses es menor o igual a cero, no hay nada que hacer, así que retornamos NULL
+    if (totalEmbalses <= 0) {
+        printf("No hay datos que leer (totalEmbalses <= 0).\n");
+        return NULL;  // Termina la función retornando NULL porque no hay datos
+    }
+
+    // Reservamos memoria suficiente para almacenar los embalses en un array dinámico
+    Embalse *embalses = (Embalse*) malloc(sizeof(Embalse) * totalEmbalses);
+    
+    // Comprobamos si la reserva de memoria fue exitosa. Si no, mostramos un mensaje de error
+    if (embalses == NULL) {
+        printf("No se pudo asignar memoria.\n");
+        return NULL;  // Terminamos la función y devolvemos NULL si no se pudo reservar memoria
+    }
+
+    // Ahora, intentamos abrir el archivo CSV para leer los datos
+    FILE *archivo = fopen(nombreArchivo, "r");
+    
+    // Verificamos si el archivo se abrió correctamente. Si no, liberamos la memoria reservada y retornamos NULL
+    if (archivo == NULL) {
+        printf("\nError al abrir el archivo.\n");
+        free(embalses);  // Liberamos la memoria previamente reservada
+        return NULL;  // Terminamos la función porque no pudimos abrir el archivo
+    }
+
+    // Declaramos un buffer para leer cada línea del archivo
+    char linea[1030];
+
+    // Leemos la primera línea del archivo (la cabecera), pero no la procesamos, solo la saltamos
+    // fgets acaba en \n o cuando el buffer se llena -> muy interesante para leer lineas
+    fgets(linea, sizeof(linea), archivo);
+
+    // Inicializamos un índice para empezar a llenar el array de embalses
+    int i = 0;
+
+    // Ahora, leemos cada línea del archivo hasta llegar al límite de embalses 
+    // o hasta que se acaben las líneas, fgets ya es una función lógica en si
+    // misma pues devuelve un NULL=False o un valor=True
+    while (fgets(linea, sizeof(linea), archivo) && i < totalEmbalses) {
+        
+        // Usamos strtok para dividir la línea en campos separados por comas
+        // El primer campo es el nombre de la cuenca
+        char *temp = strtok(linea, ",");
+
+        // Campo 1: Guardamos el nombre de la cuenca en la estructura Embalse
+        strcpy(embalses[i].cuenca, temp);
+
+        //cambio de "_" a un " "
+        reemplazarGuionBajoPorEspacio(embalses[i].cuenca);
+
+        // Campo 2: El siguiente campo es el nombre del embalse
+        // Al poner NULL pasa a la sigueinte parte tras la coma
+        // Esto se debe a que esta función cambia la ',' por '\0'=NULL.
+        temp = strtok(NULL, ",");
+        if (temp != NULL) {
+            strcpy(embalses[i].embalseNombre, temp);  // Guardamos el nombre del embalse
+            //cambio de "_" a un " "
+            reemplazarGuionBajoPorEspacio(embalses[i].embalseNombre);
+
+        } else {
+            embalses[i].embalseNombre[0] = '\0';  // Si no hay nombre, asignamos una cadena vacía
+        }
+
+        // Campo 3: El siguiente campo es el mes (leemos si está presente)
+        temp = strtok(NULL, ",");
+        if (temp != NULL) {
+            strcpy(embalses[i].mes, temp);  // Guardamos el mes
+        } else {
+            embalses[i].mes[0] = '\0';  // Si no hay mes, asignamos una cadena vacía
+        }
+
+        // A continuación, leemos los caudales para los años de 2012 a 2021
+        // Si algún campo no contiene un valor válido, asignamos el valor 0 por defecto
+        for (int j = 0; j < NUM_ANIOS; j++) {
+            temp = strtok(NULL, ",");  // Obtenemos el siguiente campo que debería ser el caudal
+
+            if (temp != NULL) {
+                embalses[i].datos.caudales[j] = atof(temp);  // Convertimos el caudal (cadena) a un float
+            } else {
+                embalses[i].datos.caudales[j] = 0;  // Si no hay valor, asignamos 0
+            }
+
+            // Asignamos el año correspondiente a este caudal
+            embalses[i].datos.anios[j] = 2012 + j;
+        }
+
+        // Aumentamos el índice para procesar el siguiente embalse
+        i++;
+    }
+
+    // Cerramos el archivo después de haber leído todos los datos
+    fclose(archivo);
+
+    // Finalmente, volvemos el puntero a la memoria reservada que contiene todos los datos de los embalses
+    return embalses;
+}
+
+
+//FUNCION AGRICULTURA
+void mostrarTablaDeDatos(int anio_inicial, int anio_final, int *produccion, Embalse *embalses)
+{
+	printf("+------------------------------+\n");
+	printf("| Año | Avena | Media caudales |\n");
+	printf("+------------------------------+\n");
+
+	for(int i = anio_inicial; i <= anio_final; i++)
+	{
+        printf("| %i |  %.2f | %.2f |\n", i, produccion[i], embalses[i].datos.caudales[0]);
+	}
+	printf("+------------------------------+\n");
+}
+
 
 //funcion para calcular el coeficiente de correlacion entre la capacidad y la produccion agricola
 //utilizado solo dentro de este mismo archivo, no se incluye en la libreria
@@ -53,12 +214,51 @@ void calculoCoefcorrelacion(float *produccion, char *mediaAnual, float mediaTota
     }
 }
 
-
 //Función para mostrar cuencas y embalses (principal)
-//Actualmente en el main, se podría incluir en libreria,
-//no implementado
 void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
+// Imprimir en pantalla la lista de cuencas
+// y sus embalses (sin repetir)
+printf("\nListado de cuencas y sus embalses:\n");
 
+// Bucle principal que recorre todos los embalses leídos
+for (int j = 0; j < totalEmbalses; j++) {
+
+    int cuencaYaImpresa = 0; // Contador usado como bandera: 0 = cuenca nueva, !0 = ya fue impresa
+
+    // Verifica si la cuenca actual (embalses[j].cuenca) ya fue impresa antes
+    for (int k = 0; k < j; k++) {
+        // Comparamos la cuenca actual con las anteriores
+        cuencaYaImpresa += strcmp(embalses[j].cuenca, embalses[k].cuenca) == 0;
+    }
+
+    // Si la cuenca no ha sido impresa aún (cuencaYaImpresa == 0), procedemos a mostrarla
+    if (cuencaYaImpresa == 0) {
+        printf("\nCuenca: %s\n", embalses[j].cuenca);
+        printf("  Embalses:\n");
+
+        // Segundo bucle: busca e imprime todos los embalses únicos dentro de esta cuenca
+        for (int k = 0; k < totalEmbalses; k++) {
+            // Solo consideramos los embalses que pertenecen a la cuenca actual
+            if (strcmp(embalses[k].cuenca, embalses[j].cuenca) == 0) {
+
+                int embalseYaImpreso = 0; // Contador/bandera para saber si este embalse ya fue mostrado
+
+                // Verifica si este embalse ya fue impreso antes dentro de la misma cuenca
+                for (int l = 0; l < k; l++) {
+                    embalseYaImpreso += (
+                        strcmp(embalses[k].cuenca, embalses[l].cuenca) == 0 && // misma cuenca
+                        strcmp(embalses[k].embalseNombre, embalses[l].embalseNombre) == 0 // mismo embalse
+                    );
+                }
+
+                // Si no se encontró antes (embalseYaImpreso == 0), lo imprimimos
+                if (embalseYaImpreso == 0) {
+                    printf("  - %s\n", embalses[k].embalseNombre); // Mostramos el nombre del embalse
+                }
+            }
+        }
+    }
+}
 }
 
 // Función 1: Calcular la media anual de caudal para una cuenca específica
@@ -85,8 +285,33 @@ void calcularMediaAnualPorCuenca(Embalse *embalses, int totalEmbalses) {
 
 // Función 2: Mostrar la evolución del caudal de la cuenca entre un rango de años
 void evolucionCuenca(Embalse *embalses, int totalEmbalses) {
+    int anioInicio, anioFin;
+    char cuenca[100];
+    printf("\nIngrese el nombre de la cuenca: ");   
+    scanf(" %[^\n]", cuenca);  // Lee el nombre de la cuenca
+    printf("Ingrese el año de inicio (2012-2021): ");
+    scanf("%i", &anioInicio);  // Lee el año de inicio
+    printf("Ingrese el año de fin (2012-2021): ");
+    scanf("%i", &anioFin);  // Lee el año de fin
+    
+    // Verifica si los años están dentro del rango permitido
+    if(anioInicio < 2012 || anioFin > 2021 || anioInicio > anioFin) {
+        printf("Introduzca una opcion valida.\n");
+        return; 
+    } 
 
+    //Inicializamos un bucle para recorrer los embalses
+    for(int i = 0; i < totalEmbalses; i++) {
+        // Comparamos la cuenca introducida por el usuario con la cuenca del embalse actual
+        if (strcmp(embalses[i].cuenca, cuenca) == 0) { 
+            printf("\nEvolucion de %s entre los anios %d y %d:\n", embalses[i].embalseNombre, anioInicio, anioFin);
+            for (int j = anioInicio - 2012; j <= anioFin - 2012; j++) {
+                printf("Anio %d: %.2f Hm³\n", embalses[i].datos.anios[j], embalses[i].datos.caudales[j]);
+            }
+        }
     }
+
+}
 
 
 // Función 3: Comparar el caudal de dos cuencas en un año específico
@@ -137,12 +362,15 @@ void compararCuencas(Embalse *embalses, int totalEmbalses) {
         printf("Posible error en la escritura del caudal!!!\n");
     }
 }
- 
 
 
-// Función 4: Comparar el caudal con la producción agrícola (pendiente de implementación)
+  
+=======
+//FUNCION AGRICULTURA
+// Función 6: Comparar el caudal con la producción agrícola (pendiente de implementación)
 void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) 
 {  
+
     float mediaTotal=0;
     char mediaAnual[NUM_ANIOS];
     for(int j=0; j<NUM_ANIOS; j++){
@@ -184,60 +412,60 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
         
         case 'h':
 		case 'H':
-        int mes_elegido;
-        printf("¿Del embalse %s que mes quieres comparar a lo largo de los años?\n",embalses[i].embalseNombre);//preguntamos el mes para asi comparar por ejemplo el mes de enero del 2012 al 2021 en ese embalse y asociarlo a la produccion
-        scanf("%i",&mes_elegido);
-        if (mes_elegido < 1 || mes_elegido > 12)
-        {
-            printf("Mes no valido. Debe ser entre 1 y 12.\n");
-            return;
-        }
-        
-        for (int i=0; i < totalEmbalses; i++)
-        {
-            if( strcmp(embalses[i].mes, mes_elegido) == 0)
+            int mes_elegido;
+            printf("¿Del embalse %s que mes quieres comparar a lo largo de los años?\n",embalses[i].embalseNombre);//preguntamos el mes para asi comparar por ejemplo el mes de enero del 2012 al 2021 en ese embalse y asociarlo a la produccion
+            scanf("%i",&mes_elegido);
+            if (mes_elegido < 1 || mes_elegido > 12)
             {
-                printf("El mes elegido para comparar ha sido: %s\n", embalses[i].mes);
+                printf("Mes no valido. Debe ser entre 1 y 12.\n");
+                return;
             }
-        }
-        // Datos
+        
+            for (int i=0; i < totalEmbalses; i++)
+            {
+                if( strcmp(embalses[i].mes, mes_elegido) == 0)
+                {
+                    printf("El mes elegido para comparar ha sido: %s\n", embalses[i].mes);
+                }
+            }
+            // Datos
     
-        float valores[] = {13.148, 12.973, 13.283, 14.626, 14.772,
+            float valores[] = {13.148, 12.973, 13.283, 14.626, 14.772,
                     15.367, 15.545, 14.992, 15.880, 15.180};//datos de produccion de hortalizas en el mes elegido durantes los años establecidos
 
-        // Calcular valor máximo
-        float max_valor = valores[0];
-        for (int i = 1; i < 10; i++) 
-        {
-            if (valores[i] > max_valor)
+            // Calcular valor máximo
+            float max_valor = valores[0];
+            for (int i = 1; i < 10; i++) 
             {
-                max_valor = valores[i];
-            }
+                if (valores[i] > max_valor)
+                {
+                    max_valor = valores[i];
+                }
             
-        }
-
-        // Encabezado
-        printf(" Grafica de Barras :\n");
-        for (int i = 0; i < 10; i++) 
-        {
-            // Escalar a 90 caracteres
-            float longitud_barra = ((valores[i] / max_valor) * 90);
-
-            // Mostrar años
-            printf("%d | ", anios[i]);
-
-            // Dibujar la barra con '#'
-            for (int j = 0; j < longitud_barra; j++)
-            {
-                putchar('#');
             }
 
-            // Mostrar el valor exacto
-            printf(" %.3f\n", valores[i]);
-        }   
+            // Encabezado
+            printf(" Grafica de Barras :\n");
+            for (int i = 0; i < 10; i++) 
+            {
+                // Escalar a 90 caracteres
+                float longitud_barra = ((valores[i] / max_valor) * 90);
+
+                // Mostrar años
+                printf("%d | ", anios[i]);
+
+                // Dibujar la barra con '#'
+                for (int j = 0; j < longitud_barra; j++)
+                {
+                    putchar('#');
+                }
+
+                // Mostrar el valor exacto
+                printf(" %.3f\n", valores[i]);
+            }   
         
             
-        printf("El caudal medio de la cuenca %s en el mes %s es: %.2f\n", embalses[i].cuenca, embalses[i].mes, embalses[i].datos.caudales[mes_elegido-1]);
+            printf("El caudal medio de la cuenca %s en el mes %s es: %.2f\n", embalses[i].cuenca, embalses[i].mes, embalses[i].datos.caudales[mes_elegido-1]);
 			
 		
 			break;
@@ -245,144 +473,164 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 		case 'i':
 		case 'I':
 			
-            char indus[2];
+            char indus[0];
             printf("¿Que tipo de cultivo industrial quieres comparar: Girasol(G) o Soja(S)?\n");
             printf("El cultivo industrial elegido es: \n");
             scanf(" %s", indus); 
 
+
             switch(indus[2])
             { 
-                case 'g':
-                case 'G':
-                float produccion_gira[] = {642.0, 1038.1, 953.0, 769.2, 772.2, 814.7, 950.3, 773.8, 883.1, 771.0};
-                calculoCoefcorrelacion(produccion_gira, mediaAnual, mediaTotal);
-                //se procede a hacer la grafica de barras con los datos de produccion de girasol
-                // Calcular valor máximo
-                float max_valor = produccion_gira[0];
-                for (int i = 1; i < 10; i++) 
-                {
-                    if (produccion_gira[i] > max_valor)
-                    {
-                        max_valor = produccion_gira[i];
-                    }   
-                }
 
-                // Encabezado
-                printf("\nGrafica de Barras :\n\n");
+                switch(indus[0])
+                { 
 
-                for (int i = 0; i < 10; i++) 
-	            {
-                    // Escalar a 90 caracteres
-                    float longitud_barra = ((produccion_gira[i] / max_valor) * 100);
+                    case 'g':
+                    case 'G':
+                        float produccion_gira[] = {642.0, 1038.1, 953.0, 769.2, 772.2, 814.7, 950.3, 773.8, 883.1, 771.0};
+                        calculoCoefcorrelacion(produccion_gira, mediaAnual, mediaTotal);
+                        //se procede a hacer la grafica de barras con los datos de produccion de girasol
+                        // Calcular valor máximo
+                        float max_valor = produccion_gira[0];
+                        for (int i = 1; i < 10; i++) 
+                        {
+                            if (produccion_gira[i] > max_valor)
+                            {
+                                max_valor = produccion_gira[i];
+                            }   
+                        }
 
-                    // Mostrar años
-                    printf("%d | ", anios[i]);
+                        // Encabezado
+                        printf("\nGrafica de Barras :\n\n");
 
-                    // Dibujar la barra con '#'
-                    for (int j = 0; j < longitud_barra; j++)
-		            {
-                        putchar('#');
-                    }
+                        for (int i = 0; i < 10; i++) 
+	                    {
+                            // Escalar a 90 caracteres
+                            float longitud_barra = ((produccion_gira[i] / max_valor) * 100);
 
-                    // Mostrar el valor exacto
-                    printf(" %.3f\n", produccion_gira[i]);
-                }
+                            // Mostrar años
+                            printf("%d | ", anios[i]);
+
+                            // Dibujar la barra con '#'
+                            for (int j = 0; j < longitud_barra; j++)
+		                    {
+                                putchar('#');
+                            }
+
+                            // Mostrar el valor exacto
+                            printf(" %.3f\n", produccion_gira[i]);
+                        }
 
        
-                break; 
+                        break; 
 
-                case 's':
-                case 'S':
-                float produccion_soja[] = {1333, 1390, 2650, 4106, 2869, 4599, 4249, 5053, 4515, 4769};  
-                calculoCoefcorrelacion(produccion_soja, mediaAnual, mediaTotal);
-                //se procede a hacer la grafica de barras con los datos de produccion de soja
-                // Calcular valor máximo
-                float max_valor = produccion_soja[0];
-                for (int i = 1; i < 10; i++)
-                {
-                    if (produccion_soja[i] > max_valor)
-                    {
-                        max_valor = produccion_soja[i];
-                    }   
+                    case 's':
+                    case 'S':
+                        float produccion_soja[] = {1333, 1390, 2650, 4106, 2869, 4599, 4249, 5053, 4515, 4769};  
+                        calculoCoefcorrelacion(produccion_soja, mediaAnual, mediaTotal);
+                        //se procede a hacer la grafica de barras con los datos de produccion de soja
+                        // Calcular valor máximo
+                        float max_valor = produccion_soja[0];
+                        for (int i = 1; i < 10; i++)
+                        {
+                            if (produccion_soja[i] > max_valor)
+                            {
+                                max_valor = produccion_soja[i];
+                            }   
+                        }
+                        // Encabezado
+                        printf("\nGrafica de Barras :\n\n");
+                        for (int i = 0; i < 10; i++) 
+	                    {
+                            // Escalar a 90 caracteres
+                            float longitud_barra = ((produccion_soja[i] / max_valor) * 100);
+
+                            // Mostrar años
+                            printf("%d | ", anios[i]);
+
+                            // Dibujar la barra con '#'
+                            for (int j = 0; j < longitud_barra; j++)
+		                    {
+                                putchar('#');
+                            }
+                            // Mostrar el valor exacto
+                            printf(" %.3f\n", produccion_soja[i]);
+                        }
+                        break;
                 }
-                // Encabezado
-                printf("\nGrafica de Barras :\n\n");
-                for (int i = 0; i < 10; i++) 
-	            {
-                    // Escalar a 90 caracteres
-                    float longitud_barra = ((produccion_soja[i] / max_valor) * 100);
+            }   
+			
 
-                    // Mostrar años
-                    printf("%d | ", anios[i]);
+		
+		case 'g':
+		case 'G':
+			
+			char grano[0];
+			printf("¿Que tipo quieres comparar: avena(A) o cebada(C)?\n");
+			printf("El grano elegido es:\t");
+			scanf("%c", grano);
 
-                    // Dibujar la barra con '#'
-                    for (int j = 0; j < longitud_barra; j++)
-		            {
-                        putchar('#');
+			switch(grano[0])
+			{
+				case 'A':
+					char opc[0]; 	
+					printf("Ahora tienes que decidirte si quieres saber la avena producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
+					printf("Deseas saber: \t");
+					scanf("%s", &opc);
+	
+					switch(opc[0])
+					{
+						case 'M':
+		
+						int mes;
+						printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2), etc:  \t");
+						scanf("%i", &mes);
+
+						case 'Y':
+
+						int anio_inicial, anio_final;
+						printf("Bien, necesito que me digas el anio inicial:\t");
+						scanf("%d", &anio_inicial);
+						printf("Ahora dime el anio final:\t");
+						scanf("%d", &anio_final);
+
+						FILE *archivo= fopen("dataset.csv","r");
+
+						if(archivo == NULL)
+						{
+							printf("Error al abrir el archivo");
+                            return 1;
+                        }
                     }
-                    // Mostrar el valor exacto
-                    printf(" %.3f\n", produccion_soja[i]);
-                }
-                break;
+						
+				
+				case 'C':
+					
+					char opci[0]; 	
+					printf("Ahora tienes que decidirte si quieres saber la cebada producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
+					printf("Deseas saber: \t");
+					scanf("%s", &opc);
+	
+					switch(opci[0])
+					{
+						case 'M':
+	
+						    int meses[12]={1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, mes;
+						    printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2), etc:  \t");
+						    scanf("%i", &mes);
+                            int anio;
+                            break;
+
+
+						
+                    }
+
+
+        
             }
-			break;
-            
-        case 'g':
-        case 'G':
-                
-            char grano[0];
-            printf("¿Que tipo quieres comparar: avena(A) o cebada(C)?\n");
-            printf("El grano elegido es:\t");
-            scanf("%c", grano);
-    
-            switch(grano[0])
-            {
-                case 'A':
-                    char opc[0]; 	
-                    printf("Ahora tienes que decidirte si quieres saber la avena producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
-                    printf("Deseas saber: \t");
-                    scanf("%s", &opc);
-        
-                    switch(opc[0])
-                    {
-                        case 'M':
-            
-                            int mes;
-                            printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2), etc:  \t");
-                            scanf("%i", &mes);
-    
-                        case 'Y':
-                    }
-                    
-                case 'C':
-                        
-                    char opci[0]; 	
-                    printf("Ahora tienes que decidirte si quieres saber la cebada producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
-                    printf("Deseas saber: \t");
-                    scanf("%s", &opc);
-        
-                    switch(opci[0])
-                    {
-                        case 'M':
-        
-                            int meses[12]={1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, mes;
-                            printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2), etc:  \t");
-                            scanf("%i", &mes);
-    
-                            
-    
-    
-                        case 'Y':
-    
-                            int anio
-                    }
-            }	
-            break;    
 
-
-    }
-
-        
-}
+						
+	}
+}			
 
     
