@@ -196,17 +196,91 @@ void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
         }
     }
     }
+void mostrarMediaMensualCaudales(Embalse *embales, int totalEmbalses)
+{
+	int meses[13]={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, mes_usuario;
+	printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2) y asi seguidamente:  \t");
+	scanf("%i", &mes_usuario);
+	
+	
+	FILE *archivo = fopen("dataset.csv", "r");
+	if(archivo == NULL)
+	{
+		printf("Error al abrir el archivo\n");
+	}
+	
+	
+	int columna = 0, columna_objetivo;
+	int mes2 = 0;
+	char linea[1030];
+	fgets(linea, sizeof(linea), archivo);
+	char *tok = strtok(linea, ",");
+	while(tok != NULL)
+	{
+		if(strcmp(tok, "mes") == 0)
+		{
+			columna_objetivo = columna;
+			break;
+		}
+	tok = strtok(NULL, ",");
+	columna++;	
+	}
+	
+	
+	float suma_caudales = 0.0, valorcaudal = 0.0;
+	int columnas;
+	while(fgets(linea, sizeof(linea), archivo))
+	{
+		columnas = 1;
+		tok = strtok(linea, ",");
+		while(tok != NULL)
+		{
+			if(mes_usuario == atoi(tok))
+			{
+				while(columnas > columna_objetivo && columnas < 14)
+				{
+					tok = strtok(NULL, ",");
+					float valorcaudal = atof(tok);
+					suma_caudales += valorcaudal;
+					columnas++;
+					if(columnas == 13)
+					{
+						columnas = 0;
+						break;
+					}
+				}
+			}
+			tok = strtok(NULL, ",");
+			columnas++;
+		}
+	}
+	fclose(archivo);
+	
+	float media_caudales = suma_caudales / (totalEmbalses / 12);
+	mostrarTablaDeDatosMes(mes_usuario, media_caudales);
+}
+
+
 
 
 //FUNCION AGRICULTURA
-void mostrarTablaDeDatosAnio(int anio, floa  avena, float mediacaudales)
+void mostrarTablaDeDatosAnio(int anio, floa  avenaocebada, float mediacaudales)
 {
 	printf("+------------------------------+\n");
 	printf("| Anio | Avena | Media caudales |\n");
 	printf("+------------------------------+\n");
-	printf("| %i | %.2f |      %.2f     |\");
-}		
+	printf("| %i | %.2f |      %.2f     |\n, anio, aveonaocebada, mediacaudales");
+	printf("+------------------------------+\n");
+}
 
+void mostrarTablaDeDatosMes(int anio, float mediacaudales)
+{
+	printf("+--------------------------------+\n");
+	printf("| Mes | Media caudales 2012-2021 |\n");
+	printf("+--------------------------------+\n");
+	printf("|  %i  |       %.2f        |\n", anio, mediacaudales);
+	printf("+--------------------------------+\n");
+}
 
 //funcion para calcular el coeficiente de correlacion entre la capacidad y la produccion agricola
 //utilizado solo dentro de este mismo archivo, no se incluye en la libreria
