@@ -38,7 +38,7 @@ int main() {
         return 1;
     }
 
-    mostrarCuencasYEmbalses(Embalse *embalses, totalEmbalses)
+    mostrarCuencasYEmbalses(Embalse *embalses, totalEmbalses);
 
 //switch de opciones.
     int opcion;
