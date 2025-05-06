@@ -13,9 +13,9 @@ typedef struct {
     // Array de enteros que guarda los años correspondientes a los datos de caudal
     // Por ejemplo: [2012, 2013, 2014, ..., 2021]
     int anios[NUM_ANIOS];
-    // Array de números decimales (float) que guarda los caudales en Hm³ para cada mes
+    // Array de números decimales (float) que guarda los caudales en Hm³ para cada año
     // Por ejemplo: [54.2, 60.1, 48.7, ..., 70.5]
-    float caudales[NUM_MESES];
+    float caudales[NUM_ANIOS];
 } DatosEmbalse;
 
 // Definición de una estructura llamada 'Embalse' que agrupa información sobre un embalse
