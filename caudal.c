@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h> 
 #include <math.h>
+#include <stdlib.h>
 #include "caudal.h"
 
 //función para limpiar pantalla
@@ -150,8 +151,6 @@ Embalse *leerDatos(const char *nombreArchivo, int totalEmbalses) {
 }
 
 
-<<<<<<< HEAD
-=======
 //Función para mostrar cuencas y embalses (principal)
 void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
     // Imprimir en pantalla la lista de cuencas
@@ -200,7 +199,6 @@ void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
     }
 
 
->>>>>>> 8ebcbc0a25a4385b920ce9947c1b26a7a1d7873d
 //FUNCION AGRICULTURA
 void mostrarTablaDeDatos(int anio_inicial, int anio_final, int *produccion, Embalse *embalses)
 {
