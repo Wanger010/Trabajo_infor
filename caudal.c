@@ -150,7 +150,6 @@ Embalse *leerDatos(const char *nombreArchivo, int totalEmbalses) {
     return embalses;
 }
 
-
 //Función para mostrar cuencas y embalses (principal)
 void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
     // Imprimir en pantalla la lista de cuencas
