@@ -407,6 +407,60 @@ void compararCuencas(Embalse *embalses, int totalEmbalses) {
 }
 
 
+// Función 4: Comparar el caudal de dos embalses en un año específico
+void compararEmbalses(Embalse *embalses, int totalEmbalses) {
+    char embalseA[100], embalseB[100];
+    int anio;
+    printf("\nIngrese el nombre del primer embalse: ");
+    scanf(" %[^\n]", embalseA);
+    printf("Ingrese el nombre del segundo embalse: ");
+    scanf(" %[^\n]", embalseB);
+
+    printf("Ingrese el anio a comparar (2012-2021): ");
+    scanf("%d", &anio);  // Lee el año
+
+    // Verifica si el año está dentro del rango permitido
+    if (anio < 2012 || anio > 2021) {
+        printf("Anio fuera de rango.\n");
+        return;
+    }
+
+    // Inicializa las variables para acumular los caudales
+    float sumaA = 0, sumaB = 0;
+
+    // Recorre los embalses y acumula los caudales de ambos embalses en el año solicitado
+    for (int i = 0; i < totalEmbalses; i++) {
+        if (embalses[i].datos.anios[anio - 2012] == anio) {  // Accede directamente al año
+            if (strcmp(embalses[i].embalseNombre, embalseA) == 0) {
+                sumaA += embalses[i].datos.caudales[anio - 2012];  // Suma caudales de la embalse A
+            } else if (strcmp(embalses[i].embalseNombre, embalseB) == 0) {
+                sumaB += embalses[i].datos.caudales[anio - 2012];  // Suma caudales del embalse B
+            }
+        }
+    }
+
+    // Muestra la comparación de caudales entre las dos cuencas
+    printf("\n--> Comparacion de caudal en el anio %d:\n", anio);
+    //-20, el - alinea a la izq. el texto y 20 son los espacios reservados
+    printf("%-20s: %.2f\n", embalseA, sumaA);
+    printf("%-20s: %.2f\n", embalseB, sumaB);
+
+    // Compara los caudales y muestra cuál embalse tuvo el mayor caudal
+    if(sumaA == 0 || sumaB == 0){
+		printf("Da 0 la suma de uno de los caudales, posible problema de escritura");
+	} else if (sumaA > sumaB) {
+        printf("La cuenca '%s' tuvo mayor volumen de agua embalsada.\n", embalseA);
+    } else if (sumaB > sumaA) {
+        printf("La cuenca '%s' tuvo mayor volumen de agua embalsada.\n", embalseB);
+    } else if (sumaA == sumaB){		
+		printf("Ambos embalses tuvieron el mismo volumen de agua embalsada.\n");
+        printf("Posible error en la escritura de las cuencas!!!\n");
+	} else {
+        printf("Posible error en la escritura de alguna cuenca!!!\n");
+    }
+}
+
+
  
 //FUNCION AGRICULTURA
 // Función 6: Comparar el caudal con la producción agrícola (pendiente de implementación)
