@@ -5,12 +5,13 @@
 
 // Menu principal
 void mostrarMenu() {
-    printf("\n----------- ANALISIS DE CAUDALES EN ESPANA ----------\n");
-    printf("\n----- ANIOS 2012-2021. TODOS LOS MESES INCLUIDOS-----\n");
-    printf("\n Hay que introducir el nombre ¡TAL CUAL! viene dado :D \n");
-    printf("\n              Caudales medidos en hm^3!              \n");
-    printf("\n1. Calcular medias anuales por cuenca \n");
-    printf("2. Ver evolucion de una cuenca en un rango de anios\n");
+    printf("\n            \033[44mANALISIS DE CAUDALES EN ESPANA\033[0m           \n");
+    printf("\n\033[34m      ANIOS 2012-2021. TODOS LOS MESES INCLUIDOS     \033[0m\n");
+    printf("\n\033[33m Hay que introducir el nombre tal cual viene dado :D \033[0m\n");
+    printf("\n\033[33m              Caudales medidos en hm^3!              \033[0m\n");
+    printf("\n1. Calcular medias anuales por cuenca y mes\n");
+    printf("2. Ver evolucion de una cuenca\n");
+    printf("3. Comparar dos cuencas en un anio\n");
     printf("4. Comparar dos embalses en un anio\n");
     printf("5. Ver meses del caudal de un embalse de un anio concreto\n");
     printf("6. Ver relacion caudal-produccion agricola\n");
