@@ -14,8 +14,9 @@ void mostrarMenu() {
     printf("3. Comparar dos cuencas en un anio\n");
     printf("4. Comparar dos embalses en un anio\n");
     printf("5. Ver meses del caudal de un embalse de un anio concreto\n");
-    printf("6. Ver relacion caudal-produccion agricola\n");
-    printf("7. Salir\n");
+    printf("6. Ver media mensual de todos los caudales 2012-2021\n");	
+    printf("7. Ver relacion caudal-produccion agricola\n");
+    printf("8. Salir\n");
     printf("------------------------------------------\n");
     printf("Ingrese su opcion: ");
 }
@@ -41,12 +42,7 @@ int main() {
 
 //switch de opciones.
     int opcion;
-    do {
-
-        mostrarMenu();
-        scanf("%d", &opcion);
-
-        switch (opcion) {
+   switch (opcion) {
             case 0:
                 printf("Imprimiendo lista...");
                 mostrarCuencasYEmbalses(embalses, totalEmbalses);
@@ -71,11 +67,15 @@ int main() {
                 datosConcretos(embalses, totalEmbalses);
                 break;
             case 6:
-                printf("Funcion en desarrollo: caudal vs agricultura.\n");
+                printf("Media mensual 2012-2021\n");
+		mostrarMediaMensualCaudales(Embalse *embalses, totalEmbalses);
                 break;
             case 7:
-                printf("Saliendo del programa...\n");
+                printf("Relacion caudal-produccion agricola\n");
                 break;
+	    case 8:
+		printf("Salir\n");
+		break;
             default:
                 printf("Opcion no valida. Intente de nuevo.\n");
                 break;
