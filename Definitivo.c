@@ -45,7 +45,7 @@ int main() {
    switch (opcion) {
             case 0:
                 printf("Imprimiendo lista...");
-                mostrarCuencasYEmbalses(embalses, totalEmbalses);
+                guardarCuencasYEmbalses(embalses, totalEmbalses);
                 break;
             case 1:
                 printf("media anual caudal de cuenca.\n");
