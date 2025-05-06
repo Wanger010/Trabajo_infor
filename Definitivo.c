@@ -80,7 +80,7 @@ int main() {
                 printf("Opcion no valida. Intente de nuevo.\n");
                 break;
         }
-    } while (opcion != 5); //estructura do while para que el menú se 
+    } while (opcion != 7); //estructura do while para que el menú se 
                            //repita hasta que el usuario elija salir
     free(embalses);
     return 0;
