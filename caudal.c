@@ -151,18 +151,20 @@ Embalse *leerDatos(const char *nombreArchivo, int totalEmbalses) {
 
 
 //FUNCION AGRICULTURA
-void mostrarTablaDeDatos(int ano_inicial, int ano_final, int produccion_avena)
+void mostrarTablaDeDatos(int anio_inicial, int anio_final, int *produccion, Embalse *embalses)
 {
 	printf("+------------------------------+\n");
 	printf("| Año | Avena | Media caudales |\n");
 	printf("+------------------------------+\n");
 
-	for(int i = anio_inicial; i <= anio_final, i++)
+	for(int i = anio_inicial; i <= anio_final; i++)
 	{
-		printf("| %i |  %.2f | %.2f |\n", i, avena[i], embalses[i].datos.cuenca);
+        printf("| %i |  %.2f | %.2f |\n", i, produccion[i], embalses[i].datos.caudales[0]);
 	}
 	printf("+------------------------------+\n");
 }
+
+
 //funcion para calcular el coeficiente de correlacion entre la capacidad y la produccion agricola
 //utilizado solo dentro de este mismo archivo, no se incluye en la libreria
 void calculoCoefcorrelacion(float *produccion, char *mediaAnual, float mediaTotal) {
@@ -460,9 +462,9 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) {
 						if(archivo == NULL)
 						{
 							printf("Error al abrir el archivo");
-							return 1;
-						{
-					}
+                            return 1;
+                        }
+                    }
 						
 				
 				case 'C':
@@ -485,7 +487,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) {
 
 						case 'Y':
 
-						int anio
+						int anio;
 					}
 			}	
 			break;
