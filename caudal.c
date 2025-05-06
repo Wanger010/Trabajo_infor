@@ -529,8 +529,8 @@ void compararEmbalses(Embalse *embalses, int totalEmbalses) {
     printf("%-20s: %.2f\n", embalseB, sumaB);
 
     // Compara los caudales y muestra cuál embalse tuvo el mayor caudal
-    if(sumaA == 0 || sumaB == 0){
-		printf("Da 0 la suma de uno de los caudales, posible problema de escritura");
+    if(sumaA == 0 && sumaB == 0){
+		printf("Da 0 la suma de los caudales, posible problema de escritura");
 	} else if (sumaA > sumaB) {
         printf("La cuenca '%s' tuvo mayor volumen de agua embalsada.\n", embalseA);
     } else if (sumaB > sumaA) {
