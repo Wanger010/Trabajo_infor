@@ -5,7 +5,6 @@
 #include "caudal.h"
 
 //función para limpiar pantalla
-//la pongo por si se usa
 
 void limpiarPantalla() {
     #ifdef _WIN32
@@ -150,52 +149,49 @@ Embalse *leerDatos(const char *nombreArchivo, int totalEmbalses) {
     return embalses;
 }
 
-//Función para mostrar cuencas y embalses (principal)
+// Función para guardar cuencas y embalses en un archivo de texto
 void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
-    // Imprimir en pantalla la lista de cuencas
-    // y sus embalses (sin repetir)
-    printf("\nListado de cuencas y sus embalses:\n");
-    
-    // Bucle principal que recorre todos los embalses leídos
+    FILE *pf = fopen("Listado_Cuencas.txt", "w");
+    if (pf == NULL) {
+        printf("Error al crear el archivo Listado_Cuencas.txt\n");
+        return;
+    }
+
+    fprintf(pf, "Listado de cuencas y sus embalses:\n");
+
     for (int j = 0; j < totalEmbalses; j++) {
-    
-        int cuencaYaImpresa = 0; // Contador usado como bandera: 0 = cuenca nueva, !0 = ya fue impresa
-    
-        // Verifica si la cuenca actual (embalses[j].cuenca) ya fue impresa antes
+        int cuencaYaImpresa = 0;
+
         for (int k = 0; k < j; k++) {
-            // Comparamos la cuenca actual con las anteriores
             cuencaYaImpresa += strcmp(embalses[j].cuenca, embalses[k].cuenca) == 0;
         }
-    
-        // Si la cuenca no ha sido impresa aún (cuencaYaImpresa == 0), procedemos a mostrarla
+
         if (cuencaYaImpresa == 0) {
-            printf("\nCuenca: %s\n", embalses[j].cuenca);
-            printf("  Embalses:\n");
-    
-            // Segundo bucle: busca e imprime todos los embalses únicos dentro de esta cuenca
+            fprintf(pf, "\nCuenca: %s\n", embalses[j].cuenca);
+            fprintf(pf, "  Embalses:\n");
+
             for (int k = 0; k < totalEmbalses; k++) {
-                // Solo consideramos los embalses que pertenecen a la cuenca actual
                 if (strcmp(embalses[k].cuenca, embalses[j].cuenca) == 0) {
-    
-                    int embalseYaImpreso = 0; // Contador/bandera para saber si este embalse ya fue mostrado
-    
-                    // Verifica si este embalse ya fue impreso antes dentro de la misma cuenca
+                    int embalseYaImpreso = 0;
+
                     for (int l = 0; l < k; l++) {
                         embalseYaImpreso += (
-                            strcmp(embalses[k].cuenca, embalses[l].cuenca) == 0 && // misma cuenca
-                            strcmp(embalses[k].embalseNombre, embalses[l].embalseNombre) == 0 // mismo embalse
+                            strcmp(embalses[k].cuenca, embalses[l].cuenca) == 0 &&
+                            strcmp(embalses[k].embalseNombre, embalses[l].embalseNombre) == 0
                         );
                     }
-    
-                    // Si no se encontró antes (embalseYaImpreso == 0), lo imprimimos
+
                     if (embalseYaImpreso == 0) {
-                        printf("  - %s\n", embalses[k].embalseNombre); // Mostramos el nombre del embalse
+                        fprintf(pf, "  - %s\n", embalses[k].embalseNombre);
                     }
                 }
             }
         }
     }
-    }
+
+    fclose(pf);
+    printf("\nSe ha generado el archivo Listado_Cuencas.txt correctamente.\n");
+}
 
 
 //FUNCION AGRICULTURA

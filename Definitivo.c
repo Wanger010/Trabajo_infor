@@ -39,15 +39,18 @@ int main() {
         return 1;
     }
 
-    mostrarCuencasYEmbalses(Embalse *embalses, totalEmbalses);
-
 //switch de opciones.
     int opcion;
     do {
+
         mostrarMenu();
         scanf("%d", &opcion);
 
         switch (opcion) {
+            case 0:
+                printf("Imprimiendo lista...");
+                mostrarCuencasYEmbalses(embalses, totalEmbalses);
+                break;
             case 1:
                 printf("media anual caudal de cuenca.\n");
                 calcularMediaAnualPorCuenca(embalses, totalEmbalses);
