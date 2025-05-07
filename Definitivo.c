@@ -19,6 +19,7 @@ void mostrarMenu() {
     printf("6. Ver media mensual de todos los caudales 2012-2021\n");	
     printf("7. Ver relacion caudal-produccion agricola\n");
     printf("8. Salir\n");
+    printf("9. Limpiar pantalla\n");
     printf("------------------------------------------\n");
     printf("Ingrese su opcion: ");
 }
@@ -75,13 +76,16 @@ int main() {
                 break;
             case 6:
                 printf("Media mensual 2012-2021.\n");
-		mostrarMediaMensualCaudales(embalses, totalEmbalses);
+		        mostrarMediaMensualCaudales(embalses, totalEmbalses);
                 break;
             case 7:
                 printf("Relacion caudal-produccion agricola.\n");
                 break;
 	        case 8:
 		        printf("Salir\n");
+		        break;
+            case 9:
+				limpiarPantalla();
 		        break;
             default:
                 printf("Opcion no valida. Intente de nuevo.\n");
