@@ -533,14 +533,14 @@ void compararEmbalses(Embalse *embalses, int totalEmbalses) {
     if(sumaA == 0 && sumaB == 0){
 		printf("Da 0 la suma de los caudales, posible problema de escritura");
 	} else if (sumaA > sumaB) {
-        printf("La cuenca '%s' tuvo mayor volumen de agua embalsada.\n", embalseA);
+        printf("El embalse '%s' tuvo mayor volumen de agua embalsada.\n", embalseA);
     } else if (sumaB > sumaA) {
-        printf("La cuenca '%s' tuvo mayor volumen de agua embalsada.\n", embalseB);
+        printf("El embalse '%s' tuvo mayor volumen de agua embalsada.\n", embalseB);
     } else if (sumaA == sumaB){		
 		printf("Ambos embalses tuvieron el mismo volumen de agua embalsada.\n");
         printf("Posible error en la escritura de las cuencas!!!\n");
 	} else {
-        printf("Posible error en la escritura de alguna cuenca!!!\n");
+        printf("Posible error en la escritura de algun embalse!!!\n");
     }
 }
 
