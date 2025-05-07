@@ -42,8 +42,11 @@ int main() {
         return 1;
     }
 
-//switch de opciones.
+    do{
+    mostrarMenu();
     int opcion;
+    scanf("%d", &opcion);
+    //switch de opciones.
    switch (opcion) {
             case 0:
                 printf("Imprimiendo lista...");
