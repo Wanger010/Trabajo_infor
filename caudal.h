@@ -62,7 +62,6 @@ void evolucionEmbalse(Embalse *embalses, int totalEmbalses);
 void compararCuencas(Embalse *embalses, int totalEmbalses);
 void compararEmbalses(Embalse *embalses, int totalEmbalses);
 void compararCaudalAgricola(Embalse *embalses, int totalEmbalses);
-void mostrarMediaMensualCaudales(Embalse *embalses, int totalEmbalses);
 
 // Fin de la protección contra inclusiones múltiples
 #endif  // CAUDAL_H
