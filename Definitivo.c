@@ -80,6 +80,7 @@ int main() {
                 break;
             case 7:
                 printf("Relacion caudal-produccion agricola.\n");
+		compararCaudalAgricola(embalses, totalEmbalses);
                 break;
 	    case 8:
 		printf("Salir\n");
