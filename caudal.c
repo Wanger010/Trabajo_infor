@@ -408,7 +408,7 @@ void calcularMediaAnualPorCuenca(Embalse *embalses, int totalEmbalses) {
         }
     } 
     mediaAnual /= NUM_MESES;
-    printf("Media anual de %s es de: %.2f Hm³\n", nom_cuenca, mediaAnual); 
+    printf("Media anual de %s es de: %.2f Hm^3\n", nom_cuenca, mediaAnual); 
 }
 
 // Función 2: Mostrar la evolución del caudal de la cuenca entre un rango de años
@@ -434,7 +434,7 @@ void evolucionCuenca(Embalse *embalses, int totalEmbalses) {
         if (strcmp(embalses[i].cuenca, cuenca) == 0) { 
             printf("\nEvolucion de %s entre los anios %d y %d:\n", embalses[i].embalseNombre, anioInicio, anioFin);
             for (int j = anioInicio - 2012; j <= anioFin - 2012; j++) {
-                printf("Anio %d: %.2f Hm³\n", embalses[i].datos.anios[j], embalses[i].datos.caudales[j]);
+                printf("Anio %d: %.2f Hm^3\n", embalses[i].datos.anios[j], embalses[i].datos.caudales[j]);
             }
         }
     }

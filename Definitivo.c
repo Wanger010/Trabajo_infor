@@ -54,7 +54,7 @@ int main() {
                 guardarCuencasYEmbalses(embalses, totalEmbalses);
                 break;
             case 1:
-                printf("media anual caudal de cuenca.\n");
+                printf("Media anual caudal de cuenca.\n");
                 calcularMediaAnualPorCuenca(embalses, totalEmbalses);
                 break;
             case 2:
@@ -73,11 +73,11 @@ int main() {
                 //datosConcretos(embalses, totalEmbalses);
                 break;
             case 6:
-                printf("Media mensual 2012-2021\n");
+                printf("Media mensual 2012-2021.\n");
 		        mostrarMediaMensualCaudales(embalses, totalEmbalses);
                 break;
             case 7:
-                printf("Relacion caudal-produccion agricola\n");
+                printf("Relacion caudal-produccion agricola.\n");
                 break;
 	        case 8:
 		        printf("Salir\n");
