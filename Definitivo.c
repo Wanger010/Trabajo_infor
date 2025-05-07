@@ -33,8 +33,7 @@ int main() {
     }
 	
 	// Leer los datos de los embalses
-	//En este trozo se declara el archivo csv que se quiere abrir
-	//despues se usa el puntero *nombreArchivo para acortar
+	// En este trozo se declara el archivo csv que se quiere abrir
     Embalse *embalses = leerDatos("dataset.csv", totalEmbalses);
 
     if (embalses == NULL) {
@@ -42,9 +41,9 @@ int main() {
         return 1;
     }
 
+    int opcion;
     do{
     mostrarMenu();
-    int opcion;
     scanf("%d", &opcion);
     //switch de opciones.
    switch (opcion) {
@@ -73,7 +72,7 @@ int main() {
                 break;
             case 5:
                 printf("Datos concretos de un embalse.\n");
-                datosConcretos(embalses, totalEmbalses);
+                //datosConcretos(embalses, totalEmbalses);
                 break;
             case 6:
                 printf("Media mensual 2012-2021\n");

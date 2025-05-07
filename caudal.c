@@ -49,7 +49,7 @@ int contarLineas(const char *nombreArchivo) {
 }
 
 // Función que lee el archivo CSV y carga los datos de embalses en memoria dinámica
-void leerDatos(const char *nombreArchivo, int totalEmbalses) {
+Embalse* leerDatos(const char *nombreArchivo, int totalEmbalses) {
 
     // Primero, verificamos si el número total de embalses es válido
     // Si totalEmbalses es menor o igual a cero, no hay nada que hacer, así que retornamos NULL
