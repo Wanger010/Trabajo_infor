@@ -5,19 +5,7 @@
 
 // Menu principal
 void mostrarMenu() {
-<<<<<<< HEAD
-    printf("\n----------- ANALISIS DE CAUDALES EN ESPANA ----------\n");
-    printf("\n----- ANIOS 2012-2021. TODOS LOS MESES INCLUIDOS-----\n");
-    printf("\n Hay que introducir el nombre ¡TAL CUAL! viene dado :D \n");
-    printf("\n              Caudales medidos en hm^3!              \n");
-    printf("\n1. Calcular medias anuales por cuenca \n");
-    printf("2. Ver evolucion de una cuenca en un rango de anios\n");
-    printf("3. Comparar dos cuencas en un anio\n");
-    printf("4. Comparar dos embalses en un anio\n");
-    printf("5. Ver meses del caudal de un embalse de un año concreto\n");
-    printf("6. Ver relacion caudal-produccion agricola\n");
-    printf("7. Salir\n");
-=======
+
     printf("\n            \033[44mANALISIS DE CAUDALES EN ESPANA\033[0m           \n");
     printf("\n\033[34m      ANIOS 2012-2021. TODOS LOS MESES INCLUIDOS     \033[0m\n");
     printf("\n\033[33m Hay que introducir el nombre tal cual viene dado :D \033[0m\n");
@@ -32,22 +20,16 @@ void mostrarMenu() {
     printf("6. Ver media mensual de todos los caudales 2012-2021\n");	
     printf("7. Ver relacion caudal-produccion agricola\n");
     printf("8. Salir\n");
->>>>>>> 7a1e15808fe87b87d0554831da11153d151e8f79
+
     printf("------------------------------------------\n");
     printf("Ingrese su opcion: ");
 }
 
 int main() {
-<<<<<<< HEAD
-	
-    limpiarPantalla();
-    
-    int totalEmbalses = contarLineas("dataset.csv");
 
-=======
 	int totalEmbalses = contarLineas("dataset.csv");
     
->>>>>>> 7a1e15808fe87b87d0554831da11153d151e8f79
+
     // Verificar si se obtuvo un número válido de embalses
     if (totalEmbalses <= 0) {
         printf("No se pudo obtener la cantidad de embalses.\n");
@@ -63,12 +45,6 @@ int main() {
         return 1;
     }
 
-<<<<<<< HEAD
-    mostrarCuencasYEmbalses(Embalse *embalses, totalEmbalses);
-
-//switch de opciones.
-=======
->>>>>>> 7a1e15808fe87b87d0554831da11153d151e8f79
     int opcion;
     do{
     mostrarMenu();
