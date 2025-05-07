@@ -207,7 +207,7 @@ void guardarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
 // Función que muestra por pantalla todas las cuencas y los embalses únicos de cada una
 void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
     //se borra en pantalla lo anterior
-    limpiarPantalla()
+    limpiarPantalla();
     // Encabezado del listado
     printf("\nListado de cuencas y sus embalses:\n");
 
