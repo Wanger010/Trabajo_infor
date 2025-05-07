@@ -197,21 +197,26 @@ void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
     }
     }
 
+void mostrarTablaDeDatosMes(int anio, float mediacaudales)
+{
+	printf("+--------------------------------+\n");
+	printf("| Mes | Media caudales |\n");
+	printf("+--------------------------------+\n");
+	printf("|  %i  |    %.2f     |\n", anio, mediacaudales);
+	printf("+--------------------------------+\n");
+}
+
 
 //FUNCION AGRICULTURA
-void mostrarTablaDeDatos(int anio_inicial, int anio_final, int *produccion, Embalse *embalses)
+void mostrarTablaDeDatosAnio(int anio, float avenaocebada, float mediacaudales)
 {
 	printf("+------------------------------+\n");
 	printf("| Año | Avena | Media caudales |\n");
 	printf("+------------------------------+\n");
-
-	for(int i = anio_inicial; i <= anio_final; i++)
-	{
-        printf("| %i |  %.2f | %.2f |\n", i, produccion[i], embalses[i].datos.caudales[0]);
-	}
-	printf("+------------------------------+\n");
+	printf("| %i |  %.2f |    %.2f     |\n", anio, avenaocebada, mediacaudales);
+	printf("+--------------------------------+\n");
 }
-
+	
 
 //funcion para calcular el coeficiente de correlacion entre la capacidad y la produccion agricola
 //utilizado solo dentro de este mismo archivo, no se incluye en la libreria
