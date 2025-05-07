@@ -464,6 +464,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
         
         case 'h':
 		case 'H':
+        {
             printf("¿Del embalse %s que mes quieres comparar a lo largo de los años?\n",embalses[i].embalseNombre);//preguntamos el mes para asi comparar por ejemplo el mes de enero del 2012 al 2021 en ese embalse y asociarlo a la produccion
             scanf("%i",&mes_elegido);
             if (mes_elegido < 1 || mes_elegido > 12)
@@ -520,10 +521,10 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 			
 		
 			break;
-		
+        }
 		case 'i':
 		case 'I':
-			
+		{
             char indus[0];
             printf("¿Que tipo de cultivo industrial quieres comparar: Girasol(G) o Soja(S)?\n");
             printf("El cultivo industrial elegido es: \n");
@@ -538,7 +539,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 
                     case 'g':
                     case 'G':
-                        float produccion_gira[] = {642.0, 1038.1, 953.0, 769.2, 772.2, 814.7, 950.3, 773.8, 883.1, 771.0};
+                    {   float produccion_gira[] = {642.0, 1038.1, 953.0, 769.2, 772.2, 814.7, 950.3, 773.8, 883.1, 771.0};
                         calculoCoefcorrelacion(produccion_gira, mediaAnual, mediaTotal);
                         //se procede a hacer la grafica de barras con los datos de produccion de girasol
                         // Calcular valor máximo
@@ -574,9 +575,10 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 
        
                         break; 
-
+                    }
                     case 's':
                     case 'S':
+                    {
                         float produccion_soja[] = {1333, 1390, 2650, 4106, 2869, 4599, 4249, 5053, 4515, 4769};  
                         calculoCoefcorrelacion(produccion_soja, mediaAnual, mediaTotal);
                         //se procede a hacer la grafica de barras con los datos de produccion de soja
@@ -607,15 +609,18 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
                             // Mostrar el valor exacto
                             printf(" %.3f\n", produccion_soja[i]);
                         }
-                        break;
+                     
+                       break;
+                    }
                 }
+
             }   
 			
 
-		
+        }
 		case 'g':
 		case 'G':
-			
+		{	
 			char grano[0];
 			printf("¿Que tipo quieres comparar: avena(A) o cebada(C)?\n");
 			printf("El grano elegido es:\t");
@@ -624,7 +629,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 			switch(grano[0])
 			{
 				case 'A':
-					char opc[0]; 	
+            	{	char opc[0]; 	
 					printf("Ahora tienes que decidirte si quieres saber la avena producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
 					printf("Deseas saber: \t");
 					scanf("%s", &opc);
@@ -632,31 +637,32 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 					switch(opc[0])
 					{
 						case 'M':
-		
-						int mes;
-						printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2), etc:  \t");
-						scanf("%i", &mes);
-
-						case 'Y':
-
-						int anio_inicial, anio_final;
-						printf("Bien, necesito que me digas el anio inicial:\t");
-						scanf("%d", &anio_inicial);
-						printf("Ahora dime el anio final:\t");
-						scanf("%d", &anio_final);
-
-						FILE *archivo= fopen("dataset.csv","r");
-
-						if(archivo == NULL)
-						{
-							printf("Error al abrir el archivo");
-                            return 1;
+                        {
+						    int mes;
+						    printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2), etc:  \t");
+						    scanf("%i", &mes);
                         }
-                    }
-						
-				
+						case 'Y':
+                        {
+
+						    int anio_inicial, anio_final;
+						    printf("Bien, necesito que me digas el anio inicial:\t");
+						    scanf("%d", &anio_inicial);
+						    printf("Ahora dime el anio final:\t");
+						    scanf("%d", &anio_final);
+
+						    FILE *archivo= fopen("dataset.csv","r");
+
+						    if(archivo == NULL)
+						    {
+							    printf("Error al abrir el archivo");
+                                return 1;
+                            }
+                        }
+                    }	
+                }
 				case 'C':
-					
+				{	
 					char opci[0]; 	
 					printf("Ahora tienes que decidirte si quieres saber la cebada producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
 					printf("Deseas saber: \t");
@@ -665,21 +671,21 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 					switch(opci[0])
 					{
 						case 'M':
-	
+                        {
 						    int meses[12]={1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, mes;
 						    printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2), etc:  \t");
 						    scanf("%i", &mes);
                             int anio;
                             break;
-
+                        }
 
 						
                     }
-
-
+                    break;
+                }
         
             }
-
+        }
 						
 	}
 }			
