@@ -268,7 +268,6 @@ void mostrarMediaMensualCaudales(Embalse *embalses, int totalEmbalses)
 	
 	
 	int columna = 0, columna_objetivo;
-	int mes2 = 0;
 	char linea[1030];
 	fgets(linea, sizeof(linea), archivo);
 	char *tok = strtok(linea, ",");
