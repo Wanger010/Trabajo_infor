@@ -151,6 +151,8 @@ Embalse* leerDatos(const char *nombreArchivo, int totalEmbalses) {
 
 // Función que guarda en un archivo de texto todas las cuencas y los embalses únicos de cada una
 void guardarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
+    //se borra en pantalla lo anterior
+    limpiarPantalla();
     // Abrimos el archivo en modo escritura ("w")
     FILE *archivo = fopen("Listado_Cuencas.txt", "w");
     
