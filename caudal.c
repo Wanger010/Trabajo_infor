@@ -653,19 +653,17 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 		case 'i':
 		case 'I':
 			
-            char indus[0];
-            printf("¿Que tipo de cultivo industrial quieres comparar: Girasol(G) o Soja(S)?\n");
-            printf("El cultivo industrial elegido es: \n");
-            scanf(" %s", indus); 
+	        char indus[0];
+		printf("¿Que tipo de cultivo industrial quieres comparar: Girasol(G) o Soja(S)?\n");
+	        printf("El cultivo industrial elegido es: \n");
+	        scanf(" %s", indus); 
 
 
-            switch(indus[2])
-            { 
+        
 
                 switch(indus[0])
                 { 
 
-                    case 'g':
                     case 'G':
                         float produccion_gira[] = {642.0, 1038.1, 953.0, 769.2, 772.2, 814.7, 950.3, 773.8, 883.1, 771.0};
                         calculoCoefcorrelacion(produccion_gira, mediaAnual, mediaTotal);
@@ -704,7 +702,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
        
                         break; 
 
-                    case 's':
+                   
                     case 'S':
                         float produccion_soja[] = {1333, 1390, 2650, 4106, 2869, 4599, 4249, 5053, 4515, 4769};  
                         calculoCoefcorrelacion(produccion_soja, mediaAnual, mediaTotal);
@@ -738,11 +736,8 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
                         }
                         break;
                 }
-            }   
-			
-
-		
-		case 'g':
+               
+	    
 		case 'G':
 		{	
 			char grano[0];
