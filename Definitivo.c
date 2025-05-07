@@ -5,6 +5,7 @@
 
 // Menu principal
 void mostrarMenu() {
+<<<<<<< HEAD
     printf("\n----------- ANALISIS DE CAUDALES EN ESPANA ----------\n");
     printf("\n----- ANIOS 2012-2021. TODOS LOS MESES INCLUIDOS-----\n");
     printf("\n Hay que introducir el nombre ¡TAL CUAL! viene dado :D \n");
@@ -16,16 +17,37 @@ void mostrarMenu() {
     printf("5. Ver meses del caudal de un embalse de un año concreto\n");
     printf("6. Ver relacion caudal-produccion agricola\n");
     printf("7. Salir\n");
+=======
+    printf("\n            \033[44mANALISIS DE CAUDALES EN ESPANA\033[0m           \n");
+    printf("\n\033[34m      ANIOS 2012-2021. TODOS LOS MESES INCLUIDOS     \033[0m\n");
+    printf("\n\033[33m Hay que introducir el nombre tal cual viene dado :D \033[0m\n");
+    printf("\n\033[33m              Caudales medidos en hm^3!              \033[0m\n");
+    printf("\n-1. Se imprime por pantalla cuencas y respectivos embalses \n");
+    printf("0. Archivo cuencas y respectivos embalses (.txt) \n");
+    printf("1. Calcular medias anuales por cuenca y mes\n");
+    printf("2. Ver evolucion de una cuenca\n");
+    printf("3. Comparar dos cuencas en un anio\n");
+    printf("4. Comparar dos embalses en un anio\n");
+    printf("5. Ver meses del caudal de un embalse de un anio concreto\n");
+    printf("6. Ver media mensual de todos los caudales 2012-2021\n");	
+    printf("7. Ver relacion caudal-produccion agricola\n");
+    printf("8. Salir\n");
+>>>>>>> 7a1e15808fe87b87d0554831da11153d151e8f79
     printf("------------------------------------------\n");
     printf("Ingrese su opcion: ");
 }
 
 int main() {
+<<<<<<< HEAD
 	
     limpiarPantalla();
     
     int totalEmbalses = contarLineas("dataset.csv");
 
+=======
+	int totalEmbalses = contarLineas("dataset.csv");
+    
+>>>>>>> 7a1e15808fe87b87d0554831da11153d151e8f79
     // Verificar si se obtuvo un número válido de embalses
     if (totalEmbalses <= 0) {
         printf("No se pudo obtener la cantidad de embalses.\n");
@@ -33,8 +55,7 @@ int main() {
     }
 	
 	// Leer los datos de los embalses
-	//En este trozo se declara el archivo csv que se quiere abrir
-	//despues se usa el puntero *nombreArchivo para acortar
+	// En este trozo se declara el archivo csv que se quiere abrir
     Embalse *embalses = leerDatos("dataset.csv", totalEmbalses);
 
     if (embalses == NULL) {
@@ -42,21 +63,31 @@ int main() {
         return 1;
     }
 
+<<<<<<< HEAD
     mostrarCuencasYEmbalses(Embalse *embalses, totalEmbalses);
 
 //switch de opciones.
+=======
+>>>>>>> 7a1e15808fe87b87d0554831da11153d151e8f79
     int opcion;
-    do {
-        mostrarMenu();
-        scanf("%d", &opcion);
-
-        switch (opcion) {
+    do{
+    mostrarMenu();
+    scanf("%d", &opcion);
+    //switch de opciones.
+   switch (opcion) {
+            case -1:
+                mostrarCuencasYEmbalses(embalses, totalEmbalses);
+                break;
+            case 0:
+                guardarCuencasYEmbalses(embalses, totalEmbalses);
+                break;
             case 1:
-                printf("Media anual de la capacidad de la cuenca.\n");
+                printf("Media anual caudal de cuenca.\n");
                 calcularMediaAnualPorCuenca(embalses, totalEmbalses);
                 break;
             case 2:
-                printf("Evolucion de la cuenca.\n");
+                printf("Evolucion de cuenca.\n");
+                evolucionCuenca(embalses, totalEmbalses);
                 break;
             case 3:
                 printf("Comparacion de cuencas.\n");
@@ -68,20 +99,24 @@ int main() {
                 break;
             case 5:
                 printf("Datos concretos de un embalse.\n");
-                datosConcretos(embalses, totalEmbalses);
+                //datosConcretos(embalses, totalEmbalses);
                 break;
             case 6:
-                printf("Comparacion capacidad vs agricultura.\n");
-                compararCaudalAgricola(embalses,  totalEmbalses);
+                printf("Media mensual 2012-2021.\n");
+		        mostrarMediaMensualCaudales(embalses, totalEmbalses);
                 break;
             case 7:
-                printf("Saliendo del programa...\n");
+                printf("Relacion caudal-produccion agricola.\n");
+                compararCaudalAgricola(embalses, totalEmbalses);
                 break;
+	        case 8:
+		        printf("Salir\n");
+		        break;
             default:
                 printf("Opcion no valida. Intente de nuevo.\n");
                 break;
         }
-    } while (opcion != 5); //estructura do while para que el menú se 
+    } while (opcion != 8); //estructura do while para que el menú se 
                            //repita hasta que el usuario elija salir
     free(embalses);
     return 0;
