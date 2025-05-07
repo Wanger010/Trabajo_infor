@@ -451,7 +451,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 	printf("Ahora dime con que tipo de producto agricola deseas estudiar: \n ");
 	printf("Con Hortalizas(H), con los Industriales(I) o con los de Grano(G) \n");
 	printf("La opcion elegida es: \t");
-	scanf("%c", opcion_elegida);
+	scanf("%c", &opcion_elegida);
 	
 	//los datos de los vectores "produccion" son reales
     // han sido obtenidos a traves de tablas de datos presentes en tablas y pdfs  
@@ -491,7 +491,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
             {
                 if (valores[i] > max_valor)
                 {
-                    max_valor = valores[i];
+                    max_valor = valores[i];//si hay un valor mayor que el maximo, lo actualiza
                 }
             
             }
