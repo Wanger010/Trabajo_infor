@@ -36,7 +36,7 @@ typedef struct {
 void limpiarPantalla();
 void reemplazarGuionBajoPorEspacio(char *cadena);
 int contarLineas(const char *nombreArchivo);
-void leerDatos(const char *nombreArchivo, int totalEmbalses)
+void leerDatos(const char *nombreArchivo, int totalEmbalses);
 void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses);
 void guardarCuencasYEmbalses(Embalse *embalses, int totalEmbalses);
 
