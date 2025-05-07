@@ -5,6 +5,7 @@
 #include "caudal.h"
 
 //función para limpiar pantalla
+//la pongo por si se usa
 
 void limpiarPantalla() {
     #ifdef _WIN32
@@ -49,7 +50,7 @@ int contarLineas(const char *nombreArchivo) {
 }
 
 // Función que lee el archivo CSV y carga los datos de embalses en memoria dinámica
-Embalse* leerDatos(const char *nombreArchivo, int totalEmbalses) {
+Embalse *leerDatos(const char *nombreArchivo, int totalEmbalses) {
 
     // Primero, verificamos si el número total de embalses es válido
     // Si totalEmbalses es menor o igual a cero, no hay nada que hacer, así que retornamos NULL
@@ -149,195 +150,67 @@ Embalse* leerDatos(const char *nombreArchivo, int totalEmbalses) {
     return embalses;
 }
 
-// Función que guarda en un archivo de texto todas las cuencas y los embalses únicos de cada una
-void guardarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
-    //se borra en pantalla lo anterior
-    limpiarPantalla();
-    // Abrimos el archivo en modo escritura ("w")
-    FILE *archivo = fopen("Listado_Cuencas.txt", "w");
-    
-    // Verificamos si el archivo se abrió correctamente
-    if (archivo == NULL) {
-        printf("Error al abrir el archivo Listado_Cuencas.txt\n");
-        return;  // Salimos de la función si hubo error
-    }
-
-    // Escribimos el encabezado en el archivo
-    fprintf(archivo, "Listado de cuencas y sus embalses:\n");
-
-    // Recorremos todos los embalses
-    for (int j = 0; j < totalEmbalses; j++) {
-        int cuencaYaImpresa = 0;  // Bandera para saber si ya mostramos esta cuenca
-
-        // Verificamos si esta cuenca ya ha sido listada en posiciones anteriores
-        for (int k = 0; k < j; k++) {
-            cuencaYaImpresa += strcmp(embalses[j].cuenca, embalses[k].cuenca) == 0;
-        }
-
-        // Si la cuenca aún no ha sido impresa, la escribimos en el archivo
-        if (cuencaYaImpresa == 0) {
-            fprintf(archivo, "\nCuenca: %s\n", embalses[j].cuenca);
-            fprintf(archivo, "  Embalses:\n");
-
-            // Buscamos todos los embalses que pertenecen a esta cuenca
-            for (int k = 0; k < totalEmbalses; k++) {
-                if (strcmp(embalses[k].cuenca, embalses[j].cuenca) == 0) {
-                    int embalseYaImpreso = 0;  // Bandera para no repetir embalses
-
-                    // Verificamos si este embalse ya ha sido listado dentro de la misma cuenca
-                    for (int l = 0; l < k; l++) {
-                        embalseYaImpreso += (
-                            strcmp(embalses[k].cuenca, embalses[l].cuenca) == 0 &&  // misma cuenca
-                            strcmp(embalses[k].embalseNombre, embalses[l].embalseNombre) == 0  // mismo embalse
-                        );
-                    }
-
-                    // Si es un embalse nuevo dentro de la cuenca, lo escribimos
-                    if (embalseYaImpreso == 0) {
-                        fprintf(archivo, "  - %s\n", embalses[k].embalseNombre);
-                    }
-                }
-            }
-        }
-    }
-
-    // Cerramos el archivo tras terminar la escritura
-    fclose(archivo);
-    printf("\nEl listado fue guardado en 'Listado_Cuencas.txt'\n");
-}
-
-// Función que muestra por pantalla todas las cuencas y los embalses únicos de cada una
+//Función para mostrar cuencas y embalses (principal)
 void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
-    //se borra en pantalla lo anterior
-    limpiarPantalla();
-    // Encabezado del listado
+    // Imprimir en pantalla la lista de cuencas
+    // y sus embalses (sin repetir)
     printf("\nListado de cuencas y sus embalses:\n");
-
-    // Bucle principal que recorre todos los embalses
+    
+    // Bucle principal que recorre todos los embalses leídos
     for (int j = 0; j < totalEmbalses; j++) {
-        int cuencaYaImpresa = 0;  // Bandera para saber si ya imprimimos esta cuenca antes
-
-        // Comprobamos si esta cuenca ya fue mostrada en una iteración anterior
+    
+        int cuencaYaImpresa = 0; // Contador usado como bandera: 0 = cuenca nueva, !0 = ya fue impresa
+    
+        // Verifica si la cuenca actual (embalses[j].cuenca) ya fue impresa antes
         for (int k = 0; k < j; k++) {
-            // Si hay coincidencia de nombre de cuenca, sumamos al contador
+            // Comparamos la cuenca actual con las anteriores
             cuencaYaImpresa += strcmp(embalses[j].cuenca, embalses[k].cuenca) == 0;
         }
-
-        // Si la cuenca no ha sido impresa antes, la mostramos
+    
+        // Si la cuenca no ha sido impresa aún (cuencaYaImpresa == 0), procedemos a mostrarla
         if (cuencaYaImpresa == 0) {
             printf("\nCuenca: %s\n", embalses[j].cuenca);
             printf("  Embalses:\n");
-
-            // Recorremos todos los embalses otra vez para encontrar los que pertenecen a esta cuenca
+    
+            // Segundo bucle: busca e imprime todos los embalses únicos dentro de esta cuenca
             for (int k = 0; k < totalEmbalses; k++) {
-                // Solo consideramos embalses de la misma cuenca
+                // Solo consideramos los embalses que pertenecen a la cuenca actual
                 if (strcmp(embalses[k].cuenca, embalses[j].cuenca) == 0) {
-                    int embalseYaImpreso = 0;  // Bandera para no repetir el embalse
-
-                    // Comprobamos si ese embalse ya ha sido listado en esta cuenca
+    
+                    int embalseYaImpreso = 0; // Contador/bandera para saber si este embalse ya fue mostrado
+    
+                    // Verifica si este embalse ya fue impreso antes dentro de la misma cuenca
                     for (int l = 0; l < k; l++) {
                         embalseYaImpreso += (
                             strcmp(embalses[k].cuenca, embalses[l].cuenca) == 0 && // misma cuenca
                             strcmp(embalses[k].embalseNombre, embalses[l].embalseNombre) == 0 // mismo embalse
                         );
                     }
-
-                    // Si no ha sido listado antes, lo imprimimos
+    
+                    // Si no se encontró antes (embalseYaImpreso == 0), lo imprimimos
                     if (embalseYaImpreso == 0) {
-                        printf("  - %s\n", embalses[k].embalseNombre);
+                        printf("  - %s\n", embalses[k].embalseNombre); // Mostramos el nombre del embalse
                     }
                 }
             }
         }
     }
-}
-
-//FUNCION PARA CONOCER MEDIA MESUAL DESDE 2012-2021
-void mostrarMediaMensualCaudales(Embalse *embalses, int totalEmbalses)
-{
-	int meses[13]={0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, mes_usuario;
-	printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2) y asi seguidamente:  \t");
-	scanf("%i", &mes_usuario);
-	
-	
-	FILE *archivo = fopen("dataset.csv", "r");
-	if(archivo == NULL)
-	{
-		printf("Error al abrir el archivo\n");
-	}
-	
-	
-	int columna = 0, columna_objetivo;
-	int mes2 = 0;
-	char linea[1030];
-	fgets(linea, sizeof(linea), archivo);
-	char *tok = strtok(linea, ",");
-	while(tok != NULL)
-	{
-		if(strcmp(tok, "mes") == 0)
-		{
-			columna_objetivo = columna;
-			break;
-		}
-	tok = strtok(NULL, ",");
-	columna++;	
-	}
-	
-	
-	float suma_caudales = 0.0, valorcaudal = 0.0;
-	int columnas;
-	while(fgets(linea, sizeof(linea), archivo))
-	{
-		columnas = 1;
-		tok = strtok(linea, ",");
-		while(tok != NULL)
-		{
-			if(mes_usuario == atoi(tok))
-			{
-				while(columnas > columna_objetivo && columnas < 14)
-				{
-					tok = strtok(NULL, ",");
-					float valorcaudal = atof(tok);
-					suma_caudales += valorcaudal;
-					columnas++;
-					if(columnas == 13)
-					{
-						columnas = 0;
-						break;
-					}
-				}
-			}
-			tok = strtok(NULL, ",");
-			columnas++;
-		}
-	}
-	fclose(archivo);
-	
-	float media_caudales = suma_caudales / (totalEmbalses / 12);
-	mostrarTablaDeDatosMes(mes_usuario, media_caudales);
-}
-
-
-//FUNCION TABLA DATOS MENSUAL
-void mostrarTablaDeDatosMes(int anio, float mediacaudales)
-{
-	printf("+--------------------------------+\n");
-	printf("| Mes | Media caudales 2012-2021 |\n");
-	printf("+--------------------------------+\n");
-	printf("|  %i  |       %.2f        |\n", anio, mediacaudales);
-	printf("+--------------------------------+\n");
-}
+    }
 
 
 //FUNCION AGRICULTURA
-void mostrarTablaDeDatosAnio(int anio, float avenaocebada, float mediacaudales)
+void mostrarTablaDeDatos(int anio_inicial, int anio_final, int *produccion, Embalse *embalses)
 {
 	printf("+------------------------------+\n");
-	printf("| Anio | Avena | Media caudales |\n");
+	printf("| Año | Avena | Media caudales |\n");
 	printf("+------------------------------+\n");
-	printf("| %i | %.2f |      %.2f     |\n", anio, avenaocebada, mediacaudales);
+
+	for(int i = anio_inicial; i <= anio_final; i++)
+	{
+        printf("| %i |  %.2f | %.2f |\n", i, produccion[i], embalses[i].datos.caudales[0]);
+	}
 	printf("+------------------------------+\n");
-}		
+}
 
 
 //funcion para calcular el coeficiente de correlacion entre la capacidad y la produccion agricola
@@ -389,6 +262,53 @@ void calculoCoefcorrelacion(float *produccion, char *mediaAnual, float mediaTota
     }
 }
 
+//Función para mostrar cuencas y embalses (principal)
+void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
+// Imprimir en pantalla la lista de cuencas
+// y sus embalses (sin repetir)
+printf("\nListado de cuencas y sus embalses:\n");
+
+// Bucle principal que recorre todos los embalses leídos
+for (int j = 0; j < totalEmbalses; j++) {
+
+    int cuencaYaImpresa = 0; // Contador usado como bandera: 0 = cuenca nueva, !0 = ya fue impresa
+
+    // Verifica si la cuenca actual (embalses[j].cuenca) ya fue impresa antes
+    for (int k = 0; k < j; k++) {
+        // Comparamos la cuenca actual con las anteriores
+        cuencaYaImpresa += strcmp(embalses[j].cuenca, embalses[k].cuenca) == 0;
+    }
+
+    // Si la cuenca no ha sido impresa aún (cuencaYaImpresa == 0), procedemos a mostrarla
+    if (cuencaYaImpresa == 0) {
+        printf("\nCuenca: %s\n", embalses[j].cuenca);
+        printf("  Embalses:\n");
+
+        // Segundo bucle: busca e imprime todos los embalses únicos dentro de esta cuenca
+        for (int k = 0; k < totalEmbalses; k++) {
+            // Solo consideramos los embalses que pertenecen a la cuenca actual
+            if (strcmp(embalses[k].cuenca, embalses[j].cuenca) == 0) {
+
+                int embalseYaImpreso = 0; // Contador/bandera para saber si este embalse ya fue mostrado
+
+                // Verifica si este embalse ya fue impreso antes dentro de la misma cuenca
+                for (int l = 0; l < k; l++) {
+                    embalseYaImpreso += (
+                        strcmp(embalses[k].cuenca, embalses[l].cuenca) == 0 && // misma cuenca
+                        strcmp(embalses[k].embalseNombre, embalses[l].embalseNombre) == 0 // mismo embalse
+                    );
+                }
+
+                // Si no se encontró antes (embalseYaImpreso == 0), lo imprimimos
+                if (embalseYaImpreso == 0) {
+                    printf("  - %s\n", embalses[k].embalseNombre); // Mostramos el nombre del embalse
+                }
+            }
+        }
+    }
+}
+}
+
 // Función 1: Calcular la media anual de caudal para una cuenca específica
 void calcularMediaAnualPorCuenca(Embalse *embalses, int totalEmbalses) {
     int i = 0, j = 0;
@@ -408,16 +328,16 @@ void calcularMediaAnualPorCuenca(Embalse *embalses, int totalEmbalses) {
         }
     } 
     mediaAnual /= NUM_MESES;
-    printf("Media anual de %s es de: %.2f Hm^3\n", nom_cuenca, mediaAnual); 
+    printf("Media anual de %s es de: %.2f Hm³\n", nom_cuenca, mediaAnual); 
 }
 
 // Función 2: Mostrar la evolución del caudal de la cuenca entre un rango de años
-void evolucionCuenca(Embalse *embalses, int totalEmbalses) {
+void evolucionEmbalse(Embalse *embalses, int totalEmbalses) {
     int anioInicio, anioFin;
-    char cuenca[100];
-    printf("\nIngrese el nombre de la cuenca: ");   
-    scanf(" %[^\n]", cuenca);  // Lee el nombre de la cuenca
-    printf("Ingrese el anio de inicio (2012-2021): ");
+    char embalse[100];
+    printf("\nIngrese el nombre del embalse: ");   
+    scanf(" %[^\n]", embalse);  // Lee el nombre de la cuenca
+    printf("Ingrese el año de inicio (2012-2021): ");
     scanf("%i", &anioInicio);  // Lee el año de inicio
     printf("Ingrese el año de fin (2012-2021): ");
     scanf("%i", &anioFin);  // Lee el año de fin
@@ -428,15 +348,19 @@ void evolucionCuenca(Embalse *embalses, int totalEmbalses) {
         return; 
     } 
 
-    //Inicializamos un bucle para recorrer los embalses
-    for(int i = 0; i < totalEmbalses; i++) {
-        // Comparamos la cuenca introducida por el usuario con la cuenca del embalse actual
-        if (strcmp(embalses[i].cuenca, cuenca) == 0) { 
-            printf("\nEvolucion de %s entre los anios %d y %d:\n", embalses[i].embalseNombre, anioInicio, anioFin);
-            for (int j = anioInicio - 2012; j <= anioFin - 2012; j++) {
-                printf("Anio %d: %.2f Hm^3\n", embalses[i].datos.anios[j], embalses[i].datos.caudales[j]);
+    //calculo de media anual de caudal en un embalse
+    float mediaAnual [ NUM_ANIOS ] = {0}; // Inicializamos el array de medias anuales
+    for (int i = anioInicio - 2012; i <= anioFin - 2012; i++) {
+        if (strcmp(embalses[i].embalseNombre, embalse) == 0) { 
+            for (int j = 0; j <= totalEmbalses; j++) {
+                mediaAnual[i] += embalses[i].datos.caudales[j];
             }
+            mediaAnual[i] /= NUM_MESES; // Medias anuales   
         }
+    } 
+
+    for(int i = anioInicio - 2012; i <= anioFin - 2012; i++) {
+        printf("El caudal medio anual del embalse %s en el año %d es: %.2f Hm³\n", embalse, embalses[i].datos.anios[i], mediaAnual[i]);
     }
 
 }
@@ -492,60 +416,6 @@ void compararCuencas(Embalse *embalses, int totalEmbalses) {
 }
 
 
-// Función 4: Comparar el caudal de dos embalses en un año específico
-void compararEmbalses(Embalse *embalses, int totalEmbalses) {
-    char embalseA[100], embalseB[100];
-    int anio;
-    printf("\nIngrese el nombre del primer embalse: ");
-    scanf(" %[^\n]", embalseA);
-    printf("Ingrese el nombre del segundo embalse: ");
-    scanf(" %[^\n]", embalseB);
-
-    printf("Ingrese el anio a comparar (2012-2021): ");
-    scanf("%d", &anio);  // Lee el año
-
-    // Verifica si el año está dentro del rango permitido
-    if (anio < 2012 || anio > 2021) {
-        printf("Anio fuera de rango.\n");
-        return;
-    }
-
-    // Inicializa las variables para acumular los caudales
-    float sumaA = 0, sumaB = 0;
-
-    // Recorre los embalses y acumula los caudales de ambos embalses en el año solicitado
-    for (int i = 0; i < totalEmbalses; i++) {
-        if (embalses[i].datos.anios[anio - 2012] == anio) {  // Accede directamente al año
-            if (strcmp(embalses[i].embalseNombre, embalseA) == 0) {
-                sumaA += embalses[i].datos.caudales[anio - 2012];  // Suma caudales de la embalse A
-            } else if (strcmp(embalses[i].embalseNombre, embalseB) == 0) {
-                sumaB += embalses[i].datos.caudales[anio - 2012];  // Suma caudales del embalse B
-            }
-        }
-    }
-
-    // Muestra la comparación de caudales entre las dos cuencas
-    printf("\n--> Comparacion de caudal en el anio %d:\n", anio);
-    //-20, el - alinea a la izq. el texto y 20 son los espacios reservados
-    printf("%-20s: %.2f\n", embalseA, sumaA);
-    printf("%-20s: %.2f\n", embalseB, sumaB);
-
-    // Compara los caudales y muestra cuál embalse tuvo el mayor caudal
-    if(sumaA == 0 && sumaB == 0){
-		printf("Da 0 la suma de los caudales, posible problema de escritura");
-	} else if (sumaA > sumaB) {
-        printf("La cuenca '%s' tuvo mayor volumen de agua embalsada.\n", embalseA);
-    } else if (sumaB > sumaA) {
-        printf("La cuenca '%s' tuvo mayor volumen de agua embalsada.\n", embalseB);
-    } else if (sumaA == sumaB){		
-		printf("Ambos embalses tuvieron el mismo volumen de agua embalsada.\n");
-        printf("Posible error en la escritura de las cuencas!!!\n");
-	} else {
-        printf("Posible error en la escritura de alguna cuenca!!!\n");
-    }
-}
-
-
  
 //FUNCION AGRICULTURA
 // Función 6: Comparar el caudal con la producción agrícola (pendiente de implementación)
@@ -581,7 +451,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 	printf("Ahora dime con que tipo de producto agricola deseas estudiar: \n ");
 	printf("Con Hortalizas(H), con los Industriales(I) o con los de Grano(G) \n");
 	printf("La opcion elegida es: \t");
-	scanf("%c",&opcion_elegida);
+	scanf("%c", opcion_elegida);
 	
 	//los datos de los vectores "produccion" son reales
     // han sido obtenidos a traves de tablas de datos presentes en tablas y pdfs  
@@ -594,9 +464,6 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
         
         case 'h':
 		case 'H':
-
-        {
-            int mes_elegido;
             printf("¿Del embalse %s que mes quieres comparar a lo largo de los años?\n",embalses[i].embalseNombre);//preguntamos el mes para asi comparar por ejemplo el mes de enero del 2012 al 2021 en ese embalse y asociarlo a la produccion
             scanf("%i",&mes_elegido);
             if (mes_elegido < 1 || mes_elegido > 12)
@@ -615,13 +482,13 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
             // Datos
     
             float valores[] = {13.148, 12.973, 13.283, 14.626, 14.772,
-                    15.367, 15.545, 14.992, 15.880, 15.180};//datos de produccion de hortalizas  durante los años establecidos
+                    15.367, 15.545, 14.992, 15.880, 15.180};//datos de produccion de hortalizas en el mes elegido durantes los años establecidos
 
-            // Calcular valor de produccion máximo
+            // Calcular valor máximo
             float max_valor = valores[0];
             for (int i = 1; i < 10; i++) 
             {
-                if (valores[i] > max_valor)//si hay un valor mayor al maximo, se asigna el nuevo valor
+                if (valores[i] > max_valor)
                 {
                     max_valor = valores[i];
                 }
@@ -644,7 +511,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
                     putchar('#');
                 }
 
-                // Mostrar el valor exacto de produccion
+                // Mostrar el valor exacto
                 printf(" %.3f\n", valores[i]);
             }   
         
@@ -653,11 +520,10 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 			
 		
 			break;
-        }
+		
 		case 'i':
 		case 'I':
-        {
-
+			
             char indus[0];
             printf("¿Que tipo de cultivo industrial quieres comparar: Girasol(G) o Soja(S)?\n");
             printf("El cultivo industrial elegido es: \n");
@@ -672,8 +538,6 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 
                     case 'g':
                     case 'G':
-                    {
-
                         float produccion_gira[] = {642.0, 1038.1, 953.0, 769.2, 772.2, 814.7, 950.3, 773.8, 883.1, 771.0};
                         calculoCoefcorrelacion(produccion_gira, mediaAnual, mediaTotal);
                         //se procede a hacer la grafica de barras con los datos de produccion de girasol
@@ -710,11 +574,9 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 
        
                         break; 
-                    }
+
                     case 's':
                     case 'S':
-                    {
-
                         float produccion_soja[] = {1333, 1390, 2650, 4106, 2869, 4599, 4249, 5053, 4515, 4769};  
                         calculoCoefcorrelacion(produccion_soja, mediaAnual, mediaTotal);
                         //se procede a hacer la grafica de barras con los datos de produccion de soja
@@ -746,238 +608,80 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
                             printf(" %.3f\n", produccion_soja[i]);
                         }
                         break;
-                    }
                 }
-
             }   
 			
 
-        }
+		
 		case 'g':
 		case 'G':
-
-        {
-    	
-
+			
 			char grano[0];
-			printf("Que tipo quieres comparar: avena(A) o cebada(C)?\n");
+			printf("¿Que tipo quieres comparar: avena(A) o cebada(C)?\n");
 			printf("El grano elegido es:\t");
 			scanf("%c", grano);
 
 			switch(grano[0])
 			{
 				case 'A':
-                {
 					char opc[0]; 	
 					printf("Ahora tienes que decidirte si quieres saber la avena producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
-					printf("Deseas saber: \t");
-					scanf("%s", &opc);
-
-					
-
-					float avena_producida[10]={933.2, 957.7, 649.2, 872.2, 1161.0, 1131.0, 1486.9, 808.3, 1323.8, 1048.7};
-					int anio;
-					printf("Bien, necesito que me digas el anio que quieres saber:\t");
-					scanf("%d", &anio);
-
-	
-					if (anio < 2012 || anio > 2021)
-					{
-
-						case 'M':
-                        {
-                            int mes;
-						    printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2), etc:  \t");
-						    scanf("%i", &mes);
-                            break;
-                        }
-		
-						case 'Y':
-                        {
-                            int anio_inicial, anio_final;
-						    printf("Bien, necesito que me digas el anio inicial:\t");
-						    scanf("%d", &anio_inicial);
-						    printf("Ahora dime el anio final:\t");
-						    scanf("%d", &anio_final);
-
-						    FILE *archivo= fopen("dataset.csv","r");
-
-						    if(archivo == NULL)
-						    {
-							    printf("Error al abrir el archivo");
-                                return 1;
-                            }
-                        
-                            break;
-                        
-                        }
-                    }
-                    else
-                    {
-                        printf("El anio que introduciste es invalido. Debes introducir un anio entre 2012 y 2021. \n");
-						return 1;
-					}
-                    FILE *archivo= fopen("dataset.csv","r");
-					if(archivo == NULL)
-					{
-						printf("Error al abrir el archivo");
-						return 1;
-					}
-								
-					 char linea[1030];
-					 int columna = 0, columna_objetivo;
-									
-					 fgets(linea, sizeof(linea), archivo);
-					 char *tok = strtok(linea, ",");	
-					 while(tok != NULL)
-					{
-						if(atoi(tok) == anio) 
-						{
-							columna_objetivo = columna;
-							break;
-						}
-						tok = strtok(NULL, ",");
-						columna++;
-					}
-								
-					float sumacaudales = 0;
-					while(fgets(linea,sizeof(linea),archivo))
-					{	
-						int columna2 = 0;
-						float valorcaudal;		
-						tok = strtok(linea, ",");
-						while(tok != NULL)
-						{
-							if(columna2 == columna_objetivo)
-							{
-								valorcaudal = atof(tok);
-								sumacaudales += valorcaudal;
-								break;
-							}
-							tok = strtok(NULL, ",");
-							columna2++;
-						}
-					}
-					fclose(archivo);
-	
-					float media_caudales = sumacaudales / totalEmbalses;
-					int i = anio - 2012;
-					mostrarTablaDeDatos( anio, avena_producida[i], media_caudales); 
-					break;
-
-                    
-						
-                }
-				case 'C':
-                {
-                
-					
-					char opc[0]; 	
-					printf("Ahora tienes que decidirte si quieres saber la cebada producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
 					printf("Deseas saber: \t");
 					scanf("%s", &opc);
 	
 					switch(opc[0])
 					{
 						case 'M':
-                        {
+		
+						int mes;
+						printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2), etc:  \t");
+						scanf("%i", &mes);
+
+						case 'Y':
+
+						int anio_inicial, anio_final;
+						printf("Bien, necesito que me digas el anio inicial:\t");
+						scanf("%d", &anio_inicial);
+						printf("Ahora dime el anio final:\t");
+						scanf("%d", &anio_final);
+
+						FILE *archivo= fopen("dataset.csv","r");
+
+						if(archivo == NULL)
+						{
+							printf("Error al abrir el archivo");
+                            return 1;
+                        }
+                    }
+						
+				
+				case 'C':
+					
+					char opci[0]; 	
+					printf("Ahora tienes que decidirte si quieres saber la cebada producida y el caudal de un embalse en un mes entre 2012 y 2021(M) o en un anio(Y)\n");
+					printf("Deseas saber: \t");
+					scanf("%s", &opc);
+	
+					switch(opci[0])
+					{
+						case 'M':
 	
 						    int meses[12]={1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}, mes;
 						    printf("Bien, ahora necesito que me digas el numero del mes, ejemplo --> Enero(1), Febrero(2), etc:  \t");
 						    scanf("%i", &mes);
-                            break;  
-                        }
-                        case 'Y':
-                        {
-                            int anio_inicial, anio_final;
-						    printf("Bien, necesito que me digas el anio inicial:\t");
-						    scanf("%d", &anio_inicial);
-						    printf("Ahora dime el anio final:\t");
-						    scanf("%d", &anio_final);
+                            int anio;
+                            break;
 
-						    FILE *archivo= fopen("dataset.csv","r");
-                            if(archivo == NULL)
-					        {
-						        printf("Error al abrir el archivo");
-						        return 1;
-					        }
-										
-					        char linea[1030];
-					        int columna = 0, columna_objetivo;
-									
-					        fgets(linea, sizeof(linea), archivo);
-					        char *tok = strtok(linea, ",");	
-					        while(tok != NULL)
-					        {
-						        if(atoi(tok) == anio) 
-                                {
-							        columna_objetivo = columna;
-							        break;
-						        }
-						        tok = strtok(NULL, ",");
-						        columna++;
-					        }
-									
-					        float sumacaudales = 0;
-					        while(fgets(linea,sizeof(linea),archivo))
-					        {	
-                                int columna2 = 0;
-                                float valorcaudal;		
-                                tok = strtok(linea, ",");
-                                while(tok != NULL)
-                                {
-                                    if(columna2 == columna_objetivo)
-                                    {
-                                        valorcaudal = atof(tok);
-                                        sumacaudales += valorcaudal;
-                                        break;
-                                    }
-                                    tok = strtok(NULL, ",");
-                                    columna2++;
-                                }
-                            }
-						    int columna2 = 0;
-						    float valorcaudal;		
-						    tok = strtok(linea, ",");
-						    while(tok != NULL)
-						    {
-							    if(columna2 == columna_objetivo)
-							    {
-                                    valorcaudal = atof(tok);
-                                    sumacaudales += valorcaudal;
-                                    break;
-                                }
-								valorcaudal = atof(tok);
-								sumacaudales += valorcaudal;
-								break;
-							}
-							tok = strtok(NULL, ",");
-							columna2++;	
-                            fclose(archivo);
-		
-					        float media_caudales = sumacaudales / totalEmbalses;
-					        int i = anio - 2012;
-					        mostrarTablaDeDatos( anio, cebada_producida[i], media_caudales); 	
-					        break;	
-                        }
-					}
-						
-                        
-                        
-                }
-            }        
-        }
 
 						
-    }
+                    }
 
-}
+
         
+            }
+
+						
+	}
+}			
+
     
-
-						
-	
-	
-
-						
-				
