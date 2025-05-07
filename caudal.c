@@ -417,7 +417,7 @@ void evolucionCuenca(Embalse *embalses, int totalEmbalses) {
     char cuenca[100];
     printf("\nIngrese el nombre de la cuenca: ");   
     scanf(" %[^\n]", cuenca);  // Lee el nombre de la cuenca
-    printf("Ingrese el año de inicio (2012-2021): ");
+    printf("Ingrese el anio de inicio (2012-2021): ");
     scanf("%i", &anioInicio);  // Lee el año de inicio
     printf("Ingrese el año de fin (2012-2021): ");
     scanf("%i", &anioFin);  // Lee el año de fin

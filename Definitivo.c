@@ -58,7 +58,8 @@ int main() {
                 calcularMediaAnualPorCuenca(embalses, totalEmbalses);
                 break;
             case 2:
-                printf("Funcion en desarrollo: evolucion de cuenca.\n");
+                printf("Evolucion de cuenca.\n");
+                evolucionCuenca(embalses, totalEmbalses);
                 break;
             case 3:
                 printf("Comparacion de cuencas.\n");
