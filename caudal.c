@@ -709,7 +709,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 
 					float media_caudales = sumacaudales / totalEmbalses;
 					int i = anio - 2012;
-					mostrarTablaDeDatos( anio, avena_producida[i], media_caudales); 
+					mostrarTablaDeDatosAnio( anio, avena_producida[i], media_caudales); 
 					break;
 				}
 
