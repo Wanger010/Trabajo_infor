@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>  
 #include <stdlib.h>
+#include <math.h>
 #include "caudal.h"
 
 //función para limpiar pantalla
