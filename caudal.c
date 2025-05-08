@@ -1,6 +1,5 @@
 #include <stdio.h>
-#include <string.h> 
-#include <math.h>
+#include <string.h>  
 #include <stdlib.h>
 #include "caudal.h"
 
@@ -274,10 +273,7 @@ void mostrarTablaDeDatosMes(int anio, float mediacaudales)
 
 //FUNCION AGRICULTURA
 void mostrarTablaDeDatosAnio(int anio, float avenaocebada, float mediacaudales)
-{
-	printf("+------------------------------+\n");
-	printf("| Año | Avena | Media caudales |\n");
-	printf("+------------------------------+\n");
+{ 
 	printf("| %i |  %.2f |    %.2f     |\n", anio, avenaocebada, mediacaudales);
 	printf("+--------------------------------+\n");
 }
@@ -508,6 +504,10 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
     
             float produccion_h[] = {13.148, 12.973, 13.283, 14.626, 14.772, 15.367, 15.545, 14.992, 15.880, 15.180};//datos de produccion de hortalizas en el mes elegido durantes los años establecidos
             calculoCoefcorrelacion(produccion_h, mediaAnual, mediaTotal);
+            printf("+-----------------------------------+\n");
+            printf("| Año | Hortalizas | Media caudales |\n");
+            printf("+-----------------------------------+\n");
+            mostrarTablaDeDatosAnio(anios[i], produccion_h[i], mediaAnual[i]);
             // Calcular valor máximo
             float max_valor = produccion_h[0];
             for (int i = 1; i < 10; i++) 
@@ -564,6 +564,10 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
                     case 'G':
                     {   float produccion_gira[] = {642.0, 1038.1, 953.0, 769.2, 772.2, 814.7, 950.3, 773.8, 883.1, 771.0};
                         calculoCoefcorrelacion(produccion_gira, mediaAnual, mediaTotal);
+                        printf("+--------------------------------+\n");
+                        printf("| Año | Girasol | Media caudales |\n");
+                        printf("+--------------------------------+\n");
+                        mostrarTablaDeDatosAnio(anios[i], produccion_gira[i], mediaAnual[i]);
                         //se procede a hacer la grafica de barras con los datos de produccion de girasol
                         // Calcular valor máximo
                         float max_valor = produccion_gira[0];
@@ -604,6 +608,10 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
                     {
                         float produccion_soja[] = {1333, 1390, 2650, 4106, 2869, 4599, 4249, 5053, 4515, 4769};  
                         calculoCoefcorrelacion(produccion_soja, mediaAnual, mediaTotal);
+                        printf("+-----------------------------+\n");
+                        printf("| Año | Soja | Media caudales |\n");
+                        printf("+-----------------------------+\n");
+                        mostrarTablaDeDatosAnio(anios[i], produccion_soja[i], mediaAnual[i]);
                         //se procede a hacer la grafica de barras con los datos de produccion de soja
                         // Calcular valor máximo
                         float max_valor = produccion_soja[0];
@@ -709,6 +717,9 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 
 					float media_caudales = sumacaudales / totalEmbalses;
 					int i = anio - 2012;
+                    printf("+------------------------------+\n");
+                    printf("| Año | Avena | Media caudales |\n");
+                    printf("+------------------------------+\n");
 					mostrarTablaDeDatosAnio( anio, avena_producida[i], media_caudales); 
 					break;
 				}
@@ -772,7 +783,10 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 
 					float media_caudales = sumacaudales / totalEmbalses;
 					int i = anio - 2012;
-					mostrarTablaDeDatos( anio, cebada_producida[i], media_caudales); 	
+                    printf("+-------------------------------+\n");
+                    printf("| Año | Cebada | Media caudales |\n");
+                    printf("+-------------------------------+\n");
+					mostrarTablaDeDatosAnio( anio, cebada_producida[i], media_caudales); 	
 					break;		
 				}
 			}
