@@ -524,7 +524,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
             for (int i = 0; i < 10; i++) 
             {
                 // Escalar a 90 caracteres
-                float longitud_barra = ((produccion_h[i] / max_valor) * 90);
+                float longitud_barra = ((produccion_h[i] / max_valor) * 100);
 
                 // Mostrar años
                 printf("%d | ", anios[i]);
