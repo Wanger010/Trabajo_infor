@@ -117,12 +117,17 @@ Embalse *leerDatos(const char *nombreArchivo, int totalEmbalses) {
         }
 
         // Campo 3: El siguiente campo es el mes (leemos si está presente)
-        temp = strtok(NULL, ",");
-        if (temp != NULL) {
-            strcpy(embalses[i].mes, temp);  // Guardamos el mes
-        } else {
-            embalses[i].mes[0] = '\0';  // Si no hay mes, asignamos una cadena vacía
-        }
+        for (int j=0; j<NUM_MESES; j++ ){
+        	
+        	temp = strtok(NULL, ",");
+        	if (temp != NULL) {
+            	embalses[i].datos.mes[j] = atoi(temp);  // Guardamos el mes
+        	} else {
+            	embalses[i].datos.mes[j] = 0;  // Si no hay mes, asignamos una cadena vacía
+        	}
+        	
+		}
+        
 
         // A continuación, leemos los caudales para los años de 2012 a 2021
         // Si algún campo no contiene un valor válido, asignamos el valor 0 por defecto
@@ -496,9 +501,9 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
         
             for (int i=0; i < totalEmbalses; i++)
             {
-                if( mes_elegido == embalses[i].mes)
+                if( mes_elegido == embalses[i].datos.mes)
                 {
-                    printf("El mes elegido para comparar ha sido: %i\n", embalses[i].mes);
+                    printf("El mes elegido para comparar ha sido: %i\n", embalses[i].datos.mes);
                 }
             }
             // Datos
