@@ -563,11 +563,19 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
                     case 'g':
                     case 'G':
                     {   float produccion_gira[] = {642.0, 1038.1, 953.0, 769.2, 772.2, 814.7, 950.3, 773.8, 883.1, 771.0};
+                        int anielegido;
+                        printf("Entre que años deseas estudiar la produccion de girasol?\n");
+                        scanf("%i", &anielegido); //se le pide al usuario el año que quiere estudiar
+                        if (anielegido < 2012 || anielegido > 2021)
+                        {
+                            printf("El anio que introduciste es invalido. Debes introducir un anio entre 2012 y 2021. \n");
+                            return;
+                        }
                         calculoCoefcorrelacion(produccion_gira, mediaAnual, mediaTotal);
                         printf("+--------------------------------+\n");
                         printf("| Año | Girasol | Media caudales |\n");
                         printf("+--------------------------------+\n");
-                        mostrarTablaDeDatosAnio(anios[i], produccion_gira[i], mediaAnual[i]);
+                        mostrarTablaDeDatosAnio(anios[anielegido - 2012], produccion_gira[anielegido - 2012], mediaAnual[anielegido - 2012]);
                         //se procede a hacer la grafica de barras con los datos de produccion de girasol
                         // Calcular valor máximo
                         float max_valor = produccion_gira[0];
@@ -606,12 +614,20 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
                     case 's':
                     case 'S':
                     {
-                        float produccion_soja[] = {1333, 1390, 2650, 4106, 2869, 4599, 4249, 5053, 4515, 4769};  
+                        float produccion_soja[] = {1333, 1390, 2650, 4106, 2869, 4599, 4249, 5053, 4515, 4769}; 
+                        int anioelegido;
+                        printf("Entre que años deseas estudiar la produccion de girasol?\n");
+                        scanf("%i", &anioelegido); //se le pide al usuario el año que quiere estudiar
+                        if (anioelegido < 2012 || anioelegido > 2021)
+                        {
+                            printf("El anio que introduciste es invalido. Debes introducir un anio entre 2012 y 2021. \n");
+                            return;
+                        } 
                         calculoCoefcorrelacion(produccion_soja, mediaAnual, mediaTotal);
                         printf("+-----------------------------+\n");
                         printf("| Año | Soja | Media caudales |\n");
                         printf("+-----------------------------+\n");
-                        mostrarTablaDeDatosAnio(anios[i], produccion_soja[i], mediaAnual[i]);
+                        mostrarTablaDeDatosAnio(anios[anioelegido - 2012], produccion_soja[anioelegido - 2012], mediaAnual[anioelegido - 2012]);
                         //se procede a hacer la grafica de barras con los datos de produccion de soja
                         // Calcular valor máximo
                         float max_valor = produccion_soja[0];
