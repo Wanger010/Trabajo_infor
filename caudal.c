@@ -660,14 +660,14 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 					if (anio < 2012 || anio > 2021)
 					{
 						printf("El anio que introduciste es invalido. Debes introducir un anio entre 2012 y 2021. \n");
-						return 1;
+						return;
 					}	
 
 					FILE *archivo= fopen("dataset.csv","r");
 					if(archivo == NULL)
 					{
 						printf("Error al abrir el archivo");
-						return 1;
+						return;
 					}
 
 					 char linea[1030];
@@ -723,14 +723,14 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 					if (anio < 2012 || anio > 2021)
 					{
 						printf("El anio que introduciste es invalido. Debes introducir un anio entre 2012 y 2021. \n");
-						return 1;
+						return;
 					}	
 
 					FILE *archivo= fopen("dataset.csv","r");
 					if(archivo == NULL)
 					{
 						printf("Error al abrir el archivo");
-						return 1;
+						return;
 					}
 
 					char linea[1030];
