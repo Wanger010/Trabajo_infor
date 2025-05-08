@@ -488,7 +488,7 @@ void compararCuencas(Embalse *embalses, int totalEmbalses) {
 
  
 //FUNCION AGRICULTURA
-// Función 6: Comparar el caudal con la producción agrícola (pendiente de implementación)
+// Función 6: Comparar el caudal con la producción agrícola 
 void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) 
 {  
 
@@ -552,16 +552,15 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
             }
             // Datos
     
-            float valores[] = {13.148, 12.973, 13.283, 14.626, 14.772,
-                    15.367, 15.545, 14.992, 15.880, 15.180};//datos de produccion de hortalizas en el mes elegido durantes los años establecidos
-
+            float produccion_h[] = {13.148, 12.973, 13.283, 14.626, 14.772, 15.367, 15.545, 14.992, 15.880, 15.180};//datos de produccion de hortalizas en el mes elegido durantes los años establecidos
+            calculoCoefcorrelacion(produccion_h, mediaAnual, mediaTotal);
             // Calcular valor máximo
-            float max_valor = valores[0];
+            float max_valor = produccion_h[0];
             for (int i = 1; i < 10; i++) 
             {
-                if (valores[i] > max_valor)
+                if (produccion_h[i] > max_valor)
                 {
-                    max_valor = valores[i];//si hay un valor mayor que el maximo, lo actualiza
+                    max_valor = produccion_h[i];//si hay un valor mayor que el maximo, lo actualiza
                 }
             
             }
@@ -571,7 +570,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
             for (int i = 0; i < 10; i++) 
             {
                 // Escalar a 90 caracteres
-                float longitud_barra = ((valores[i] / max_valor) * 90);
+                float longitud_barra = ((produccion_h[i] / max_valor) * 90);
 
                 // Mostrar años
                 printf("%d | ", anios[i]);
@@ -583,7 +582,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
                 }
 
                 // Mostrar el valor exacto
-                printf(" %.3f\n", valores[i]);
+                printf(" %.3f\n", produccion_h[i]);
             }   
         
             
@@ -824,7 +823,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 				}
 			}
 		}
-        }
+    }
 
 
 }		

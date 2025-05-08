@@ -79,7 +79,7 @@ int main() {
                 break;
             case 6:
                 printf("Media mensual 2012-2021.\n");
-		mostrarMediaMensualCaudales(embalses, totalEmbalses);
+		        mostrarMediaMensualCaudales(embalses, totalEmbalses);
                 break;
             case 7:
                 printf("Relacion caudal-produccion agricola.\n");
