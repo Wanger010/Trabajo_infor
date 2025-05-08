@@ -501,10 +501,13 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
         
             for (int i=0; i < totalEmbalses; i++)
             {
-                if( mes_elegido == embalses[i].datos.mes)
-                {
-                    printf("El mes elegido para comparar ha sido: %i\n", embalses[i].datos.mes);
-                }
+            	for(int j=0; j<=NUM_MESES; j++){
+            		if( mes_elegido == embalses[i].datos.mes[j])
+                	{
+                    	printf("El mes elegido para comparar ha sido: %i\n", embalses[i].datos.mes);
+                	}
+				}
+                
             }
             // Datos
     
