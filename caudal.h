@@ -10,6 +10,8 @@
 // Estructura que almacena datos del caudal de los embalses en el rango de años
 // dado y por meses.
 typedef struct {
+    // Mes al que corresponde la medición (ej: "enero", "febrero")
+    int mes[NUM_MESES];
     // Array de enteros que guarda los años correspondientes a los datos de caudal
     // Por ejemplo: [2012, 2013, 2014, ..., 2021]
     int anios[NUM_ANIOS];
@@ -24,8 +26,7 @@ typedef struct {
     char cuenca[100];
     // Nombre del embalse (ej: "Alcantara", "La Serena", etc.)
     char embalseNombre[100];
-    // Mes al que corresponde la medición (ej: "enero", "febrero")
-    int mes[NUM_MESES];
+    
     // Estructura que contiene los datos anuales de caudal para este embalse y mes
     // A su vez, dentro de esta estructura su nombre va a ser datos.
     DatosEmbalse datos;
