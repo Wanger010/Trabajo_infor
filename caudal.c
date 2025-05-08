@@ -478,7 +478,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
     // encontrados en la web oficial del ministerio de agricultura, pesca y alimentacion
     // del gobierno de España.
     int anios[] = {2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021};
-    int mes_elegido[10];
+    int mes_elegido;
     switch(opcion_elegida) 
     { 
         
@@ -487,7 +487,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
         {
             int i;
             printf("¿Del embalse %s que mes quieres comparar a lo largo de los años?\n",embalses[i].embalseNombre);//preguntamos el mes para asi comparar por ejemplo el mes de enero del 2012 al 2021 en ese embalse y asociarlo a la produccion
-            scanf("%i",&mes_elegido);
+            scanf("%i", &mes_elegido);
             if (mes_elegido < 1 || mes_elegido > 12)
             {
                 printf("Mes no valido. Debe ser entre 1 y 12.\n");
@@ -550,11 +550,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
             char indus[0];
             printf("¿Que tipo de cultivo industrial quieres comparar: Girasol(G) o Soja(S)?\n");
             printf("El cultivo industrial elegido es: \n");
-            scanf(" %s", indus); 
-
-
-            switch(indus[2])
-            { 
+            scanf(" %s", indus);  
 
                 switch(indus[0])
                 { 
@@ -660,7 +656,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
                     }
                 }
 
-            }   
+             
 			
 
         }
