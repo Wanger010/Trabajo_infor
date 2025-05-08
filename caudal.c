@@ -488,6 +488,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
         case 'h':
 		case 'H':
         {
+            int i;
             printf("¿Del embalse %s que mes quieres comparar a lo largo de los años?\n",embalses[i].embalseNombre);//preguntamos el mes para asi comparar por ejemplo el mes de enero del 2012 al 2021 en ese embalse y asociarlo a la produccion
             scanf("%i",&mes_elegido);
             if (mes_elegido < 1 || mes_elegido > 12)
