@@ -539,9 +539,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
                 // Mostrar el valor exacto
                 printf(" %.3f\n", produccion_h[i]);
             }   
-        
-            
-            printf("El caudal medio de la cuenca %s en el mes %s es: %.2f\n", embalses[i].cuenca, embalses[i].mes, embalses[i].datos.caudales[mes_elegido-1]);
+         
 			
 		
 			break;
