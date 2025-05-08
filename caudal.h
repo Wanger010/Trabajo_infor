@@ -42,7 +42,6 @@ void reemplazarGuionBajoPorEspacio(char *cadena);
 int contarLineas(const char *nombreArchivo);
 //no es void porque devuelve algo, puntero
 Embalse *leerDatos(const char *nombreArchivo, int totalEmbalses);
->>>>>>> 7a1e15808fe87b87d0554831da11153d151e8f79
 void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses);
 void guardarCuencasYEmbalses(Embalse *embalses, int totalEmbalses);
 
