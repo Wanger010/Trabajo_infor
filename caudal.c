@@ -478,7 +478,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
     // encontrados en la web oficial del ministerio de agricultura, pesca y alimentacion
     // del gobierno de España.
     int anios[] = {2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021};
-    int mes_elegido;
+    int mes_elegido[10];
     switch(opcion_elegida) 
     { 
         
