@@ -496,9 +496,9 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
         
             for (int i=0; i < totalEmbalses; i++)
             {
-                if( strcmp(embalses[i].mes, mes_elegido) == 0)
+                if( mes_elegido == embalses[i].mes)
                 {
-                    printf("El mes elegido para comparar ha sido: %s\n", embalses[i].mes);
+                    printf("El mes elegido para comparar ha sido: %i\n", embalses[i].mes);
                 }
             }
             // Datos
