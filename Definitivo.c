@@ -16,10 +16,9 @@ void mostrarMenu() {
     printf("2. Ver evolucion de una cuenca\n");
     printf("3. Comparar dos cuencas en un anio\n");
     printf("4. Comparar dos embalses en un anio\n");
-    printf("5. Ver meses del caudal de un embalse de un anio concreto\n");
-    printf("6. Ver media mensual de todos los caudales 2012-2021\n");	
-    printf("7. Ver relacion caudal-produccion agricola\n");
-    printf("8. Salir\n");
+    printf("5. Ver media mensual de todos los caudales 2012-2021\n");	
+    printf("6. Ver relacion caudal-produccion agricola\n");
+    printf("7. Salir\n");
 
     printf("------------------------------------------\n");
     printf("Ingrese su opcion: ");
@@ -74,25 +73,21 @@ int main() {
                 compararEmbalses(embalses, totalEmbalses);
                 break;
             case 5:
-                printf("Datos concretos de un embalse.\n");
-                //datosConcretos(embalses, totalEmbalses);
+                printf("Media mensual 2012-2021.\n");
+		mostrarMediaMensualCaudales(embalses, totalEmbalses);
                 break;
             case 6:
-                printf("Media mensual 2012-2021.\n");
-		        mostrarMediaMensualCaudales(embalses, totalEmbalses);
-                break;
-            case 7:
                 printf("Relacion caudal-produccion agricola.\n");
                 compararCaudalAgricola(embalses, totalEmbalses);
                 break;
-	        case 8:
-		        printf("Salir\n");
-		        break;
+	    case 7:
+		printf("Salir\n");
+		break;
             default:
                 printf("Opcion no valida. Intente de nuevo.\n");
                 break;
         }
-    } while (opcion != 8); //estructura do while para que el menú se 
+    } while (opcion != 7); //estructura do while para que el menú se 
                            //repita hasta que el usuario elija salir
     free(embalses);
     return 0;
