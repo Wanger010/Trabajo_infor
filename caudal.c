@@ -524,7 +524,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
             for (int i = 0; i < 10; i++) 
             {
                 // Escalar a 90 caracteres
-                float longitud_barra = ((produccion_h[i] / max_valor) * 100);
+                float longitud_barra = ((produccion_h[i] / max_valor) * 100);//hacemos la longitud de la barra en funcion del maximo valor de produccion de hortalizas
 
                 // Mostrar años
                 printf("%d | ", anios[i]);
@@ -593,7 +593,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
                         for (int i = 0; i < 10; i++) 
 	                    {
                             // Escalar a 90 caracteres
-                            float longitud_barra = ((produccion_gira[i] / max_valor) * 100);
+                            float longitud_barra = ((produccion_gira[i] / max_valor) * 100);//hacemos la longitud de la barra en funcion del maximo valor de produccion de girasol
 
                             // Mostrar años
                             printf("%d | ", anios[i]);
@@ -643,7 +643,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
                         for (int i = 0; i < 10; i++) 
 	                    {
                             // Escalar a 90 caracteres
-                            float longitud_barra = ((produccion_soja[i] / max_valor) * 100);
+                            float longitud_barra = ((produccion_soja[i] / max_valor) * 100);//hacemos la longitud de la barra en funcion del maximo valor de produccion de soja
 
                             // Mostrar años
                             printf("%d | ", anios[i]);
@@ -737,6 +737,38 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
                     printf("| Año | Avena | Media caudales |\n");
                     printf("+------------------------------+\n");
 					mostrarTablaDeDatosAnio( anio, avena_producida[i], media_caudales); 
+                    // Calcular valor máximo
+                    float max_valor = avena_producida[0];
+                    for (int i = 1; i < 10; i++) 
+                    {
+                        if (avena_producida[i] > max_valor)
+                        {
+                            max_valor = avena_producida[i];
+                        }   
+                    }
+
+                    // Encabezado
+                    printf("\nGrafica de Barras :\n\n");
+
+                    for (int i = 0; i < 10; i++) 
+                    {
+                        // Escalar a 90 caracteres
+                        float longitud_barra = ((avena_producida[i] / max_valor) * 100);//hacemos la longitud de la barra en funcion del maximo valor de produccion de avena
+
+                        // Mostrar años
+                        printf("%d | ", anios[i]);
+
+                        // Dibujar la barra con '#'
+                        for (int j = 0; j < longitud_barra; j++)
+                        {
+                            putchar('#');
+                        }
+
+                        // Mostrar el valor exacto
+                        printf(" %.3f\n", avena_producida[i]);
+                    }
+
+   
 					break;
 				}
 
@@ -802,7 +834,38 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
                     printf("+-------------------------------+\n");
                     printf("| Año | Cebada | Media caudales |\n");
                     printf("+-------------------------------+\n");
-					mostrarTablaDeDatosAnio( anio, cebada_producida[i], media_caudales); 	
+					mostrarTablaDeDatosAnio( anio, cebada_producida[i], media_caudales);
+                    // Calcular valor máximo
+                    float max_valor = cebada_producida[0];
+                    for (int i = 1; i < 10; i++) 
+                    {
+                        if (cebada_producida[i] > max_valor)
+                        {
+                            max_valor = cebada_producida[i];
+                        }   
+                    }
+
+                    // Encabezado
+                    printf("\nGrafica de Barras :\n\n");
+
+                    for (int i = 0; i < 10; i++) 
+                    {
+                        // Escalar a 90 caracteres
+                        float longitud_barra = ((cebada_producida[i] / max_valor) * 100);//hacemos la longitud de la barra en funcion del maximo valor de produccion de cebada
+
+                        // Mostrar años
+                        printf("%d | ", anios[i]);
+
+                        // Dibujar la barra con '#'
+                        for (int j = 0; j < longitud_barra; j++)
+                        {
+                            putchar('#');
+                        }
+
+                        // Mostrar el valor exacto
+                        printf(" %.3f\n", cebada_producida[i]);
+                    }
+
 					break;		
 				}
 			}
