@@ -205,7 +205,7 @@ void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
     }
 
 // Función para mostrar cuencas y embalses en un archivo TXT
-void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
+void guardarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
     //borra datos anteriores del .exe
     limpiarPantalla();
     // Se intenta abrir (o crear) el archivo para escritura
