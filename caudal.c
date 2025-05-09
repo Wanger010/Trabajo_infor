@@ -157,6 +157,8 @@ Embalse *leerDatos(const char *nombreArchivo, int totalEmbalses) {
 
 //Función para mostrar cuencas y embalses (principal)
 void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
+    //borra datos anteriores del .exe
+    limpiarPantalla();
     // Imprimir en pantalla la lista de cuencas
     // y sus embalses (sin repetir)
     printf("\nListado de cuencas y sus embalses:\n");
@@ -201,6 +203,67 @@ void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
         }
     }
     }
+
+// Función para mostrar cuencas y embalses en un archivo TXT
+void mostrarCuencasYEmbalses(Embalse *embalses, int totalEmbalses) {
+    //borra datos anteriores del .exe
+    limpiarPantalla();
+    // Se intenta abrir (o crear) el archivo para escritura
+    FILE *archivo = fopen("Caudales_Disponibles.txt", "w");
+    
+    // Verificamos si el archivo se abrió correctamente
+    if (archivo == NULL) {
+        printf("Error al crear el archivo Caudales_Disponibles.txt\n");
+        return;
+    }
+
+    // Escribimos el encabezado en el archivo
+    fprintf(archivo, "Listado de cuencas y sus embalses:\n");
+
+    // Recorremos todos los embalses para identificar cuencas únicas
+    for (int j = 0; j < totalEmbalses; j++) {
+        int cuencaYaImpresa = 0; // Bandera: 0 = cuenca nueva, diferente a las anteriores
+
+        // Verificamos si esta cuenca ya fue impresa antes
+        for (int k = 0; k < j; k++) {
+            cuencaYaImpresa += strcmp(embalses[j].cuenca, embalses[k].cuenca) == 0;
+        }
+
+        // Si la cuenca es nueva, la imprimimos junto con sus embalses
+        if (cuencaYaImpresa == 0) {
+            // Escribimos el nombre de la cuenca
+            fprintf(archivo, "\nCuenca: %s\n", embalses[j].cuenca);
+            fprintf(archivo, "  Embalses:\n");
+
+            // Recorremos todos los embalses nuevamente para listar los de esta cuenca
+            for (int k = 0; k < totalEmbalses; k++) {
+                // Solo consideramos embalses de la cuenca actual
+                if (strcmp(embalses[k].cuenca, embalses[j].cuenca) == 0) {
+                    int embalseYaImpreso = 0; // Bandera para evitar imprimir duplicados
+
+                    // Verificamos si el embalse ya fue listado antes en esta cuenca
+                    for (int l = 0; l < k; l++) {
+                        embalseYaImpreso += (
+                            strcmp(embalses[k].cuenca, embalses[l].cuenca) == 0 && // misma cuenca
+                            strcmp(embalses[k].embalseNombre, embalses[l].embalseNombre) == 0 // mismo embalse
+                        );
+                    }
+
+                    // Si no ha sido impreso antes, lo escribimos en el archivo
+                    if (embalseYaImpreso == 0) {
+                        fprintf(archivo, "  - %s\n", embalses[k].embalseNombre);
+                    }
+                }
+            }
+        }
+    }
+
+    // Cerramos el archivo para guardar los cambios
+    fclose(archivo);
+
+    // Mensaje en consola para informar que se generó el archivo
+    printf("Datos escritos en Caudales_Disponibles.txt correctamente.\n");
+}
 
 void mostrarMediaMensualCaudales(Embalse *embalses, int totalEmbalses)
 {
