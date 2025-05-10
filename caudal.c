@@ -597,7 +597,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 		case 'H':
         {
             int i;
-            printf("¿Del embalse %s que mes quieres comparar a lo largo de los años?\n",embalses[i].embalseNombre);//preguntamos el mes para asi comparar por ejemplo el mes de enero del 2012 al 2021 en ese embalse y asociarlo a la produccion
+            printf("Del embalse %s que mes quieres comparar a lo largo de los anios?\n",embalses[i].embalseNombre);//preguntamos el mes para asi comparar por ejemplo el mes de enero del 2012 al 2021 en ese embalse y asociarlo a la produccion
             scanf("%i", &mes_elegido);
             if (mes_elegido < 1 || mes_elegido > 12)
             {
@@ -609,7 +609,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
             
             // Datos
     
-            float produccion_h[] = {13.148, 12.973, 13.283, 14.626, 14.772, 15.367, 15.545, 14.992, 15.880, 15.180};//datos de produccion de hortalizas en el mes elegido durantes los años establecidos
+            float produccion_h[] = {13148, 12973, 13283, 14626, 14772, 15367, 15545, 14992, 15880, 15180};//datos de produccion de hortalizas en el mes elegido durantes los años establecidos
             calculoCoefcorrelacion( produccion_h, mediaAnual, mediaTotal);
             printf("+-----------------------------------+\n");
             printf("| Año | Hortalizas | Media caudales |\n");
@@ -654,7 +654,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 		case 'I':
 		{
             char indus[0];
-            printf("¿Que tipo de cultivo industrial quieres comparar: Girasol(G) o Soja(S)?\n");
+            printf("Que tipo de cultivo industrial quieres comparar: Girasol(G) o Soja(S)?\n");
             printf("El cultivo industrial elegido es: \n");
             scanf(" %s", indus);  
 
@@ -665,7 +665,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
                     case 'G':
                     {   float produccion_gira[] = {642.0, 1038.1, 953.0, 769.2, 772.2, 814.7, 950.3, 773.8, 883.1, 771.0};
                         int anielegido;
-                        printf("Entre que años deseas estudiar la produccion de girasol?\n");
+                        printf("Entre que anios deseas estudiar la produccion de girasol?\n");
                         scanf("%i", &anielegido); //se le pide al usuario el año que quiere estudiar
                         if (anielegido < 2012 || anielegido > 2021)
                         {
