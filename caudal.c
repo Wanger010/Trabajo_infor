@@ -404,9 +404,9 @@ void calcularMediaAnualPorCuenca(Embalse *embalses, int totalEmbalses) {
     char nom_cuenca[100]; 
     printf("Introduzca el nombre de la cuenca: ");
     scanf("%s", nom_cuenca); 
-    printf("El embalse elegido ha sido: %s\n", nom_cuenca); 
-    for (j=0; j<NUM_ANIOS; j++){ 
-        for (i = 0; i < totalEmbalses; i++) {
+    printf("La cuenca elegida ha sido: %s\n", nom_cuenca); 
+    for (i = 0; i < totalEmbalses; i++){ 
+        for (int j = 0; j < NUM_MESES; j++) {
             // Comparamos la cuenca introducida por el usuario con la cuenca del embalse actual
             if (strcmp(embalses[i].cuenca, nom_cuenca) == 0) { 
                 mediaMensual += embalses[i].datos.caudales[j];
@@ -574,7 +574,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 
     char nombre_cuenca[500];
     totalEmbalses = contarLineas("dataset.csv");
-    printf("Introduzca el nombre de la cuenca que desea comparar: ");
+    printf("Introduzca el nombre de la cuenca que desea comparar: \n");
     scanf("%s", nombre_cuenca);  
     for (int i = 0; i < totalEmbalses; i++)
     {
