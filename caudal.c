@@ -327,11 +327,11 @@ void mostrarMediaMensualCaudales(Embalse *embalses, int totalEmbalses)
 
 void mostrarTablaDeDatosMes(int anio, float mediacaudales)
 {
-	printf("+--------------------------------+\n");
+	printf("+----------------------+\n");
 	printf("| Mes | Media caudales |\n");
-	printf("+--------------------------------+\n");
+	printf("+----------------------+\n");
 	printf("|  %i  |    %.2f     |\n", anio, mediacaudales);
-	printf("+--------------------------------+\n");
+	printf("+----------------------+\n");
 }
 
 
