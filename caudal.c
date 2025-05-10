@@ -402,11 +402,11 @@ void calcularMediaAnualPorCuenca(Embalse *embalses, int totalEmbalses) {
     int i = 0, j = 0;
     float mediaMensual = 0.0, mediaAnual = 0.0; 
     char nom_cuenca[100]; 
-    printf("Introduzca el nombre de la cuenca: ");
-    scanf("%[^\n]", nom_cuenca); 
+    printf("Introduzca el nombre de la cuenca: \n");
+    scanf(" %[^\n]", nom_cuenca); 
     printf("La cuenca elegida ha sido: %s\n", nom_cuenca); 
-    for (i = 0; i < totalEmbalses; i++){ 
-        for (int j = 0; j < NUM_MESES; j++) {
+    for (j = 0; j < totalEmbalses; j++){ 
+        for (int i = 0; i < NUM_MESES; i++) {
             // Comparamos la cuenca introducida por el usuario con la cuenca del embalse actual
             if (strcmp(embalses[i].cuenca, nom_cuenca) == 0) { 
                 mediaMensual += embalses[i].datos.caudales[j];
@@ -424,7 +424,7 @@ void evolucionEmbalse(Embalse *embalses, int totalEmbalses) {
     int anioInicio, anioFin;
     char embalse[100];
     printf("\nIngrese el nombre del embalse: ");   
-    scanf(" %[^\n]", embalse);  // Lee el nombre de la cuenca
+    scanf(" %[^\n]", embalse);  // Lee el nombre del embalse
     printf("Ingrese el año de inicio (2012-2021): ");
     scanf("%i", &anioInicio);  // Lee el año de inicio
     printf("Ingrese el año de fin (2012-2021): ");
