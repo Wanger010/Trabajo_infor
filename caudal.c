@@ -405,8 +405,8 @@ void calcularMediaAnualPorCuenca(Embalse *embalses, int totalEmbalses) {
     printf("Introduzca el nombre de la cuenca: \n");
     scanf(" %[^\n]", nom_cuenca); 
     printf("La cuenca elegida ha sido: %s\n", nom_cuenca); 
-    for (j = 0; j < totalEmbalses; j++){ 
-        for (int i = 0; i < NUM_MESES; i++) {
+    for (j = 0; j < NUM_MESES; j++){ 
+        for (int i = 0; i < totalEmbalses; i++) {
             // Comparamos la cuenca introducida por el usuario con la cuenca del embalse actual
             if (strcmp(embalses[i].cuenca, nom_cuenca) == 0) { 
                 mediaMensual += embalses[i].datos.caudales[j];
