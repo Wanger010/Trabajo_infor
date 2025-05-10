@@ -567,7 +567,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 
     char nombre_cuenca[500];
     totalEmbalses = contarLineas("dataset.csv");
-    printf("Introduzca el nombre de la cuenca que desea comparar: \n");
+    printf("\nIntroduzca el nombre de la cuenca que desea comparar: \n");
     scanf("%s", nombre_cuenca);  
     for (int i = 0; i < totalEmbalses; i++)
     {
