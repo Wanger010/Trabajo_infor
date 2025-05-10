@@ -62,7 +62,7 @@ int main() {
                 break;
             case 2:
                 printf("Evolucion de cuenca.\n");
-                evolucionCuenca(embalses, totalEmbalses);
+                evolucionEmbalse(embalses, totalEmbalses);
                 break;
             case 3:
                 printf("Comparacion de cuencas.\n");
