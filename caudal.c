@@ -403,7 +403,7 @@ void calcularMediaAnualPorCuenca(Embalse *embalses, int totalEmbalses) {
     float mediaMensual = 0.0, mediaAnual = 0.0; 
     char nom_cuenca[100]; 
     printf("Introduzca el nombre de la cuenca: ");
-    scanf("%s", nom_cuenca); 
+    scanf("%[^\n]", nom_cuenca); 
     printf("La cuenca elegida ha sido: %s\n", nom_cuenca); 
     for (i = 0; i < totalEmbalses; i++){ 
         for (int j = 0; j < NUM_MESES; j++) {
