@@ -117,12 +117,17 @@ Embalse *leerDatos(const char *nombreArchivo, int totalEmbalses) {
         }
 
         // Campo 3: El siguiente campo es el mes (leemos si está presente)
-		temp = strtok(NULL, ",");
-		int mes = (temp != NULL) ? atoi(temp) : 0;
-		for (int j = 0; j < NUM_MESES; j++) {
+	temp = strtok(NULL, ",");
+	int mes;
+	if (temp != NULL) {
+    		mes = atoi(temp);
+	} else {
+ 		mes = 0;
+	}
+	for (int j = 0; j < NUM_MESES; j++) {
     		embalses[i].datos.mes[j] = 0;  // Inicializamos todo a 0
-		}
-		embalses[i].datos.mes[mes - 1] = mes;  // Guardamos solo el mes correspondiente
+	}
+	embalses[i].datos.mes[mes - 1] = mes;  // Guardamos solo el mes correspondiente
         
         // A continuación, leemos los caudales para los años de 2012 a 2021
         // Si algún campo no contiene un valor válido, asignamos el valor 0 por defecto
