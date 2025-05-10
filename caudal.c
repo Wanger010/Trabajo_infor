@@ -345,7 +345,7 @@ void mostrarTablaDeDatosAnio(int anio, float avenaocebada, float mediacaudales)
 
 //funcion para calcular el coeficiente de correlacion entre la capacidad y la produccion agricola
 //utilizado solo dentro de este mismo archivo, no se incluye en la libreria
-void calculoCoefcorrelacion(float *produccion, char *mediaAnual, float mediaTotal) {
+void calculoCoefcorrelacion(float *produccion, float *mediaAnual, float mediaTotal) {
     float media2_capacidad = 0.0, var2_capacidad = 0.0, covar = 0.0; 
     float media_prod = 0.0, media2_prod = 0.0, var2_prod = 0.0;
     float var_prod = 0.0 , var_capacidad = 0.0, coef_correlacion = 0.0; 
@@ -610,7 +610,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
             // Datos
     
             float produccion_h[] = {13.148, 12.973, 13.283, 14.626, 14.772, 15.367, 15.545, 14.992, 15.880, 15.180};//datos de produccion de hortalizas en el mes elegido durantes los años establecidos
-            calculoCoefcorrelacion(produccion_h, mediaAnual, mediaTotal);
+            calculoCoefcorrelacion( produccion_h, mediaAnual, mediaTotal);
             printf("+-----------------------------------+\n");
             printf("| Año | Hortalizas | Media caudales |\n");
             printf("+-----------------------------------+\n");
