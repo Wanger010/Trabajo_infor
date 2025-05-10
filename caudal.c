@@ -434,14 +434,17 @@ void evolucionEmbalse(Embalse *embalses, int totalEmbalses) {
 
     //calculo de media anual de caudal en un embalse
     float mediaAnual [ NUM_ANIOS ] = {0}; // Inicializamos el array de medias anuales
-    for (int i = anioInicio - 2012; i <= anioFin - 2012; i++) {
+    for (int i = 0; i <totalEmbalses; i++) {
         if (strcmp(embalses[i].embalseNombre, embalse) == 0) { 
-            for (int j = 0; j <= totalEmbalses; j++) {
-                mediaAnual[i] += embalses[i].datos.caudales[j];
+            for (int j = anioInicio - 2012; j <= anioFin - 2012; j++) {
+                mediaAnual[j] += embalses[i].datos.caudales[j]; 
             }
-            mediaAnual[i] /= NUM_MESES; // Medias anuales   
+                
         }
-    } 
+    }  
+    for (int i = anioInicio - 2012; i <= anioFin - 2012; i++) {
+        mediaAnual[i] /= NUM_MESES; // Calculamos la media anual
+    }
 
     for(int i = anioInicio - 2012; i <= anioFin - 2012; i++) {
         printf("El caudal medio anual del embalse %s en el anio %d es: %.2f Hm^3\n", embalse, embalses[i].datos.anios[i], mediaAnual[i]);
