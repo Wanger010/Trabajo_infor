@@ -406,11 +406,12 @@ void calcularMediaAnualPorCuenca(Embalse *embalses, int totalEmbalses) {
     scanf(" %[^\n]", nom_cuenca); 
     printf("La cuenca elegida ha sido: %s\n", nom_cuenca); 
     for (int i = 0; i < totalEmbalses; i++){ 
-        for (j=0; j<NUM_ANIOS; j++){ {
-            // Comparamos la cuenca introducida por el usuario con la cuenca del embalse actual
-            if (strcmp(embalses[i].cuenca, nom_cuenca) == 0) { 
+        // Comparamos la cuenca introducida por el usuario con la cuenca del embalse actual
+        if (strcmp(embalses[i].cuenca, nom_cuenca) == 0) {
+            for (j=0; j<NUM_ANIOS; j++){ 
+                
                 mediaMensual += embalses[i].datos.caudales[j];
-            }
+                }
             mediaMensual /= NUM_ANIOS; // Calculamos la media mensual para el embalse en enero por ejemplo
             mediaAnual += mediaMensual; 
         }
@@ -448,7 +449,7 @@ void evolucionEmbalse(Embalse *embalses, int totalEmbalses) {
     } 
 
     for(int i = anioInicio - 2012; i <= anioFin - 2012; i++) {
-        printf("El caudal medio anual del embalse %s en el año %d es: %.2f Hm³\n", embalse, embalses[i].datos.anios[i], mediaAnual[i]);
+        printf("El caudal medio anual del embalse %s en el año %d es: %.2f Hm^3\n", embalse, embalses[i].datos.anios[i], mediaAnual[i]);
     }
 
 }
