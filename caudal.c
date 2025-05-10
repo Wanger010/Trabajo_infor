@@ -421,9 +421,9 @@ void evolucionEmbalse(Embalse *embalses, int totalEmbalses) {
     char embalse[100];
     printf("\nIngrese el nombre del embalse: ");   
     scanf(" %[^\n]", embalse);  // Lee el nombre del embalse
-    printf("Ingrese el año de inicio (2012-2021): ");
+    printf("Ingrese el anio de inicio (2012-2021): ");
     scanf("%i", &anioInicio);  // Lee el año de inicio
-    printf("Ingrese el año de fin (2012-2021): ");
+    printf("Ingrese el anio de fin (2012-2021): ");
     scanf("%i", &anioFin);  // Lee el año de fin
     
     // Verifica si los años están dentro del rango permitido
@@ -444,7 +444,7 @@ void evolucionEmbalse(Embalse *embalses, int totalEmbalses) {
     } 
 
     for(int i = anioInicio - 2012; i <= anioFin - 2012; i++) {
-        printf("El caudal medio anual del embalse %s en el año %d es: %.2f Hm^3\n", embalse, embalses[i].datos.anios[i], mediaAnual[i]);
+        printf("El caudal medio anual del embalse %s en el anio %d es: %.2f Hm^3\n", embalse, embalses[i].datos.anios[i], mediaAnual[i]);
     }
 
 }
