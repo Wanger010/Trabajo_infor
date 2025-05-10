@@ -19,25 +19,21 @@ void mostrarMenu() {
     printf("4. Comparar dos embalses en un anio\n");
     printf("5. Ver media mensual de todos los caudales 2012-2021\n");	
     printf("6. Ver relacion caudal-produccion agricola\n");
-    printf("7. Salir\n");
+    printf("7. Limpiar pantalla actual\n");
+    printf("8. Salir\n");
 
     printf("------------------------------------------\n");
     printf("Ingrese su opcion: ");
 }
 
 int main() {
-
 	int totalEmbalses = contarLineas("dataset.csv");
-    
-
     // Verificar si se obtuvo un número válido de embalses
     if (totalEmbalses <= 0) {
         printf("No se pudo obtener la cantidad de embalses.\n");
         return 1;
     }
-	
 	// Leer los datos de los embalses
-	// En este trozo se declara el archivo csv que se quiere abrir
     Embalse *embalses = leerDatos("dataset.csv", totalEmbalses);
 
     if (embalses == NULL) {
@@ -81,14 +77,17 @@ int main() {
                 printf("Relacion caudal-produccion agricola.\n");
                 compararCaudalAgricola(embalses, totalEmbalses);
                 break;
-	    case 7:
+            case 7:
+		limpiarPantalla();
+                break;
+	    case 8:
 		printf("Salir\n");
 		break;
             default:
                 printf("Opcion no valida. Intente de nuevo.\n");
                 break;
         }
-    } while (opcion != 7); //estructura do while para que el menú se 
+    } while (opcion != 8); //estructura do while para que el menú se 
                            //repita hasta que el usuario elija salir
     free(embalses);
     return 0;
