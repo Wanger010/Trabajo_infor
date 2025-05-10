@@ -117,17 +117,12 @@ Embalse *leerDatos(const char *nombreArchivo, int totalEmbalses) {
         }
 
         // Campo 3: El siguiente campo es el mes (leemos si está presente)
-	temp = strtok(NULL, ",");
-	int mes;
-	if (temp != NULL) {
-    		mes = atoi(temp);
-	} else {
- 		mes = 0;
-	}
-	for (int j = 0; j < NUM_MESES; j++) {
+		temp = strtok(NULL, ",");
+		int mes = (temp != NULL) ? atoi(temp) : 0;
+		for (int j = 0; j < NUM_MESES; j++) {
     		embalses[i].datos.mes[j] = 0;  // Inicializamos todo a 0
-	}
-	embalses[i].datos.mes[mes - 1] = mes;  // Guardamos solo el mes correspondiente
+		}
+		embalses[i].datos.mes[mes - 1] = mes;  // Guardamos solo el mes correspondiente
         
         // A continuación, leemos los caudales para los años de 2012 a 2021
         // Si algún campo no contiene un valor válido, asignamos el valor 0 por defecto
@@ -393,7 +388,7 @@ void calculoCoefcorrelacion(float *produccion, char *mediaAnual, float mediaTota
     } else if (coef_correlacion == 0){
         printf("No hay correlacion entre la capacidad y la produccion\n");
     } else {
-        printf("No hay correlacion entre la capacidad y la produccion\n");
+        printf("No hay correlacion entre la capacidad y la produccion, y es: %2.f \n", coef_correlacion);
     }
 }
 
@@ -560,7 +555,7 @@ void compararEmbalses(Embalse *embalses, int totalEmbalses) {
 void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) 
 {
     float mediaTotal=0;
-    char mediaAnual[NUM_ANIOS];
+    float mediaAnual[NUM_ANIOS];
     for(int j=0; j<NUM_ANIOS; j++){
         for(int i=0; i<totalEmbalses; i++){
             mediaAnual[j] += embalses[i].datos.caudales[j]; 
@@ -570,9 +565,8 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
     } 
     mediaTotal /= NUM_ANIOS; //media total de los caudales
 
-    char nombre_cuenca[500];
-    totalEmbalses = contarLineas("dataset.csv");
-    printf("\nIntroduzca el nombre de la cuenca que desea comparar: \n");
+    char nombre_cuenca[500]; 
+    printf("Introduzca el nombre de la cuenca que desea comparar: \n");
     scanf("%s", nombre_cuenca);  
     for (int i = 0; i < totalEmbalses; i++)
     {
@@ -582,20 +576,20 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 		}
 	}
     char opcion_elegida;
+    int anios[] = {2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021};
+    int mes_elegido;
     printf("En este apartado se va a estudiar la relacion de la capacidad de los embalses con la produccion agricola del cultivo deseado.\n");
     printf("Para un mejor entendimiento mostraremos tablas grafícas y unos pocos datos \n");
     printf("Los datos de los cultivos vienen dados en toneladas, tenlo en cuenta \n");
 	printf("Ahora dime con que tipo de producto agricola deseas estudiar: \n ");
 	printf("Con Hortalizas(H), con los Industriales(I) o con los de Grano(G) \n");
 	printf("La opcion elegida es: \t");
-	scanf("%c", &opcion_elegida);
+	scanf(" %c", &opcion_elegida);
 	
 	//los datos de los vectores "produccion" son reales
     // han sido obtenidos a traves de tablas de datos presentes en tablas y pdfs  
     // encontrados en la web oficial del ministerio de agricultura, pesca y alimentacion
-    // del gobierno de España.
-    int anios[] = {2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021};
-    int mes_elegido;
+    // del gobierno de España. 
     switch(opcion_elegida) 
     { 
         
@@ -609,18 +603,10 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
             {
                 printf("Mes no valido. Debe ser entre 1 y 12.\n");
                 return;
-            }
-        
-            for (int i=0; i < totalEmbalses; i++)
-            {
-            	for(int j=0; j<=NUM_MESES; j++){
-            		if( mes_elegido == embalses[i].datos.mes[j])
-                	{
-                    	printf("El mes elegido para comparar ha sido: %i\n", embalses[i].datos.mes);
-                	}
-				}
-                
-            }
+            } else {
+                printf("El mes elegido para comparar ha sido: %i\n", embalses[i].datos.mes);
+            } 
+            
             // Datos
     
             float produccion_h[] = {13.148, 12.973, 13.283, 14.626, 14.772, 15.367, 15.545, 14.992, 15.880, 15.180};//datos de produccion de hortalizas en el mes elegido durantes los años establecidos
