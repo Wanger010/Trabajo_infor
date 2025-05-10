@@ -117,18 +117,13 @@ Embalse *leerDatos(const char *nombreArchivo, int totalEmbalses) {
         }
 
         // Campo 3: El siguiente campo es el mes (leemos si está presente)
-        for (int j=0; j<NUM_MESES; j++ ){
-        	
-        	temp = strtok(NULL, ",");
-        	if (temp != NULL) {
-            	embalses[i].datos.mes[j] = atoi(temp);  // Guardamos el mes
-        	} else {
-            	embalses[i].datos.mes[j] = 0;  // Si no hay mes, asignamos una cadena vacía
-        	}
-        	
+		temp = strtok(NULL, ",");
+		int mes = (temp != NULL) ? atoi(temp) : 0;
+		for (int j = 0; j < NUM_MESES; j++) {
+    		embalses[i].datos.mes[j] = 0;  // Inicializamos todo a 0
 		}
+		embalses[i].datos.mes[mes - 1] = mes;  // Guardamos solo el mes correspondiente
         
-
         // A continuación, leemos los caudales para los años de 2012 a 2021
         // Si algún campo no contiene un valor válido, asignamos el valor 0 por defecto
         for (int j = 0; j < NUM_ANIOS; j++) {
@@ -478,12 +473,10 @@ void compararCuencas(Embalse *embalses, int totalEmbalses) {
 
     // Recorre los embalses y acumula los caudales de ambas cuencas en el año solicitado
     for (int i = 0; i < totalEmbalses; i++) {
-        if (embalses[i].datos.anios[anio - 2012] == anio) {  // Accede directamente al año
-            if (strcmp(embalses[i].cuenca, cuencaA) == 0) {
-                sumaA += embalses[i].datos.caudales[anio - 2012];  // Suma caudales de la cuenca A
-            } else if (strcmp(embalses[i].cuenca, cuencaB) == 0) {
-                sumaB += embalses[i].datos.caudales[anio - 2012];  // Suma caudales de la cuenca B
-            }
+        if (strcmp(embalses[i].cuenca, cuencaA) == 0) {
+            sumaA += embalses[i].datos.caudales[anio - 2012];  // Suma caudales de la cuenca A
+        } else if (strcmp(embalses[i].cuenca, cuencaB) == 0) {
+            sumaB += embalses[i].datos.caudales[anio - 2012];  // Suma caudales de la cuenca B
         }
     }
 
@@ -527,12 +520,10 @@ void compararEmbalses(Embalse *embalses, int totalEmbalses) {
 
     // Recorre los embalses y acumula los caudales de ambos embalses en el año solicitado
     for (int i = 0; i < totalEmbalses; i++) {
-        if (embalses[i].datos.anios[anio - 2012] == anio) {  // Accede directamente al año
-            if (strcmp(embalses[i].embalseNombre, embalseA) == 0) {
-                sumaA += embalses[i].datos.caudales[anio - 2012];  // Suma caudales de la embalse A
-            } else if (strcmp(embalses[i].embalseNombre, embalseB) == 0) {
-                sumaB += embalses[i].datos.caudales[anio - 2012];  // Suma caudales del embalse B
-            }
+        if (strcmp(embalses[i].embalseNombre, embalseA) == 0) {
+            sumaA += embalses[i].datos.caudales[anio - 2012];  // Suma caudales de la embalse A
+        } else if (strcmp(embalses[i].embalseNombre, embalseB) == 0) {
+            sumaB += embalses[i].datos.caudales[anio - 2012];  // Suma caudales del embalse B
         }
     }
 
@@ -560,8 +551,7 @@ void compararEmbalses(Embalse *embalses, int totalEmbalses) {
 //FUNCION AGRICULTURA
 // Función 6: Comparar el caudal con la producción agrícola 
 void compararCaudalAgricola(Embalse* embalses, int totalEmbalses) 
-{  
-
+{
     float mediaTotal=0;
     char mediaAnual[NUM_ANIOS];
     for(int j=0; j<NUM_ANIOS; j++){
@@ -992,5 +982,3 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 
 
 }		
-
-    

@@ -9,6 +9,7 @@ void mostrarMenu() {
     printf("\n            \033[44mANALISIS DE CAUDALES EN ESPANA\033[0m           \n");
     printf("\n\033[34m      ANIOS 2012-2021. TODOS LOS MESES INCLUIDOS     \033[0m\n");
     printf("\n\033[33m Hay que introducir el nombre tal cual viene dado :D \033[0m\n");
+    printf("\n\033[33m Hay que introducir los meses con numeros (ej Mayo=5)\033[0m\n");
     printf("\n\033[33m              Caudales medidos en hm^3!              \033[0m\n");
     printf("\n-1. Se imprime por pantalla cuencas y respectivos embalses \n");
     printf("0. Archivo cuencas y respectivos embalses (.txt) \n");
