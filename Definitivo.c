@@ -86,7 +86,7 @@ int main() {
 		limpiarPantalla();
 		break;
 	   case 8:
-		printf("Salir\n");
+		printf("Saliendo...\n");
 		break;
             default:
                 printf("Opcion no valida. Intente de nuevo.\n");
