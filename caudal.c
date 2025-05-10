@@ -771,7 +771,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 			char grano[0];
 			printf("Que tipo quieres comparar: avena(A) o cebada(C)?\n");
 			printf("El grano elegido es:\t");
-			scanf("%c", grano);
+			scanf("%c", &grano);
 
 			switch(grano[0])
 			{
@@ -837,7 +837,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
                     printf("+------------------------------+\n");
                     printf("| Año | Avena | Media caudales |\n");
                     printf("+------------------------------+\n");
-					mostrarTablaDeDatosAnio( anio, avena_producida[i], media_caudales); 
+		    mostrarTablaDeDatosAnio( anio, avena_producida[i], media_caudales); 
                     // Calcular valor máximo
                     float max_valor = avena_producida[0];
                     for (int i = 1; i < 10; i++) 
@@ -932,40 +932,40 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 
 					float media_caudales = sumacaudales / totalEmbalses;
 					int i = anio - 2012;
-                    printf("+-------------------------------+\n");
-                    printf("| Año | Cebada | Media caudales |\n");
-                    printf("+-------------------------------+\n");
+                      			printf("+-------------------------------+\n");
+                    			printf("| Año | Cebada | Media caudales |\n");
+                    			printf("+-------------------------------+\n");
 					mostrarTablaDeDatosAnio( anio, cebada_producida[i], media_caudales);
-                    // Calcular valor máximo
-                    float max_valor = cebada_producida[0];
-                    for (int i = 1; i < 10; i++) 
-                    {
-                        if (cebada_producida[i] > max_valor)
-                        {
-                            max_valor = cebada_producida[i];
-                        }   
-                    }
-
-                    // Encabezado
-                    printf("\nGrafica de Barras :\n\n");
-
-                    for (int i = 0; i < 10; i++) 
-                    {
-                        // Escalar a 90 caracteres
-                        float longitud_barra = ((cebada_producida[i] / max_valor) * 100);//hacemos la longitud de la barra en funcion del maximo valor de produccion de cebada
-
-                        // Mostrar años
-                        printf("%d | ", anios[i]);
-
-                        // Dibujar la barra con '#'
-                        for (int j = 0; j < longitud_barra; j++)
-                        {
-                            putchar('#');
-                        }
-
-                        // Mostrar el valor exacto
-                        printf(" %.3f\n", cebada_producida[i]);
-                    }
+			                // Calcular valor máximo
+			                float max_valor = cebada_producida[0];
+			                for (int i = 1; i < 10; i++) 
+			                {
+		                            if (cebada_producida[i] > max_valor)
+		                            {
+			                            max_valor = cebada_producida[i];
+		                            }   
+		                        }
+			
+			                // Encabezado
+			                printf("\nGrafica de Barras :\n\n");
+		 
+		                        for (int i = 0; i < 10; i++) 
+		                        {
+			                        // Escalar a 90 caracteres
+			                        float longitud_barra = ((cebada_producida[i] / max_valor) * 100);//hacemos la longitud de la barra en funcion del maximo valor de produccion de cebada
+			
+			                        // Mostrar años
+			                        printf("%d | ", anios[i]);
+			
+			                        // Dibujar la barra con '#'
+			                        for (int j = 0; j < longitud_barra; j++)
+			                        {
+			                            putchar('#');
+			                        }
+			
+			                        // Mostrar el valor exacto
+			                        printf(" %.3f\n", cebada_producida[i]);
+			                }
 
 					break;		
 				}
