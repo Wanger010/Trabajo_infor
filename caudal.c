@@ -771,12 +771,8 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 			char grano[0];
 			printf("Que tipo quieres comparar: avena(A) o cebada(C)?\n");
 			printf("El grano elegido es:\t");
-<<<<<<< HEAD
 			scanf(" %c", grano);
-=======
 			scanf("%c", &grano);
->>>>>>> 777e6e862d443e467ccf0de06bbb7313d6311434
-
 			switch(grano[0])
 			{
 				case 'A':
