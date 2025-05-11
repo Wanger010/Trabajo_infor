@@ -586,8 +586,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
         case 'h':
 		case 'H':
         {
-            int i;
-<<<<<<< HEAD
+            int i; 
             
             char nombre_cuenca[500]; 
             printf("Introduzca el nombre de la cuenca que desea comparar: \n");
@@ -598,11 +597,8 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
                 {
                     printf("El embalse elegido para comparar ha sido: %s\n", embalses[i].embalseNombre);
                 }
-            }
-            printf("¿Del embalse %s que mes quieres comparar a lo largo de los años?\n",embalses[i].embalseNombre);//preguntamos el mes para asi comparar por ejemplo el mes de enero del 2012 al 2021 en ese embalse y asociarlo a la produccion
-=======
-            printf("Del embalse %s que mes quieres comparar a lo largo de los anios?\n",embalses[i].embalseNombre);//preguntamos el mes para asi comparar por ejemplo el mes de enero del 2012 al 2021 en ese embalse y asociarlo a la produccion
->>>>>>> 777e6e862d443e467ccf0de06bbb7313d6311434
+            } 
+            printf("Del embalse %s que mes quieres comparar a lo largo de los anios?\n",embalses[i].embalseNombre);//preguntamos el mes para asi comparar por ejemplo el mes de enero del 2012 al 2021 en ese embalse y asociarlo a la produccion 
             scanf("%i", &mes_elegido);
             if (mes_elegido < 1 || mes_elegido > 12)
             {
