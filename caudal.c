@@ -565,16 +565,6 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
     } 
     mediaTotal /= NUM_ANIOS; //media total de los caudales
 
-    char nombre_cuenca[500]; 
-    printf("Introduzca el nombre de la cuenca que desea comparar: \n");
-    scanf("%s", nombre_cuenca);  
-    for (int i = 0; i < totalEmbalses; i++)
-    {
-    	if (strcmp(embalses[i].cuenca, nombre_cuenca) == 0)
-    	{
-    		printf("El embalse elegido para comparar ha sido: %s\n", embalses[i].embalseNombre);
-		}
-	}
     char opcion_elegida;
     int anios[] = {2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021};
     int mes_elegido;
@@ -597,6 +587,17 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 		case 'H':
         {
             int i;
+            
+            char nombre_cuenca[500]; 
+            printf("Introduzca el nombre de la cuenca que desea comparar: \n");
+            scanf("%s", nombre_cuenca);  
+            for (int i = 0; i < totalEmbalses; i++)
+            {
+                if (strcmp(embalses[i].cuenca, nombre_cuenca) == 0)
+                {
+                    printf("El embalse elegido para comparar ha sido: %s\n", embalses[i].embalseNombre);
+                }
+            }
             printf("¿Del embalse %s que mes quieres comparar a lo largo de los años?\n",embalses[i].embalseNombre);//preguntamos el mes para asi comparar por ejemplo el mes de enero del 2012 al 2021 en ese embalse y asociarlo a la produccion
             scanf("%i", &mes_elegido);
             if (mes_elegido < 1 || mes_elegido > 12)
@@ -762,16 +763,15 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
                     }
                 }
 
-             
-			
-
-        }
+            
+		}
+		case 'g':	
 		case 'G':
 		{	
 			char grano[0];
 			printf("Que tipo quieres comparar: avena(A) o cebada(C)?\n");
 			printf("El grano elegido es:\t");
-			scanf("%c", grano);
+			scanf(" %c", grano);
 
 			switch(grano[0])
 			{
@@ -969,7 +969,7 @@ void compararCaudalAgricola(Embalse* embalses, int totalEmbalses)
 
 					break;		
 				}
-			}
+			} 
 		}
     }
 }		
